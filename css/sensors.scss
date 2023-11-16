@@ -1,0 +1,43 @@
+head, body{
+    background-color: #CBCBD7;
+}
+
+.page-container{
+        width: 95%;
+
+        .dashboard-container{
+            margin-bottom:10px; font-family: 'Times New Roman', Times, serif;
+
+            .column-buttons{
+                margin-bottom:10px; 
+                background-color: #fff; 
+                box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); 
+
+                h3{
+                    margin-left: 5%; margin-top: 15%;
+                }
+            }
+
+            .dashboard-rows{
+                margin-bottom:10px;
+
+                .graph-containers{
+                    background-color: #fff; 
+                    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); 
+                    height: 100% ; 
+                    background-color: #fff;
+
+                    .variables-name{
+                        margin-left: 5%;
+                        height: 11%;
+
+                        .img-responsive{
+                            height:100%; 
+                            float: left;
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
