@@ -24,7 +24,6 @@ $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
   ?>
   <style>
     .nav-link{
-      width: 85px;
       text-align: center;
     }
   </style>
@@ -91,8 +90,8 @@ $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
         <a href="csvtools.php" id="csvtools" class="nav-link text-light" href="#">Geração CSV</a>
       </li>
        <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle  text-light" href="#" id="navbardrop" data-toggle="dropdown"><img src="images/settings-icon.png" alt="Definições" style="width:25px;"></a>
-      <div class="dropdown-menu  pull-left">
+      <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown"><img src="images/settings-icon.png" alt="Definições" style="width:25px;"></a>
+      <div class="dropdown-menu pull-left">
         <?php
           // if($user_type=='1'){ ?>
         <a class="dropdown-item" href="manageSensors.php">Gerir Nós</a>
@@ -105,7 +104,7 @@ $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
 
     </ul>
-    <ul class="navbar-nav" style="margin-right: 5%">
+    <ul class="navbar-nav">
       <li><a id="3" href="php/logout.php" style="color: aliceblue;"></span> Logout</a></li>
     </ul>
   </div>

@@ -231,9 +231,9 @@ $sql = "SELECT l.grupo,s.hour,s.id_sensor, s.temperature, s.humidity, s.pressure
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <body>
-<?php
-    include('nav.php');
-    ?>
+    <?php
+        include('nav.php');
+        ?>
     <div class="container">
         <h1>Selecione os Sensores</h1>
         <form action="" method="post" class="form-container">

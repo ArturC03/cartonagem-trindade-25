@@ -27,10 +27,6 @@
       width: 100%;
       height: 100%;
     }
-   
-
-  
-
 
   .heatmap {
     position: relative; /* Altera para posição relativa para manter as coordenadas relativas */
@@ -53,32 +49,13 @@
  <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 
 <script type="text/javascript" src="js/Chart.min.js"></script>
-
-<!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.0.1/chartjs-plugin-zoom.min.js" integrity="sha512-b+q5md1qwYUeYsuOBx+E8MzhsDSZeoE80dPP1VCw9k/KA9LORQmaH3RuXjlpu3u1rfUwh7s6SHthZM3sUGzCkA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
--->
-<script>
-  /*
-  setinterval(function(){
-    var currentTime = new Date();
-    var currentHour = currentTime.getHours();
-    var currentMinute = currentTime.getMinutes();
-    var currentSecond = currentTime.getSeconds();
-
-    if(currentHour == 00 && currentMinute == 00 && currentSecond == 01){
-      location.reload();
-    }
-  }, 1000);*/
-</script>
 <script>
   window.onload = function() {
     var c = document.getElementById("canvasHeat");
     var ctx = c.getContext("2d");
     var img = document.getElementById("planta");
     ctx.drawImage(img, 10, 10);
-  }
-  
+  } 
 </script> 
 
 <style>
@@ -93,9 +70,6 @@
 }
 body{
   width: 100%;
-}
-.buttonSensor{
-  
 }
 
 footer {
@@ -113,7 +87,7 @@ footer {
 
 </style>
 
-<body class="container-fluid" style="">
+<body class="container-fluid" style="padding: 0;">
 
 <?php
 
@@ -124,16 +98,16 @@ footer {
 
 ?>
 
-  <div class="container-fluid page-container" style="margin-left: 0px; margin-right: 0px;">
+  <div class="container-fluid page-container" style="margin-left: 0px; margin-right: 0px; width: auto;">
     <div class="row dashboard-container" >
 
       <div class="col-12" style="margin-top: 7px;">
         <div class="row dashboard-rows"> 
-          <div class="col-md-12 pr-md-1" >
+          <div class="col">
             <div class="graph-containers" style="display:flex">
-              <div class="Wrapper" style="display: inline-block; float: left; width: 100%; margin-top: 0px;">
-                <div id='heatMap1' style=" width:100%; padding: 0px;  margin: 0 auto; display: block;">
-                <img  id="planta" src='images/plantaV3.png' style=" width:100vh;height: auto; display: block; margin-right: auto; margin-left: auto;" />
+              <div class="Wrapper" style="width: 100%; margin-top: 0px;">
+                <div id='heatMap1' style="width: 100%; padding: 0px;  margin: 0 auto; display: block;">
+                <img  id="planta" src='images/plantaV3.png' style=" width:100vh;height: auto;" />
                 <canvas id="canvasHeat" width="100vh" height="auto" style="position:absolute; left: 0; top: 0">
                 </canvas> 
               </div>
@@ -142,11 +116,10 @@ footer {
             </div>
 
 
-            <div style="display: inline-block; float: left; width: 15 %; height: 100%;  display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; ">
+            <div width="15%" height="100%">
              <div id='GradTemperature' style="width: 150px; height: 600px; margin-top: 10%; margin-bottom: -10%">
             </div>
 
-            <!--552 1280 -->
           </div>
         </div>
       </div>
@@ -158,25 +131,6 @@ footer {
 <footer>
 <b>Versão:1.0(28/07/2023)</b>
 </footer>
-<style>
-@media screen and (max-width: 1300px){
-  .contentor{
-    margin-left: 50px;
-    margin-top: 10px;
-    height: 200px;
-  }
-}
-  #ChartLine{
-    height: 250px;
-  }
-  #planta{
-  max-width: 100%;
-  height: auto;
-  }
-
-
-</style>
-
 
 <script> 
  
