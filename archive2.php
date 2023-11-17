@@ -291,8 +291,8 @@ option {
         &nbsp&nbsp <input type="reset" id="reset"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <input type="submit" id="submit" name="submeter">
       </form>
-      <div class="imagem" width="900px" height="354px" style="height:534px">
-        <img src="images/plantaV3.png" width="700px" height="800px">
+      <div class="imagem">
+        <img src="images/plantaV3.png">
       </div>
     </div>
  <script>
