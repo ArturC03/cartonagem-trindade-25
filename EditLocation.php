@@ -87,7 +87,7 @@ if (!isset($_POST['completeYes'])) {
                                     </div>
                                     <div id="heatMap1" style="width: 811px; height: 650px; margin: 0 auto; overflow: hidden; display:flex">
 <?php
-                                        require 'php/connect.php';
+                                        require 'connect.php';
                                         $id = $_GET['id'];
                                         $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
                                         $sqlC = "SELECT location_x,location_y  FROM location WHERE id_sensor='$id'";

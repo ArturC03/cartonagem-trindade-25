@@ -140,7 +140,7 @@ footer {
 
 });
 $.ajax({
-  url: 'php/getsensordata.php',
+  url: 'getsensordata.php',
   dataType: 'json',
   Type:'GET',
   success: function(data1) {

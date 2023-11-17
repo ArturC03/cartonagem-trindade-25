@@ -1,5 +1,5 @@
 <?php
-include('php/connect.php');
+include('connect.php');
 $id = $_GET['id'];
 $status = $_GET['status'];
 echo "Id: $id  Status: $status ";

@@ -34,7 +34,7 @@ include('nav.php');
 					</tr>
 				</thead>   
 				<?php  
-				require 'php/connect.php';
+				require 'connect.php';
        			 //error_reporting(0); 
 				$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 

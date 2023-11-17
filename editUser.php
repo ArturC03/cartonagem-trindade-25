@@ -83,19 +83,6 @@ if(!isset($_POST['completeYes']))
 
 	?>
 
-
-
-<!-- 	<script>
-		var el = document.getElementById('myCoolForm');
-
-		el.addEventListener('submit', function(){
-			return confirm('');
-		}, false);
-	</script> -->
-<!-- 	onsubmit="return confirm('Pretende alterar a password?');
-	<?php //echo $_SERVER['PHP_SELF']; ?> -->
-	<!-- action="sendLocation.php?id=<?php echo $id_sensor ;?>" -->
-
 	<body>
 		<div class="container-fluid page-container" >
 			<div class="row dashboard-container" >
@@ -104,7 +91,7 @@ if(!isset($_POST['completeYes']))
 					<div class="row dashboard-rows"> 
 						<div class="col-md-12 pr-md-1" >
 							<?php
-							require 'php/connect.php';
+							require 'connect.php';
         					//error_reporting(0); 
 							$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 

@@ -1,7 +1,6 @@
 <?php
 ini_set('display_errors', 0);
-include('php/connect.php'); 
-include('php/session.php');
+include('connect.php'); 
 
 $mysqli = new mysqli($servername, $username, $password, $dbname);
 $sql = "SELECT * from users WHERE email='$session_id';";
@@ -69,7 +68,6 @@ $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
 
 <link rel="stylesheet" href="css/bootstrap.min.css">
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <nav class="navbar navbar-expand-lg navbar-light bg-dark" >
@@ -92,8 +90,6 @@ $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
        <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown"><img src="images/settings-icon.png" alt="Definições" style="width:25px;"></a>
       <div class="dropdown-menu pull-left">
-        <?php
-          // if($user_type=='1'){ ?>
         <a class="dropdown-item" href="manageSensors.php">Gerir Nós</a>
         <a class="dropdown-item" href="manageUser.php">Gerir Utilizadores</a>
         <a class="dropdown-item" href="csvtimes.php">CSV Automatico</a>
@@ -105,7 +101,7 @@ $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
     </ul>
     <ul class="navbar-nav">
-      <li><a id="3" href="php/logout.php" style="color: aliceblue;"></span> Logout</a></li>
+      <li><a id="3" href="logout.php" style="color: aliceblue;"></span> Logout</a></li>
     </ul>
   </div>
 </nav>

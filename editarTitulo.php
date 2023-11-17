@@ -109,7 +109,7 @@ include('nav.php');
 include('php/session.php');
 
 if(isset($_POST['submeter2'])){
-  require('php/connect.php');
+  require('connect.php');
   $tit= $_POST['tit'];
 
   $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
