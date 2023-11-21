@@ -1,3 +1,8 @@
+<?php
+if (isset($_SESSION['username'])) {
+?>
+
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 <html >
@@ -13,7 +18,7 @@
 
 <?php
 
-include('nav.php');
+include('nav.inc.php');
 include('dados.php');
 
 //ver sombra do form
@@ -108,15 +113,15 @@ td {
     $id2=null;
     $id3=null;
     if(isset($_POST["ids"])){ 
-        $idsSelecionados = $_POST["ids"]; // array de IDs selecionados
-        $numIdsSelecionados = count($idsSelecionados); // número de IDs selecionados
+      $idsSelecionados = $_POST["ids"]; // array de IDs selecionados
+      $numIdsSelecionados = count($idsSelecionados); // número de IDs selecionados
       
-        // armazenar os IDs individualmente em variáveis
-        if($numIdsSelecionados >= 1){
-          list($id1) = $idsSelecionados;
-        }
-        if($numIdsSelecionados >= 2){
-          list($id1, $id2) = $idsSelecionados;
+      // armazenar os IDs individualmente em variáveis
+      if($numIdsSelecionados >= 1){
+        list($id1) = $idsSelecionados;
+      }
+      if($numIdsSelecionados >= 2){
+        list($id1, $id2) = $idsSelecionados;
         }
         if($numIdsSelecionados >= 3){
           list($id1, $id2, $id3) = $idsSelecionados;
@@ -130,32 +135,32 @@ td {
     //$dbname2= $_GET['dddd'];
     $dataMinima= $_GET['eeee'];
     $dataMaxima= $_GET['ffff'];
-
-      if(isset($_POST['submeter'])){
-        $sensores= "('$id1', '$id2', '$id3')";
-        $sensor=$_POST["text1"];
-        $dataMinima= "".$_POST["text2"];
-        $dataMaxima= "".$_POST["text3"];
     
-        $horaMinima= $_POST["hora1"];
-        $horaMaxima= $_POST["hora2"];
-    
-        $timestamp= strtotime($dataMaxima);
-        $timestamp2= strtotime($dataMinima);
-
-        $dataMinima= date("y-m-d", $timestamp2);
-        $dataMaxima= date("y-m-d", $timestamp);
-    
-        $comprimento= strlen($sensores);
-    
-        If($comprimento==3){
+    if(isset($_POST['submeter'])){
+      $sensores= "('$id1', '$id2', '$id3')";
+      $sensor=$_POST["text1"];
+      $dataMinima= "".$_POST["text2"];
+      $dataMaxima= "".$_POST["text3"];
+      
+      $horaMinima= $_POST["hora1"];
+      $horaMaxima= $_POST["hora2"];
+      
+      $timestamp= strtotime($dataMaxima);
+      $timestamp2= strtotime($dataMinima);
+      
+      $dataMinima= date("y-m-d", $timestamp2);
+      $dataMaxima= date("y-m-d", $timestamp);
+      
+      $comprimento= strlen($sensores);
+      
+      If($comprimento==3){
           $sensores= "";
         }
         
     
         $comp2= "".strlen($horaMinima);
         $comp3= "".strlen($horaMaxima);
-    
+        
         if($comp2==0 && $comp3==0){
           $comp2= "s.hour BETWEEN '00:00' and '23:59' AND ";
         }elseif($comp2==0 && $comp3 <> 0){
@@ -165,47 +170,47 @@ td {
         }else{
           $comp2= "s.hour BETWEEN '".$horaMinima."' and '23:59' AND ";
         }
-
+        
         $datas= "s.date BETWEEN '".$dataMinima."' and '".$dataMaxima."' AND ";
-
+        
         
         //echo $dbname2;
-
+        
         //dados($sensores, $comp2, $datas);
-
-    }
-    $timestamp= strtotime($dataMaxima);
-    $timestamp2= strtotime($dataMinima);
-
-    $diaMinPesquisa= date('d', $timestamp2);
-    $mesMinPesquisa= date('m', $timestamp2);
-    $anoMinPesquisa= date('y', $timestamp2);
-
-    $diaMaxPesquisa= date('d', $timestamp);
-    $mesMaxPesquisa= date('m', $timestamp);
-    $anoMaxPesquisa= date('y', $timestamp);
-
-    $diaAtual= date('d');
+        
+      }
+      $timestamp= strtotime($dataMaxima);
+      $timestamp2= strtotime($dataMinima);
+      
+      $diaMinPesquisa= date('d', $timestamp2);
+      $mesMinPesquisa= date('m', $timestamp2);
+      $anoMinPesquisa= date('y', $timestamp2);
+      
+      $diaMaxPesquisa= date('d', $timestamp);
+      $mesMaxPesquisa= date('m', $timestamp);
+      $anoMaxPesquisa= date('y', $timestamp);
+      
+      $diaAtual= date('d');
     $mesAtual= date('m');
     $anoAtual= date('y');
     
     //$dbname2= $anoPesquisa."_".$mesPesquisa;
     $dataAtual= $anoAtual."_".$mesAtual;
-
+    
     if($anoPesquisa == $anoAtual){
       $i= $mesAtual-$mesPesquisa;
     }
-      
-      //$comp2= "s.hour BETWEEN '00:00' and '23:59' AND ";
-      //$datas= "s.date BETWEEN '2023-01-03' and '2023-01-03' AND "
-
     
-
-        // tecla maior
-        
-        
-        
-        ?>
+    //$comp2= "s.hour BETWEEN '00:00' and '23:59' AND ";
+    //$datas= "s.date BETWEEN '2023-01-03' and '2023-01-03' AND "
+    
+    
+    
+    // tecla maior
+    
+    
+    
+    ?>
         <br>
         <br>
         <br>  
@@ -244,62 +249,62 @@ td {
             <tbody> 
               <?php  
 
-              require 'connect.php';
-              //error_reporting(0); 
-              $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-            
-              if ($mysqli->connect_errno) {
-                echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
-                exit();
-              }
-              
-              $mesMaxPesquisa= $mesMaxPesquisa +1;
+require 'connect.php';
+//error_reporting(0); 
+$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
-              while($mesMinPesquisa <> $mesMaxPesquisa){
-              
-              $dataMensal= "20".$anoMinPesquisa."-".$mesMinPesquisa."-01";
-              $dataMensal= strtotime($dataMensal);
-              
-              $dbname2= $anoMinPesquisa."_".date('M', $dataMensal);
-              
+if ($mysqli->connect_errno) {
+  echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
+  exit();
+}
 
-              if($mesMinPesquisa == 12){
-                $anoMinPesquisa++;
-                $mesMinPesquisa = 0;
-              }
+$mesMaxPesquisa= $mesMaxPesquisa +1;
 
-              
-              //$sql = "SELECT s.* FROM `sensors` s, `location` l where s.id_sensor = l.id_sensor and l.status = 1 order by sensor_id DESC;";
-              $sql = "SELECT distinct s.* FROM $dbname2.sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
-              
-              //'".$horaMinima."' and '".$horaMaxima."' and
-              $result = $mysqli->query($sql);
-              
-              while($row = mysqli_fetch_array($result))  
-              { 
-              
-                echo '  
-                <tr *ngFor="let sensor of sensorInfo.data |filter : term| paginate: { itemsPerPage: 4, currentPage: p }">  
-                <td>'. $row["id_sensor"]. '</td>
-                <td>'. $row["hour"]. ' </td>
-                <td>'. $row["date"]. ' </td>
-                <td>'. ltrim($row["temperature"],'0'). '</td>
-                <td>'. ltrim($row["humidity"],'0'). ' </td>
-                <td>'. ltrim($row["pressure"],'0'). ' </td>
-                <td>'. ltrim($row["eCO2"],'0'). ' </td>
-                <td>'. ltrim($row["eTVOC"],'0'). ' </td>
-                ';              
-              }
-             
-              if($diaMaxPesquisa == $diaAtual){
-                $sql = "SELECT distinct s.* FROM plantdb.sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
-                //'".$horaMinima."' and '".$horaMaxima."' and
-                $result = $mysqli->query($sql);
-              
-                while($row = mysqli_fetch_array($result))  
-                { 
-              
-                echo '  
+while($mesMinPesquisa <> $mesMaxPesquisa){
+  
+  $dataMensal= "20".$anoMinPesquisa."-".$mesMinPesquisa."-01";
+  $dataMensal= strtotime($dataMensal);
+  
+  $dbname2= $anoMinPesquisa."_".date('M', $dataMensal);
+  
+  
+  if($mesMinPesquisa == 12){
+    $anoMinPesquisa++;
+    $mesMinPesquisa = 0;
+  }
+
+  
+  //$sql = "SELECT s.* FROM `sensors` s, `location` l where s.id_sensor = l.id_sensor and l.status = 1 order by sensor_id DESC;";
+  $sql = "SELECT distinct s.* FROM $dbname2.sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
+  
+  //'".$horaMinima."' and '".$horaMaxima."' and
+  $result = $mysqli->query($sql);
+  
+  while($row = mysqli_fetch_array($result))  
+  { 
+    
+    echo '  
+    <tr *ngFor="let sensor of sensorInfo.data |filter : term| paginate: { itemsPerPage: 4, currentPage: p }">  
+    <td>'. $row["id_sensor"]. '</td>
+    <td>'. $row["hour"]. ' </td>
+    <td>'. $row["date"]. ' </td>
+    <td>'. ltrim($row["temperature"],'0'). '</td>
+    <td>'. ltrim($row["humidity"],'0'). ' </td>
+    <td>'. ltrim($row["pressure"],'0'). ' </td>
+    <td>'. ltrim($row["eCO2"],'0'). ' </td>
+    <td>'. ltrim($row["eTVOC"],'0'). ' </td>
+    ';              
+  }
+  
+  if($diaMaxPesquisa == $diaAtual){
+    $sql = "SELECT distinct s.* FROM plantdb.sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
+    //'".$horaMinima."' and '".$horaMaxima."' and
+    $result = $mysqli->query($sql);
+    
+    while($row = mysqli_fetch_array($result))  
+    { 
+      
+      echo '  
                 <tr *ngFor="let sensor of sensorInfo.data |filter : term| paginate: { itemsPerPage: 4, currentPage: p }">  
                 <td>'. $row["id_sensor"]. '</td>
                 <td>'. $row["hour"]. ' </td>
@@ -310,35 +315,35 @@ td {
                 <td>'. ltrim($row["eCO2"],'0'). ' </td>
                 <td>'. ltrim($row["eTVOC"],'0'). ' </td>
                 ';
-                }        
-              }
-              $mesMinPesquisa++;
-              }
-              
-              $sq1="SELECT id_sensor,hour,date,temperature,humidity,pressure,eCO2,eTVOC from sensors where id_sensor in $sensores order by date ASC";
-              $result2=mysqli_query($conn,$sq1);
-              $fileName = 'dados.csv';
-              // Abre o arquivo para escrita
-              $file = fopen($fileName, 'w');
-              fputcsv($file, array('id_sensors', 'Hora', 'Data', 'Temperatura', 'Humidade','Pressão','CO2','TVOC'),';');
-              while ($row = mysqli_fetch_array($result2,MYSQLI_NUM)) {
-                $formattedTemperature = ltrim(sprintf("%.3f", $row[3]), '0');
-    $row[3] = $formattedTemperature;
-    $formattedHumidity = ltrim(sprintf("%.3f", $row[4]), '0');
-    $row[4] = $formattedHumidity;
-
-    // Formata a pressão
-    $formattedPressure = ltrim(sprintf("%.3f", $row[5]), '0');
-    $row[5] = $formattedPressure;
-
-                fputcsv($file, $row,';');
-              }
-              fclose($file);
-              header('Content-Type: text/csv');
-              header('Content-Disposition: attachment; filename="' . $fileName . '"');
+              }        
+            }
+            $mesMinPesquisa++;
+          }
+          
+          $sq1="SELECT id_sensor,hour,date,temperature,humidity,pressure,eCO2,eTVOC from sensors where id_sensor in $sensores order by date ASC";
+          $result2=mysqli_query($conn,$sq1);
+          $fileName = 'dados.csv';
+          // Abre o arquivo para escrita
+          $file = fopen($fileName, 'w');
+          fputcsv($file, array('id_sensors', 'Hora', 'Data', 'Temperatura', 'Humidade','Pressão','CO2','TVOC'),';');
+          while ($row = mysqli_fetch_array($result2,MYSQLI_NUM)) {
+            $formattedTemperature = ltrim(sprintf("%.3f", $row[3]), '0');
+            $row[3] = $formattedTemperature;
+            $formattedHumidity = ltrim(sprintf("%.3f", $row[4]), '0');
+            $row[4] = $formattedHumidity;
             
-
-              ?> 
+            // Formata a pressão
+            $formattedPressure = ltrim(sprintf("%.3f", $row[5]), '0');
+    $row[5] = $formattedPressure;
+    
+    fputcsv($file, $row,';');
+  }
+  fclose($file);
+  header('Content-Type: text/csv');
+  header('Content-Disposition: attachment; filename="' . $fileName . '"');
+  
+  
+  ?> 
             </tbody>  
           </table>  
           
@@ -416,3 +421,7 @@ td {
         "previous":   "anterior"
         }
       }
+<?php
+}else{
+  header('Location: login.php');
+}

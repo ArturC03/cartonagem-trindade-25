@@ -1,3 +1,8 @@
+<?php
+if (isset($_SESSION['username'])) {
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +13,7 @@
 <?php
 //error_reporting(0);
 ini_set('display_errors', 0);
-include('nav.php');
+include('nav.inc.php');
 
 ?>
 
@@ -44,14 +49,14 @@ include('nav.php');
 					require 'connect.php';
         			//error_reporting(0); 
 					$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-
+					
 					if ($mysqli->connect_errno) {
 						echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
 						exit();
 					}
-
+					
 					$query = "SELECT user_id, username, email,  IF(user_type = '1','Admin','Utilizador') as permissoes FROM users";  
-
+					
 					$result = $mysqli->query($query);
 					while($row = mysqli_fetch_array($result))  
 					{   
@@ -77,3 +82,7 @@ include('nav.php');
 
 </body>
 </html>
+<?php
+}else{
+	header('Location: login.php');
+}

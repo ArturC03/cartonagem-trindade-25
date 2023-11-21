@@ -1,3 +1,7 @@
+<?php
+if (isset($_SESSION['username'])) {
+?>
+
 <!DOCTYPE html>
 
 <html >
@@ -101,10 +105,7 @@ p{
 </style>
 <body>
 <?php
-//ini_set('display_errors', 0);
-//error_reporting(0);
-
-include('nav.php');
+include('nav.inc.php');
 
 include('php/session.php');
 
@@ -117,7 +118,7 @@ if(isset($_POST['submeter2'])){
     echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
     exit();
   }
-
+  
   $sql = "INSERT into titulo values(null, '$tit');";  
   $conn->query($sql);
   if ($conn->query($sql) === TRUE) {
@@ -125,17 +126,17 @@ if(isset($_POST['submeter2'])){
   } else {
     echo "Erro na criação de novo título! Tente outra vez! "  . $conn->error;
   } 
-
+  
   echo "<br><br><a id='voltar' href='home.php'> Voltar </a>";
 }else{
-
-?>
+  
+  ?>
 
 
 <div class="asd">
   <form name="form01" method="POST" action="editarTitulo.php">
     <label for="tit">Novo Título: </label> <br>
-    <input type="text" id="tit" name="tit" required placeholder="Título"> <br>
+    <input type="text" id="tit" name="tit" required placeholder="Título" maxlength="30"> <br>
     <input type="reset" id="reset">
     <input type="submit" id="submit" name="submeter2">
   </form>
@@ -145,4 +146,7 @@ if(isset($_POST['submeter2'])){
 ?>
 </body>
 
-
+<?php
+}else{
+  header('Location: login.php');
+}

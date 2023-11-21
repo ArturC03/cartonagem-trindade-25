@@ -1,3 +1,7 @@
+<?php
+if (isset($_SESSION['username'])) {
+?>
+
 <!DOCTYPE html>
 
 <html >
@@ -12,85 +16,69 @@
 //ini_set('display_errors', 0);
 //error_reporting(0);
 
-include('nav.php');
+include('nav.inc.php');
 
 include('php/session.php');
 
 if(!isset($_POST['completeYes']))
 
-	{ }else{
-
-
-		 $servername = "localhost";
-		 $username = "root";
-		 $password = "";
-		 $dbname = "plantdb";
-
-
- 		// Create connection
-		$conn = new mysqli($servername, $username, $password, $dbname);
-    	// Check connection
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		} 
-		$id_exists = false;
-		$passO =$_POST['psw-old']; 
-
-		$passOld=sha1($passO);
-		$pass = $_POST['psw'] ; 
-		$password = sha1($pass);
-
-		$sqlCheck = "SELECT * FROM users WHERE  password LIKE '{$passOld}' and email LIKE '{$session_id}'";
-		$res=mysqli_query($conn,$sqlCheck);
-				
+{ }else{
+	
+	
+	$servername = "localhost";
+	$username = "root";
+	$password = "";
+	$dbname = "plantdb";
+	
+	
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	} 
+	$id_exists = false;
+	$passO =$_POST['psw-old']; 
+	
+	$passOld=sha1($passO);
+	$pass = $_POST['psw'] ; 
+	$password = sha1($pass);
+	
+	$sqlCheck = "SELECT * FROM users WHERE  password LIKE '{$passOld}' and email LIKE '{$session_id}'";
+	$res=mysqli_query($conn,$sqlCheck);
+	
 		
 	
-		if (mysqli_num_rows($res) > 0)
-		{
-
-			$sql = "UPDATE `users` SET `password`='$password' WHERE email='$session_id'";
-
-			if ($conn->query($sql) === TRUE) {
-				
-				echo "<script type='text/javascript'>
-				alert('Password atualizada com sucesso!')
-				window.location = 'php/logout.php';</script>";
-
-			} else {
-				//echo "erro na alteração da password! Tente outra vez! "  . $conn->error;
-				header("location:editarDados.php?msg=failed");
-			} 
-			//header("location:editarDados.php?msg=failed");
-			//echo "erro na alteração da password! Tente outra vez! "  . $conn->error;
-			//header("location:editarDados.php?msg=failed");
+	if (mysqli_num_rows($res) > 0)
+	{
+		
+		$sql = "UPDATE `users` SET `password`='$password' WHERE email='$session_id'";
+		
+		if ($conn->query($sql) === TRUE) {
 			
-		}
-
-
-		else if (mysqli_num_rows($res) == 0)
-		{
+			echo "<script type='text/javascript'>
+			alert('Password atualizada com sucesso!')
+			window.location = 'logout.php';</script>";
+			
+		} else {
 			header("location:editarDados.php?msg=failed");
-			//echo "erro na alteração da password! Tente outra vez! "  . $conn->error;
-
 		}
+	}
+	
+	
+	else if (mysqli_num_rows($res) == 0)
+	{
+		header("location:editarDados.php?msg=failed");
+	}
+	
+	
+} 
+
+?>
 
 
-	} 
 
-	?>
-
-
-
-<!-- 	<script>
-		var el = document.getElementById('myCoolForm');
-
-		el.addEventListener('submit', function(){
-			return confirm('');
-		}, false);
-	</script> -->
-<!-- 	onsubmit="return confirm('Pretende alterar a password?');
-	<?php //echo $_SERVER['PHP_SELF']; ?> -->
-	<!-- action="sendLocation.php?id=<?php echo $id_sensor ;?>" -->
+<?php echo $id_sensor ;?>
 
 	<body>
 		<div class="container-fluid page-container" >
@@ -264,3 +252,7 @@ function validatePassword(){
 password.onchange = validatePassword;
 confirm_password.onkeyup = validatePassword;
 </script>
+<?php
+}else{
+	header('Location: login.php');
+}

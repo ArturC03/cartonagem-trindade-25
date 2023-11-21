@@ -12,7 +12,7 @@
 
 <?php
 
-include('nav.php');
+include('nav.inc.php');
 include('connect.php');
 
 

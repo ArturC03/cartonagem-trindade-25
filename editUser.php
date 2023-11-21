@@ -1,3 +1,7 @@
+<?php
+if (isset($_SESSION['username'])) {
+?>
+
 <!DOCTYPE html>
 
 <html >
@@ -12,22 +16,22 @@
 //ini_set('display_errors', 0);
 //error_reporting(0);
 
-include('nav.php');
+include('nav.inc.php');
 
 include('php/session.php');
 $id = $_GET['id'];
 
 if(!isset($_POST['completeYes']))
 
-	{ }else{
-
-
-		 $servername = "localhost";
-		 $username = "root";
-		 $password = "";
-		 $dbname = "plantdb";
-
- 		// Create connection
+{ }else{
+	
+	
+	$servername = "localhost";
+	$username = "root";
+	$password = "";
+	$dbname = "plantdb";
+	
+	// Create connection
 		$conn = new mysqli($servername, $username, $password, $dbname);
     	// Check connection
 		if ($conn->connect_error) {
@@ -36,16 +40,16 @@ if(!isset($_POST['completeYes']))
 		$id_exists = false;
 		
 		$username = $_POST['username'];
-	
+		
 		$pass = $_POST['psw'] ; 
 		
 		$email = $_POST['email'] ; 
 		$userType = $_POST['permitions'];
-	
+		
 		if (!is_null($pass))
 		{
 			$sql = "UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType' WHERE user_id='$id'";
-
+			
 			if ($conn->query($sql) === TRUE) {
 				
 				echo "<script type='text/javascript'>
@@ -63,14 +67,14 @@ if(!isset($_POST['completeYes']))
 		} else {
 			$password = sha1($pass);
 			$sql = "UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType', `password`='$password' WHERE user_id='$id'";
-
-
+			
+			
 			if ($conn->query($sql) === TRUE) {
 				
 				echo "<script type='text/javascript'>
 				alert('Dados de utilizador atualizados com sucesso!!')
 				window.location = 'manageUser.php';</script>";
-
+				
 			} else {
 				//echo "erro na alteração da password! Tente outra vez! "  . $conn->error;
 				header("location:editUser.php?msg=failed");
@@ -78,9 +82,9 @@ if(!isset($_POST['completeYes']))
 
 
 		} 
-
+		
 	} 
-
+	
 	?>
 
 	<body>
@@ -94,21 +98,21 @@ if(!isset($_POST['completeYes']))
 							require 'connect.php';
         					//error_reporting(0); 
 							$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-
+							
 							if ($mysqli->connect_errno) {
 								echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
 								exit();
 							}
-
+							
 							$query2 = "SELECT * FROM users where user_id='$id';";  
-
+							
 							$result = $mysqli->query($query2);
 							while($row = mysqli_fetch_array($result))  
-        { 
-					
-							
-
-							?>
+							{ 
+								
+								
+								
+								?>
 
 							<form method="post" class="modal-content" enctype="multipart/form-data" action="changeUser.php" onsubmit="return confirm('Pretende alterar os dados de utilizador?');">
 								<div class="container">
@@ -281,3 +285,7 @@ function validatePassword(){
 password.onchange = validatePassword;
 confirm_password.onkeyup = validatePassword;
 </script>
+<?php
+}else{
+	header('Location: login.php');
+}

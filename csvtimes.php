@@ -1,3 +1,7 @@
+<?php
+if (isset($_SESSION['username'])) {
+?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -45,8 +49,8 @@
     </head>
         <body>
             <?php
-                include('nav.php');
-             ?>
+                include('nav.inc.php');
+                ?>
     <div class="container">   
     <div class="sensor-container row">
 <p>Grupos</p>
@@ -56,14 +60,14 @@
             $username = "root";
             $password = "";
             $dbname = "plantdb";
-
+            
             $conn = new mysqli($servername, $username, $password, $dbname);
 
             if ($conn->connect_error) {
                 die("Falha na conexão: " . $conn->connect_error);
             } 
             $sql = "SELECT location.grupo, location.id_sensor, sensors.id_sensor FROM location INNER JOIN sensors ON location.id_sensor = sensors.id_sensor where location.gerar=1 group by sensors.id_sensor ";
-
+            
             $result = $conn->query($sql);
             
             // Um array para armazenar os grupos e seus sensores
@@ -78,7 +82,7 @@
                     if (!isset($gruposSensores[$grupo])) {
                         $gruposSensores[$grupo] = array();
                     }
-            
+                    
                     // Adicione o sensor ao grupo
                     $gruposSensores[$grupo][] = $sensor;
                 }
@@ -95,8 +99,8 @@
             }
             
             echo '</table>';
-  
-?>    
+            
+            ?>    
     </div> 
     <br>
         <form action="gerar_csv.php" method="post" class="form-container">
@@ -117,9 +121,9 @@
             $username = "root";
             $password = "";
             $dbname = "plantdb";
-
+            
             $conn = new mysqli($servername, $username, $password, $dbname);
-
+            
             if ($conn->connect_error) {
                 die("Falha na conexão: " . $conn->connect_error);
             }
@@ -135,7 +139,7 @@
             location.id_sensor = sensors.id_sensor
             where location.grupo=$grupo GROUP BY location.id_sensor";
             $result = $conn->query($sql);
-
+            
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo '<div class="col-md-2 form-check">'; // Col-md-4 para criar três colunas
@@ -147,7 +151,7 @@
             } else {
                 echo "Nenhum sensor encontrado.";
             }
-
+            
             $conn->close();
             
             ?>          
@@ -186,3 +190,8 @@ $(document).ready(function() {
 
 </body>
     </html>
+
+<?php
+}else{
+    header('Location: login.php');
+}

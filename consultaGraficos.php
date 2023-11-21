@@ -1,3 +1,8 @@
+<?php
+if (isset($_SESSION['username'])) {
+?>
+
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 <html>
@@ -16,7 +21,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.0.1/chartjs-plugin-zoom.min.js" integrity="sha512-b+q5md1qwYUeYsuOBx+E8MzhsDSZeoE80dPP1VCw9k/KA9LORQmaH3RuXjlpu3u1rfUwh7s6SHthZM3sUGzCkA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <?php
 
-include('nav.php');
+include('nav.inc.php');
 
 
 ?>
@@ -154,48 +159,48 @@ body{
         <br>
         <?php
     
-        require 'connect.php';
-        //error_reporting(0); 
-        $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-        
-        if ($mysqli->connect_errno) { 
-          echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
-          exit();
-        }
-
+    require 'connect.php';
+    //error_reporting(0); 
+    $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
+    
+    if ($mysqli->connect_errno) { 
+      echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
+      exit();
+    }
+    
         $a= $_GET['sensor'];
         $b= $_GET['comp'];
         $c= $_GET['data'];
         $e= $_GET['dataMin'];
         $f= $_GET['dataMax'];
         
-      
-
+        
+        
         $g= substr($a, 2);
         $g= substr($g, 0, -10);
-
+        
         ?>
 
         <?php
 
-        $timestamp= strtotime($e);
-        $diaMin= date('d', $timestamp);
+$timestamp= strtotime($e);
+$diaMin= date('d', $timestamp);
 
-        $timestamp2= strtotime($f);
-        $diaMax= date('d', $timestamp2);
-        
-        $i= 0;
+$timestamp2= strtotime($f);
+$diaMax= date('d', $timestamp2);
 
-        while($diaMin <= $diaMax){
-          $strdate[$i]= $diaMin;
+$i= 0;
 
-          $i++;
-          $diaMin++;
+while($diaMin <= $diaMax){
+  $strdate[$i]= $diaMin;
+  
+  $i++;
+  $diaMin++;
         }
         $strdate= implode(", ", $strdate);
-
+        
         $sql = "SELECT distinct id_sensor FROM `location` where id_sensor = ".$g." order by id_sensor;";  
-
+        
         $result = $mysqli->query($sql);
         //$sensorId = sensorId;
         while($row = mysqli_fetch_array($result))  
@@ -204,8 +209,8 @@ body{
           echo "<div class='aaa' id='$g' onclick='SeeSensor(this.id)'>";
           echo 'Nó '. $row["id_sensor"];
           echo "</div>";
-
-
+          
+          
         }
         
         ?>
@@ -699,3 +704,7 @@ socket.emit('dbRequest', sensorId);
    <?php
 //include('footer.php');
 ?>
+<?php
+}else{
+  header('Location: login.php');
+}

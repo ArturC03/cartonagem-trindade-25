@@ -1,3 +1,8 @@
+<?php
+if (isset($_SESSION['username'])) {
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +13,7 @@
 <?php
 //error_reporting(0);
 ini_set('display_errors', 0);
-include('nav.php');
+include('nav.inc.php');
 
 ?>
 
@@ -35,49 +40,49 @@ include('nav.php');
 				</thead>   
 				<?php  
 				require 'connect.php';
-       			 //error_reporting(0); 
+				//error_reporting(0); 
 				$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-
+				
 				if ($mysqli->connect_errno) {
 					echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
 					exit();
 				}
-
+				
 				//$query= "SELECT DISTINCT id_sensor from location";
-
+				
 				$query = "SELECT DISTINCT l.id_sensor , IF(l.location_x IS NULL,'Localização Por Definir','Localização Definida') as location, l.status FROM location l";
 				//ORDER BY s.id_sensor";  
-
+				
 				//$query = "SELECT DISTINCT s.id_sensor , IF(l.location_x IS NULL,'Localização Por Definir','Localização Definida') as location, l.status FROM sensors s LEFT JOIN location l ON s.id_sensor = l.id_sensor ORDER BY s.id_sensor";  
 				
-
-        $result = $mysqli->query($query);
-        while($row = mysqli_fetch_array($result))  
-        {   
+				
+				$result = $mysqli->query($query);
+				while($row = mysqli_fetch_array($result))  
+				{   
 					echo ' 
 					<tr> 
 					<td style="text-align: center; vertical-align: middle;  font-size: 20px; "> '. $row["id_sensor"]. '</td> 
 					<td style="text-align: center;" vertical-align: middle;">'. $row["location"]. ' </td> 
 					<td style="text-align: center; vertical-align: middle;  font-size: 20px; ">
-						<a type="button" class="btn btn-primary" href="EditLocation.php?id='. $row["id_sensor"].'" >Edit</a>
+					<a type="button" class="btn btn-primary" href="EditLocation.php?id='. $row["id_sensor"].'" >Edit</a>
 					</td> 
 					<td style="text-align: center; vertical-align: middle;  font-size: 20px; ">
-						<a type="button" class="btn btn-primary"  href="ChangeSensorStatus.php?id='. $row["id_sensor"].'&status='. $row["status"].'">'
-						; 
-
-
+					<a type="button" class="btn btn-primary"  href="ChangeSensorStatus.php?id='. $row["id_sensor"].'&status='. $row["status"].'">'
+					; 
+					
+					
 						if($row["status"] == 1)
-						 { echo "Activo" ;
+						{ echo "Activo" ;
 						}
-						 else { echo "Inativo";
+						else { echo "Inativo";
 						}
 						echo
-						 '</a>
-					</td>  
-					</tr>  
-					';  
-				}  
-				?>  
+						'</a>
+						</td>  
+						</tr>  
+						';  
+					}  
+					?>  
 			</table>  
 		</div>
 		</form>
@@ -86,3 +91,7 @@ include('nav.php');
 	</div> 
 </body>
 </html>
+<?php
+}else{
+	header('Location: login.php');
+}

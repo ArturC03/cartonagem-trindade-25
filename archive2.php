@@ -1,3 +1,9 @@
+<?php
+if (isset($_SESSION['username'])) {
+?>
+
+
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 <html>
@@ -13,7 +19,7 @@
 
 <?php
 
-include('nav.php');
+include('nav.inc.php');
 include('connect.php');
 
 
@@ -276,7 +282,7 @@ option {
 			        echo "<br><select name='ids[]'  multiple onchange='limitarSelecoes(this, 2)' style='
               margin-left: 2px;'>";
 			        while ($resultado = mysqli_fetch_assoc($consulta)) {
-			          echo "<option value=" . $resultado["id_sensor"] . ">" . $resultado["id_sensor"] . "</option>";
+                echo "<option value=" . $resultado["id_sensor"] . ">" . $resultado["id_sensor"] . "</option>";
 			        }
 			        echo "</select>";
 			        ?><BR>
@@ -326,3 +332,7 @@ option {
   
 </body>
 </html>
+<?php
+}else{
+  header('Location: login.php');
+}

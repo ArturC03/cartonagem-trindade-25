@@ -1,3 +1,7 @@
+<?php
+if (isset($_SESSION['username'])) {
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -15,24 +19,24 @@
 ini_set('display_errors', 0);
 //error_reporting(0);
 
-include('nav.php');
+include('nav.inc.php');
 
 if (!isset($_POST['completeYes'])) {
 } else {
-
-
-	$servername = "localhost";
+    
+    
+    $servername = "localhost";
 	$username = "root";
 	$password = "";
 	$dbname = "plantdb";
-
-
-
+    
+    
+    
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	// Check connection
 	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
+        die("Connection failed: " . $conn->connect_error);
 	}
 	$id_exists = false;
 	$id_sensor = $_POST['id'];
@@ -40,30 +44,30 @@ if (!isset($_POST['completeYes'])) {
 	$location_y = $_POST['location_y'];
 	$sqlCheck = "SELECT id_sensor FROM location WHERE id_sensor='$id_sensor'";
 	$res = mysqli_query($conn, $sqlCheck);
-
-
+    
+    
 	if (mysqli_num_rows($res) > 0) {
-		$sql = "UPDATE `location` SET `location_x`='$location_x',`location_y`='$location_y' where `id_sensor` = '$id_sensor';";
-
+        $sql = "UPDATE `location` SET `location_x`='$location_x',`location_y`='$location_y' where `id_sensor` = '$id_sensor';";
+        
 		if ($conn->query($sql) === TRUE) {
-			echo "<script type='text/javascript'>
-				window.location = 'manageSensors.php';</script>";
+            echo "<script type='text/javascript'>
+            window.location = 'manageSensors.php';</script>";
 		} else {
-			echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: " . $sql . "<br>" . $conn->error;
 		}
 	} else if (mysqli_num_rows($res) == 0) {
 
-		$sql = "INSERT INTO location (location_x, location_y, id_sensor) VALUES 
+        $sql = "INSERT INTO location (location_x, location_y, id_sensor) VALUES 
 			('$location_x', '$location_y','$id_sensor' )";
 
-		if ($conn->query($sql) === TRUE) {
-			echo "<script type='text/javascript'>
-				alert('Nova localização adicionada com sucesso!')
-				window.location = 'manageSensors.php';</script>";
-		} else {
-			echo "Error: " . $sql . "<br>" . $conn->error;
-		}
-	}
+if ($conn->query($sql) === TRUE) {
+    echo "<script type='text/javascript'>
+    alert('Nova localização adicionada com sucesso!')
+    window.location = 'manageSensors.php';</script>";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+}
 }
 
 ?>
@@ -155,3 +159,8 @@ if (!isset($_POST['completeYes'])) {
 </style>
 
 </html>
+
+<?php
+}else{
+    header('Location: login.php');
+}

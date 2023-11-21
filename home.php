@@ -91,7 +91,7 @@ footer {
 
 <?php
 
-  include('nav.php');
+  include('nav.inc.php');
   include('monthdb.php');
 
   header("refresh: 10000;");  
