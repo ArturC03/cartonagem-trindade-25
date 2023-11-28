@@ -1,32 +1,4 @@
 <?php
-ini_set('display_errors', 0);
-include('connect.php'); 
-
-$mysqli = new mysqli($servername, $username, $password, $dbname);
-$sql = "SELECT * from users WHERE email='$session_id';";
-$result = $mysqli->query($sql);
-$row=mysqli_fetch_array($result);
-$user_type=$row['user_type'];
-
-$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-  if ($mysqli->connect_errno) { 
-    echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
-    exit();
-  }
-  $sql = "SELECT titulo from titulo WHERE id=(select max(id) from titulo);";  
-        
-  $result = $mysqli->query($sql);
-  while($row = mysqli_fetch_array($result)){
-    $tit= $row['titulo'];
-  }
-  
-  ?>
-  <style>
-    .nav-link{
-      text-align: center;
-    }
-  </style>
-  <?php
 
   $full = (isset ($_SERVER ["HTTPS"])) . $_SERVER ["HTTP_HOST"] . $_SERVER ["REQUEST_URI"];
   $full = strtok($full, "?");
@@ -60,48 +32,47 @@ $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
     <?php
       break;
     default:
-      
       break;
   }
 
 ?>
 
-
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <nav class="navbar navbar-expand-lg navbar-light bg-dark" >
-  <a [routerLink]="['/home']" class="navbar-brand text-light float-right" href="home.php"><?php echo $tit ?></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+  <a class="navbar-brand text-light float-right" href="home.php"><?php echo $site_title ?></a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse " id="navbarNavDropdown">
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active" >
-        <a  href="home.php"  routerLinkActive='active' id="home" class="nav-link text-light" href="/">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item" >
+        <a href="home.php" id="home" class="nav-link text-light" href="/">Home</a>
       </li> 
       
       <li class="nav-item">
         <a href="archive2.php" id="arquivo" class="nav-link text-light" href="#">Arquivo</a>
       </li>
       <li class="nav-item">
-        <a href="csvtools.php" id="csvtools" class="nav-link text-light" href="#">Geração CSV</a>
+        <a href="csvtools.php" id="csvtools" class="nav-link text-light" href="#">Gerar CSV</a>
       </li>
-       <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown"><img src="images/settings-icon.png" alt="Definições" style="width:25px;"></a>
-      <div class="dropdown-menu pull-left">
-        <a class="dropdown-item" href="manageSensors.php">Gerir Nós</a>
-        <a class="dropdown-item" href="manageUser.php">Gerir Utilizadores</a>
-        <a class="dropdown-item" href="csvtimes.php">CSV Automatico</a>
-         <a class="dropdown-item" href="editarDados.php">Alterar Password da conta</a>
-         <a class="dropdown-item" href="editarTitulo.php">Alterar Título</a>
-      </div>
-    </li>
-
-
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-bs-toggle="dropdown"><img src="images/settings-icon.png" alt="Definições" style="width:25px;"></a>
+        <div class="dropdown-menu pull-left">
+          <a class="dropdown-item" href="manageSensors.php">Gerir Nós</a>
+          <a class="dropdown-item" href="manageUser.php">Gerir Utilizadores</a>
+          <a class="dropdown-item" href="csvtimes.php">CSV Automático</a>
+          <a class="dropdown-item" href="editarDados.php">Alterar Password da Conta</a>
+          <a class="dropdown-item" href="editarTitulo.php">Alterar Título</a>
+        </div>
+      </li>
     </ul>
-    <ul class="navbar-nav">
-      <li><a id="3" href="logout.php" style="color: aliceblue;"></span> Logout</a></li>
-    </ul>
+  </div>
+  <div class="d-flex">  
+    <?php
+    if(isset($_SESSION['username'])){
+      echo '<a id="3" href="logout.php" class="nav-link text-light">Logout</a>"';
+    }else{
+      echo '<a id="3" href="login.php" class="nav-link text-light">Login</a>';
+    }
+    ?>
   </div>
 </nav>

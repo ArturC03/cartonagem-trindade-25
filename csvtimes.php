@@ -1,58 +1,11 @@
 <?php
+include('config.inc.php');
+
 if (isset($_SESSION['username'])) {
+    include('header.inc.php');
 ?>
-
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <style>
-        .container {
-            text-align: center;
-        }
-
-        .sensor-container {
-            background-color: #f2f2f2;
-            padding:20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .form-check {
-            margin-bottom: 5px; /* Reduz o espaçamento entre os blocos de seleção */
-        }
-
-        .form-check-input {
-            margin-right: 5px; /* Reduz o espaçamento entre os checkboxes e os rótulos */
-        }
-
-        .btn-primary {
-            margin-top: 10px;
-        }
-          /* Adicione este estilo para espaçamento entre formulários */
-          .form-container {
-            margin-bottom: 20px; /* Espaçamento entre formulários */
-        }
-
-    </style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário para Download de CSV</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href=" https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-    </head>
-        <body>
-            <?php
-                include('nav.inc.php');
-                ?>
-    <div class="container">   
-    <div class="sensor-container row">
+<div class="container">   
+<div class="sensor-container row">
 <p>Grupos</p>
 <?php
             // Conexão com o banco de dados 
@@ -186,12 +139,8 @@ $(document).ready(function() {
     });
 });
 </script>
-
-
-</body>
-    </html>
-
 <?php
+    include('footer.inc.php');
 }else{
     header('Location: login.php');
 }

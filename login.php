@@ -1,48 +1,93 @@
 <?php
-@session_start();
+include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
 	header('Location: index.php');
 }else{
 	if (!isset($_POST['submit'])){
-		?>
-		<html>
-		<head>
-			<link rel="stylesheet" type="text/css" href="css/stylelogin.css">
+        ?>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="css/login.css">
+            <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-		</head>
-		<body style="background-image: url('images/cartonagem.jpg');  background-color: rgba(0,0,0,0.5);">
-			<div class="caixa-form" style="background-color: #fff;">
+            <title>Login</title>
+        </head>
+        <body>
+            <div class="container">
+                <div class="content">
+                    <h2>Trindade</h2>
+                    <div class="text-sci">
+                        <h2>Welcome! <br><span>To Our New Website.</span></h2>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis recusandae soluta magnam sequi neque quam dolore corporis inventore consequatur quas commodi ipsam, iusto id. Ipsam vero fugiat cupiditate. Officia, suscipit?</p>
+                    </div>
+                </div>
+                
+                <div class="line"></div>
+                
+                <div class="logreg-box flip-box" >
+                    <div class="flip-box-inner" id="flipboxinner">
 
-
-				<form action="<?=$_SERVER['PHP_SELF']?>" method="post">
-					<div class="divproc1">
-						<h3 style="color:#a06845; ">LOGIN</h3>
-						<?php
-						if (isset($_GET["msg"]) && $_GET["msg"] == 'failed') {
-							echo '<span style="color: red;">USERNAME / PASSWORD ERRADO!!!</span>';
-						} 
-						?>
-
-						<div class="form-inp" style="border-bottom: 1px solid #e6e6e6;">
-							<a style="font-size:14px; font-family: Ubuntu-Regular;font-size: 20px;  color: #555555; ">EMAIL:</a>
-							<input type="text" name="username" required style="font-family: Ubuntu-Regular;  font-size: 20px;  color: #555555;" />
-						</div>
-						<div class="form-inp" style="border-bottom: 1px solid #e6e6e6;">
-							<a style="font-size:14px;  font-family: Ubuntu-Regular;font-size: 20px;  color: #555555;" >PASSWORD:</a>
-							<input type="password" name="password" required style="font-family: Ubuntu-Regular;  font-size: 20px;  color: #555555;"/>
-						</div>
-
-						<div class="botao">
-							<input type="submit" class="submit" name="submit" value="Login" />
-						</div>
-						<br>
-						<a href="forgotPass.php" style="float: right; font-family: Ubuntu-Regular;font-size: 18px;  color: #555555;">Esqueceste-te da tua password?</a>
-					</div>
-				</form>
-				<?php
+                        <div class="form-box login flip-box-front active" id="login">
+                            <img class="logotrindade"src="images/trindade.png" alt="">
+                            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">                    
+                                
+                                <h2>Login</h2>
+                                <div class="input-box">
+                                    <span class="icon"><i class='bx bxs-user-circle'></i></span>
+                                    <input type="email" name="username" required>
+                                    <label>Email</label>
+                                </div>
+                                
+                                <div class="input-box">
+                                    <span class="icon"><i class='bx bxs-lock-alt'></i></span>
+                                    <input type="password" name="password" required>
+                                    <label>Password</label>
+                                </div>
+                                
+                                
+                                <button type="submit" class="btn" name="submit" value="Login">Iniciar Sessão</button>
+                                
+                                <button type="button" onclick="recuperarPass()" class="link"> Esqueceste-te da tua password? </button>                    
+                            </form>
+                        </div>
+                        
+                        <div class="form-box login flip-box-back" id="recuperarPass">
+                            <img class="logotrindade"src="images/trindade.png" alt="">
+                            <form autocomplete="off" action="send_link.php" method="post">
+                                
+                                <h2>Recuperar Password</h2>
+                                
+                                <div class="text-sci">
+                                    
+                                    <p>Insere o teu e-mail para recuperares a tua conta.</p>
+                                </div>
+                                
+                                <div class="input-box">
+                                    <span class="icon"><i class='bx bxs-user-circle'></i></span>
+                                    <input type="email" required>
+                                    <label>Email</label>
+                                </div>
+                                
+                                <button type="submit" class="btn">Recuperar Password</button>
+                            </form>
+                            <button type="button" onclick="voltarLogin()" class="link"> Voltar </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+        </body>
+        <script src="js/login.js"></script>
+        </html>
+    <?php
 	} else {
-		require 'connect.php';
+		require 'connect.inc.php';
 
 		$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
@@ -51,7 +96,7 @@ if (isset($_SESSION['username'])) {
 			exit();
 		}
 
-		session_start();
+		@session_start();
 		$username = $_POST['username'];
 		$pass = $_POST['password'];
 
@@ -67,13 +112,9 @@ if (isset($_SESSION['username'])) {
 		if (!$result->num_rows == 1) {
 			header("location:login.php?msg=failed");
 
-
-
-
 		} else {
 			$_SESSION['username']=$row['email'];
-			echo header('location: home.php');
-
+			header('location: home.php');
 		}
 	}
 }
