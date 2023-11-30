@@ -1,36 +1,15 @@
 <?php
+include('config.inc.php');
+
 if (isset($_SESSION['username'])) {
-?>
+	include('header.inc.php');
 
-<!DOCTYPE html>
-
-<html >
-<head>
-	<meta charset="utf-8">
-	<script src="js/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/sensors.css">
-	
-</head>
-
-<?php
-//ini_set('display_errors', 0);
-//error_reporting(0);
-
-include('nav.inc.php');
-
-include('php/session.php');
-
-if(!isset($_POST['completeYes']))
-
-{ }else{
-	
-	
+if(isset($_POST['completeYes'])) {
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
 	$dbname = "plantdb";
-	
-	
+
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	// Check connection
@@ -46,8 +25,6 @@ if(!isset($_POST['completeYes']))
 	
 	$sqlCheck = "SELECT * FROM users WHERE  password LIKE '{$passOld}' and email LIKE '{$session_id}'";
 	$res=mysqli_query($conn,$sqlCheck);
-	
-		
 	
 	if (mysqli_num_rows($res) > 0)
 	{
@@ -75,11 +52,6 @@ if(!isset($_POST['completeYes']))
 } 
 
 ?>
-
-
-
-<?php echo $id_sensor ;?>
-
 	<body>
 		<div class="container-fluid page-container" >
 			<div class="row dashboard-container" >
@@ -136,10 +108,6 @@ if(!isset($_POST['completeYes']))
 			</div>
 		</div>
 	</div>
-
-
-
-</body>
 <script>
 //VERIFICAR SE CapsLock ESTA LIGADO
 var input2 = document.getElementById("psw-repeat");
@@ -253,6 +221,7 @@ password.onchange = validatePassword;
 confirm_password.onkeyup = validatePassword;
 </script>
 <?php
+	include('footer.inc.php');
 }else{
 	header('Location: login.php');
 }

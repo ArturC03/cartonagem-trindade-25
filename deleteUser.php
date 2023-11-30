@@ -1,5 +1,5 @@
 <?php
-include('connect.php');
+include('connect.inc.php');
 $id = $_GET['id'];
 
 

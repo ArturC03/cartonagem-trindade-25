@@ -1,4 +1,5 @@
 <?php
+include('config.inc.php');
 // Recupere os dados do usuário do formulário
 $sensoresSelecionados = $_POST['sensores'];
 $horaSelecionada = $_POST['horaSelecionada'];

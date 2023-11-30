@@ -1,7 +1,7 @@
 <?php
-session_start();
+include('config.inc.php');
 if(session_destroy())
 {
-    header("Location: login.php");
+    header("Location: home.php");
 }
 ?>

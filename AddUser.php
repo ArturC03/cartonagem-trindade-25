@@ -1,27 +1,10 @@
 <?php
+include('config.inc.php');
+
 if (isset($_SESSION['username'])) {
-?>
-	<!DOCTYPE html>
+	include('header.inc.php');
 	
-	<html >
-	<head>
-		<meta charset="utf-8">
-		<script src="js/jquery.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/sensors.css">
-		
-	</head>
-	
-	<?php
-	//ini_set('display_errors', 0);
-	//error_reporting(0);
-	
-	include('nav.inc.php');
-	
-	if(!isset($_POST['completeYes']))
-	
-		{ }else{
-	
-	
+	if(isset($_POST['completeYes'])) {
 			 $servername = "localhost";
 			 $username = "root";
 			 $password = "";
@@ -73,19 +56,6 @@ if (isset($_SESSION['username'])) {
 		} 
 	
 		?>
-	
-	
-	
-		<script>
-			var el = document.getElementById('myCoolForm');
-	
-			el.addEventListener('submit', function(){
-				return confirm('');
-			}, false);
-		</script>
-		<!-- action="sendLocation.php?id=<?php echo $id_sensor ;?>" -->
-	
-		<body>
 			<div class="container-fluid page-container" >
 				<div class="row dashboard-container" >
 	
@@ -122,8 +92,8 @@ if (isset($_SESSION['username'])) {
 										<p id="text2" style="display:none; color:red;">CUIDADO! Caps lock Ligado.</p>
 	
 										<label><b>Atribuir permissões de administrador?</b></label><br>
-										<input type="radio" class="permitions" id="permitions" name="permitions" value="1">Sim<br>
-										<input type="radio" class="permitions" id="permitions" name="permitions" value="0" checked>Não<br>
+										<input type="radio" class="permitions" id="permitions-1" name="permitions" value="1">Sim<br>
+										<input type="radio" class="permitions" id="permitions-0" name="permitions" value="0" checked>Não<br>
 										<br>
 	
 										<div class="clearfix">
@@ -141,10 +111,6 @@ if (isset($_SESSION['username'])) {
 				</div>
 			</div>
 		</div>
-	
-	
-	
-	</body>
 	<script>
 	//VERIFICAR SE CapsLock ESTA LIGADO
 	var input2 = document.getElementById("psw-repeat");
@@ -258,6 +224,8 @@ if (isset($_SESSION['username'])) {
 	confirm_password.onkeyup = validatePassword;
 	</script>
 <?php
+
+include('footer.inc.php');
 }else{
 	header('Location: login.php');
 }

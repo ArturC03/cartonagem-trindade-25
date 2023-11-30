@@ -1,33 +1,16 @@
 <?php
+include('config.inc.php');
+
 if (isset($_SESSION['username'])) {
+	include('header.inc.php');
 ?>
-
-
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</head>
-<?php
-//error_reporting(0);
-ini_set('display_errors', 0);
-include('nav.inc.php');
-
-?>
-
-<script type="text/javascript">
-    $(function() {
-        $('td a#a_id').click(function() {
-            return confirm("Are You sure that You want to delete this?");
-        });
-    });
-</script>
-
-
-<body style="overflow: hidden; background-color:#E0E0E0; overflow: scroll;">
-
+	<script type="text/javascript">
+		$(function() {
+			$('td a#a_id').click(function() {
+				return confirm("Are You sure that You want to delete this?");
+			});
+		});
+	</script>
 	<br><br>
 	<div class="container">
 
@@ -46,7 +29,7 @@ include('nav.inc.php');
 						</tr>
 					</thead>   
 					<?php  
-					require 'connect.php';
+					require 'connect.inc.php';
         			//error_reporting(0); 
 					$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 					
@@ -79,10 +62,8 @@ include('nav.inc.php');
 
 
 	</div> 
-
-</body>
-</html>
 <?php
+	include('footer.inc.php');
 }else{
 	header('Location: login.php');
 }

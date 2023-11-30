@@ -1,114 +1,9 @@
 <?php
+include('config.inc.php');
+
 if (isset($_SESSION['username'])) {
-?>
+    include('header.inc.php');
 
-
-<!DOCTYPE html>
-<meta charset="utf-8">
-<html >
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href=" https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
-
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
-<?php
-
-include('nav.inc.php');
-include('dados.php');
-
-//ver sombra do form
-?>
-<html>
-  
-  <style>
-  
-    #tableSensors {
-        font-size: 14px; /* Adjust the font size as needed */
-        margin-top: -20px; /* Adjust the margin as needed */
-    }
-
-    #tableSensors thead th,
-    #tableSensors tbody td {
-        padding: 6px 8px; /* Adjust the padding as needed */
-    }
-
-    #tableSensors_wrapper {
-        max-width: 100%; /* Limit the width of the table container to the available width */
-     
-    }
-
-   
-
-   
-    /* 64ac15 */
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-td {
-    width: 1px;
-    white-space: nowrap;
-}
-.botao{
-  float: right;
-  margin-right: 3vh;
-  margin-left: 20px;
-  display: inline-block;
-}
-
-#alterarVista{
-  width: 50px;
-  height: 50px;
-  background: url(images/graf.ico);
-  border: 1px solid #B4BBBB;
-  border-radius: 3px;
-  box-shadow: 0px 0px 1px lightgrey;
-  display: block;
-}
-#botaoBack{
-  margin-top: 10px;
-  width: 50px;
-  height: 50px;
-  background: url(images/back.png);
-  border: 1px solid #B4BBBB;
-  border-radius: 3px;
-  box-shadow: 0px 0px 1px lightgrey;
-  display: block;
-
-}
-#botaodown{
-  width: 50px;
-  height: 50px;
-  background: url(images/down_3.png);
-  border: 1px solid #B4BBBB;
-  border-radius: 3px;
-  box-shadow: 0px 0px 1px lightgrey;
-  margin-top: 10px;
-  display: block;
-
-}
-
-#alterarVista:hover{
-  box-shadow: 0px 0px 5px grey;
-}
-#alterarVista:focus{
-  outline: none;
-}
-#tableSensors_wrapper{
-  height: 500px;
-  margin-top: -50px; /* Adjust the value to move the table up (negative value moves it up) */
-  padding: 0;
-}
-
-    </style>    
-    <body>
-    <?php
     $id1=null;
     $id2=null;
     $id3=null;
@@ -127,12 +22,10 @@ td {
           list($id1, $id2, $id3) = $idsSelecionados;
         }
       }
-      ?>
-    <?php
+
     $sensores= "('$id1', '$id2', '$id3')";
     $comp2= $_GET['bbbb'];
     $datas= $_GET['cccc'];
-    //$dbname2= $_GET['dddd'];
     $dataMinima= $_GET['eeee'];
     $dataMaxima= $_GET['ffff'];
     
@@ -171,13 +64,7 @@ td {
           $comp2= "s.hour BETWEEN '".$horaMinima."' and '23:59' AND ";
         }
         
-        $datas= "s.date BETWEEN '".$dataMinima."' and '".$dataMaxima."' AND ";
-        
-        
-        //echo $dbname2;
-        
-        //dados($sensores, $comp2, $datas);
-        
+        $datas= "s.date BETWEEN '".$dataMinima."' and '".$dataMaxima."' AND ";        
       }
       $timestamp= strtotime($dataMaxima);
       $timestamp2= strtotime($dataMinima);
@@ -193,23 +80,13 @@ td {
       $diaAtual= date('d');
     $mesAtual= date('m');
     $anoAtual= date('y');
-    
-    //$dbname2= $anoPesquisa."_".$mesPesquisa;
+
     $dataAtual= $anoAtual."_".$mesAtual;
     
     if($anoPesquisa == $anoAtual){
       $i= $mesAtual-$mesPesquisa;
     }
-    
-    //$comp2= "s.hour BETWEEN '00:00' and '23:59' AND ";
-    //$datas= "s.date BETWEEN '2023-01-03' and '2023-01-03' AND "
-    
-    
-    
-    // tecla maior
-    
-    
-    
+
     ?>
         <br>
         <br>
@@ -249,8 +126,7 @@ td {
             <tbody> 
               <?php  
 
-require 'connect.php';
-//error_reporting(0); 
+require 'connect.inc.php';
 $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
 if ($mysqli->connect_errno) {
@@ -273,11 +149,8 @@ while($mesMinPesquisa <> $mesMaxPesquisa){
     $mesMinPesquisa = 0;
   }
 
-  
-  //$sql = "SELECT s.* FROM `sensors` s, `location` l where s.id_sensor = l.id_sensor and l.status = 1 order by sensor_id DESC;";
   $sql = "SELECT distinct s.* FROM $dbname2.sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
-  
-  //'".$horaMinima."' and '".$horaMaxima."' and
+
   $result = $mysqli->query($sql);
   
   while($row = mysqli_fetch_array($result))  
@@ -298,7 +171,6 @@ while($mesMinPesquisa <> $mesMaxPesquisa){
   
   if($diaMaxPesquisa == $diaAtual){
     $sql = "SELECT distinct s.* FROM plantdb.sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
-    //'".$horaMinima."' and '".$horaMaxima."' and
     $result = $mysqli->query($sql);
     
     while($row = mysqli_fetch_array($result))  
@@ -364,8 +236,6 @@ while($mesMinPesquisa <> $mesMaxPesquisa){
         <br>
         </div>
         <br>
-          
-        </body>
         
 
     <script>
@@ -377,7 +247,7 @@ while($mesMinPesquisa <> $mesMaxPesquisa){
     } 
     function back(){
       
-      window.location.href = "archive2.php"; //archive2.php é a ultima versão do arquivo archive
+      window.location.href = "archive2.php";
     }
     $(document).ready(function() {
     $('#tableSensors').DataTable(
@@ -403,25 +273,8 @@ while($mesMinPesquisa <> $mesMaxPesquisa){
 
   } );
     </script>
-    
-    </body>
-</html>
-
-
-<!--"language": {
-        "lengthMenu": "Ver _MENU_ registos por página",
-        "zeroRecords": "Nothing found - sorry",
-        "info": "página _PAGE_ de _PAGES_",
-        "infoEmpty": "No records available",
-        "infoFiltered": "(filtered from _MAX_ total records)",
-        "paginate": {
-          "first":      "First",
-          "last":       "Last",
-         "next":       "próxima",
-        "previous":   "anterior"
-        }
-      }
 <?php
+  include('footer.inc.php');
 }else{
   header('Location: login.php');
 }

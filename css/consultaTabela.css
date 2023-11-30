@@ -1,0 +1,75 @@
+
+#tableSensors {
+    font-size: 14px; /* Adjust the font size as needed */
+    margin-top: -20px; /* Adjust the margin as needed */
+}
+
+#tableSensors thead th,
+#tableSensors tbody td {
+    padding: 6px 8px; /* Adjust the padding as needed */
+}
+
+#tableSensors_wrapper {
+    max-width: 100%; /* Limit the width of the table container to the available width */
+ 
+}
+
+*,
+*:before,
+*:after {
+box-sizing: border-box;
+}
+td {
+width: 1px;
+white-space: nowrap;
+}
+.botao{
+float: right;
+margin-right: 3vh;
+margin-left: 20px;
+display: inline-block;
+}
+
+#alterarVista{
+width: 50px;
+height: 50px;
+background: url(images/graf.ico);
+border: 1px solid #B4BBBB;
+border-radius: 3px;
+box-shadow: 0px 0px 1px lightgrey;
+display: block;
+}
+#botaoBack{
+margin-top: 10px;
+width: 50px;
+height: 50px;
+background: url(images/back.png);
+border: 1px solid #B4BBBB;
+border-radius: 3px;
+box-shadow: 0px 0px 1px lightgrey;
+display: block;
+
+}
+#botaodown{
+width: 50px;
+height: 50px;
+background: url(images/down_3.png);
+border: 1px solid #B4BBBB;
+border-radius: 3px;
+box-shadow: 0px 0px 1px lightgrey;
+margin-top: 10px;
+display: block;
+
+}
+
+#alterarVista:hover{
+box-shadow: 0px 0px 5px grey;
+}
+#alterarVista:focus{
+outline: none;
+}
+#tableSensors_wrapper{
+height: 500px;
+margin-top: -50px; /* Adjust the value to move the table up (negative value moves it up) */
+padding: 0;
+}

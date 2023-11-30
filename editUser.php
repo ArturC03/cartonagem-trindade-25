@@ -1,30 +1,12 @@
 <?php
+include('config.inc.php');
+
 if (isset($_SESSION['username'])) {
-?>
-
-<!DOCTYPE html>
-
-<html >
-<head>
-	<meta charset="utf-8">
-	<script src="js/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/sensors.css">
+	include('header.inc.php');
 	
-</head>
+	$id = $_GET['id'];
 
-<?php
-//ini_set('display_errors', 0);
-//error_reporting(0);
-
-include('nav.inc.php');
-
-include('php/session.php');
-$id = $_GET['id'];
-
-if(!isset($_POST['completeYes']))
-
-{ }else{
-	
+if(isset($_POST['completeYes'])) {
 	
 	$servername = "localhost";
 	$username = "root";
@@ -46,7 +28,7 @@ if(!isset($_POST['completeYes']))
 		$email = $_POST['email'] ; 
 		$userType = $_POST['permitions'];
 		
-		if (!is_null($pass))
+		if (is_null($pass))
 		{
 			$sql = "UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType' WHERE user_id='$id'";
 			
@@ -95,7 +77,7 @@ if(!isset($_POST['completeYes']))
 					<div class="row dashboard-rows"> 
 						<div class="col-md-12 pr-md-1" >
 							<?php
-							require 'connect.php';
+							require 'connect.inc.php';
         					//error_reporting(0); 
 							$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 							
@@ -148,8 +130,8 @@ if(!isset($_POST['completeYes']))
 									<p id="text2" style="display:none; color:red;">CUIDADO! Caps lock Ligado.</p>
 									<label><b>Atribuir permissões de administrador?</b></label><br>
 								
-									<input type="radio" class="permitions" id="permitions" name="permitions" value="1" <?php if ($row[user_type]== '1') echo "checked";?>>Sim<br>
-									<input type="radio" class="permitions" id="permitions" name="permitions" value="0" <?php if ($row[user_type]== '0') echo "checked";?>>Não<br>
+									<input type="radio" class="permitions" id="permitions-1" name="permitions" value="1" <?php if ($row['user_type']== '1') echo "checked";?>>Sim<br>
+									<input type="radio" class="permitions" id="permitions-0" name="permitions" value="0" <?php if ($row['user_type']== '0') echo "checked";?>>Não<br>
 									<br>
 
 									<br>
@@ -172,7 +154,6 @@ if(!isset($_POST['completeYes']))
 
 <?php } ?>
 
-</body>
 <script>
 //VERIFICAR SE CapsLock ESTA LIGADO
 var input2 = document.getElementById("psw-repeat");
@@ -286,6 +267,7 @@ password.onchange = validatePassword;
 confirm_password.onkeyup = validatePassword;
 </script>
 <?php
+	include('footer.inc.php');
 }else{
 	header('Location: login.php');
 }

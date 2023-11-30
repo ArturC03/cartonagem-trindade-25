@@ -1,0 +1,26 @@
+#fullscreen-img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.heatmap {
+    position: relative; /* Altera para posição relativa para manter as coordenadas relativas */
+}
+
+.buttonSensor.selected{
+    background-color: white;
+    color:#555555;
+}
+
+.typeButton.selected{
+    background-color: white;
+    color:#555555;
+    border:  2px solid #555555;
+}
+
+body{
+    width: 100%;
+}
