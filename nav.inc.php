@@ -1,5 +1,4 @@
 <?php
-
   $full = (isset ($_SERVER ["HTTPS"])) . $_SERVER ["HTTP_HOST"] . $_SERVER ["REQUEST_URI"];
   $full = strtok($full, "?");
 

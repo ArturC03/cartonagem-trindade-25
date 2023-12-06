@@ -7,36 +7,22 @@ header("refresh: 10000;");
 
 ?>
 
-  <div class="container-fluid page-container" style="margin-left: 0px; margin-right: 0px; width: auto;">
-    <div class="row dashboard-container" >
+<div class="graph-containers" style="display:flex">
+  <div class="Wrapper" style="width: 100%; margin-top: 0px;">
+    <div id='heatMap1' style="width: 100%; padding: 0px;  margin: 0 auto; display: block;">
+    <img  id="planta" src='images/plantaV3.png' style=" width:100vh;height: auto;" />
+    <canvas id="canvasHeat" width="100%" height="auto" style="position:absolute; left: 0; top: 0">
+    </canvas> 
+  </div>
+  <div class="tooltip" style="position: absolute; left: 0; top: 0; background: rgba(0,0,0,.8); color: white; font-size: 14px; padding: 5px; display: block; line-height: 18px; display:none;"></div>
+</div>
+<div width="15%" height="100%">
+  <div id='GradTemperature' style="width: 150px; height: 600px; margin-top: 10%; margin-bottom: -10%">
+</div>
 
-      <div class="col-12" style="margin-top: 7px;">
-        <div class="row dashboard-rows"> 
-          <div class="col">
-            <div class="graph-containers" style="display:flex">
-              <div class="Wrapper" style="width: 100%; margin-top: 0px;">
-                <div id='heatMap1' style="width: 100%; padding: 0px;  margin: 0 auto; display: block;">
-                <img  id="planta" src='images/plantaV3.png' style=" width:100vh;height: auto;" />
-                <canvas id="canvasHeat" width="100vw" height="auto" style="position:absolute; left: 0; top: 0">
-                </canvas> 
-              </div>
-              <div class="tooltip" style="position: absolute; left: 0; top: 0; background: rgba(0,0,0,.8); color: white;
-              font-size: 14px; padding: 5px; display: block; line-height: 18px; display:none;"></div>
-            </div>
-
-
-            <div width="15%" height="100%">
-             <div id='GradTemperature' style="width: 150px; height: 600px; margin-top: 10%; margin-bottom: -10%">
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <?php
+<?php
   include('footer.inc.php');
-  ?>
+?>
   <script> 
    
   
