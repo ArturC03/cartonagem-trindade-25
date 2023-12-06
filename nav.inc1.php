@@ -1,20 +1,3 @@
-<?php
-  $full = (isset ($_SERVER ["HTTPS"])) . $_SERVER ["HTTP_HOST"] . $_SERVER ["REQUEST_URI"];
-  $full = strtok($full, "?");
-
-  switch ($full){
-    case 'localhost/ProjetoCartonagemV1/PF/home.php':
-      break;
-    case 'localhost/ProjetoCartonagemV1/PF/archive2.php':
-      break;
-    case 'localhost/ProjetoCartonagemV1/PF/csvtools.php':
-      break;
-    default:
-      break;
-  }
-
-?>
-
 <script src="js/nav.js"></script> 
 
 <div class="full-menu">
