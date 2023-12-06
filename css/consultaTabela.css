@@ -1,16 +1,15 @@
 
 #tableSensors {
-    font-size: 14px; /* Adjust the font size as needed */
-    margin-top: -20px; /* Adjust the margin as needed */
+    font-size: 14px;
 }
 
 #tableSensors thead th,
 #tableSensors tbody td {
-    padding: 6px 8px; /* Adjust the padding as needed */
+    padding: 6px 8px;
 }
 
 #tableSensors_wrapper {
-    max-width: 100%; /* Limit the width of the table container to the available width */
+    max-width: 100%;
  
 }
 
@@ -19,6 +18,11 @@
 *:after {
 box-sizing: border-box;
 }
+
+.container1 {
+    display: flex;
+}
+
 td {
 width: 1px;
 white-space: nowrap;
@@ -27,13 +31,12 @@ white-space: nowrap;
 float: right;
 margin-right: 3vh;
 margin-left: 20px;
-display: inline-block;
 }
 
 #alterarVista{
 width: 50px;
 height: 50px;
-background: url(images/graf.ico);
+background: url(../images/graf.ico);
 border: 1px solid #B4BBBB;
 border-radius: 3px;
 box-shadow: 0px 0px 1px lightgrey;
@@ -43,7 +46,7 @@ display: block;
 margin-top: 10px;
 width: 50px;
 height: 50px;
-background: url(images/back.png);
+background: url(../images/back.png);
 border: 1px solid #B4BBBB;
 border-radius: 3px;
 box-shadow: 0px 0px 1px lightgrey;
@@ -53,7 +56,7 @@ display: block;
 #botaodown{
 width: 50px;
 height: 50px;
-background: url(images/down_3.png);
+background: url(../images/down_3.png);
 border: 1px solid #B4BBBB;
 border-radius: 3px;
 box-shadow: 0px 0px 1px lightgrey;
@@ -70,6 +73,5 @@ outline: none;
 }
 #tableSensors_wrapper{
 height: 500px;
-margin-top: -50px; /* Adjust the value to move the table up (negative value moves it up) */
 padding: 0;
 }

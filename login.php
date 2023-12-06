@@ -38,20 +38,20 @@ if (isset($_SESSION['username'])) {
                                 <h2>Login</h2>
                                 <div class="input-box">
                                     <span class="icon"><i class='bx bxs-user-circle'></i></span>
-                                    <input type="email" name="username" required>
+                                    <input type="email" name="username" placeholder=" " required>
                                     <label>Email</label>
                                 </div>
                                 
                                 <div class="input-box">
                                     <span class="icon"><i class='bx bxs-lock-alt'></i></span>
-                                    <input type="password" name="password" required>
+                                    <input type="password" name="password" placeholder=" " required>
                                     <label>Password</label>
                                 </div>
                                 
                                 
                                 <button type="submit" class="btn" name="submit" value="Login">Iniciar Sessão</button>
                                 
-                                <button type="button" onclick="recuperarPass()" class="link"> Esqueceste-te da tua password? </button>                    
+                                <button type="button" onclick="recuperarPass()" class="link">Esqueceste-te da tua password?</button>                    
                             </form>
                         </div>
                         
@@ -68,13 +68,13 @@ if (isset($_SESSION['username'])) {
                                 
                                 <div class="input-box">
                                     <span class="icon"><i class='bx bxs-user-circle'></i></span>
-                                    <input type="email" required>
+                                    <input type="email" placeholder=" " required>
                                     <label>Email</label>
                                 </div>
                                 
                                 <button type="submit" class="btn">Recuperar Password</button>
                             </form>
-                            <button type="button" onclick="voltarLogin()" class="link"> Voltar </button>
+                            <button type="button" onclick="voltarLogin()" class="link">Voltar</button>
                         </div>
                     </div>
                 </div>

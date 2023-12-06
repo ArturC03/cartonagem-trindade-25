@@ -13,7 +13,7 @@ if (isset($_SESSION['username'])) {
         <label for="sensor" style="margin-top: 0px;">Nós da rede: </label>
         <?php 
 			        $consulta = mysqli_query($conn,"SELECT id_sensor FROM location WHERE location.status=1 GROUP BY id_sensor");
-			        echo "<br><select name='ids[]'  multiple onchange='limitarSelecoes(this, 2)' style='
+			        echo "<br><select name='ids[]' multiple onchange='limitarSelecoes(this, 2)' style='
               margin-left: 2px;'>";
 			        while ($resultado = mysqli_fetch_assoc($consulta)) {
                 echo "<option value=" . $resultado["id_sensor"] . ">" . $resultado["id_sensor"] . "</option>";
