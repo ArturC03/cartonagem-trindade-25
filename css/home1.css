@@ -1,0 +1,25 @@
+body{
+    width: 100%;
+}
+
+.graph-containers {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heatmap {
+    position: relative;
+}
+
+.buttonSensor.selected{
+    background-color: white;
+    color:#555555;
+}
+
+.typeButton.selected{
+    background-color: white;
+    color:#555555;
+    border:  2px solid #555555;
+}

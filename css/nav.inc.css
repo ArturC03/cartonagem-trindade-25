@@ -1,8 +1,15 @@
+body {
+  background-image: url('../images/cartonagem.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 .full-menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(105, 99, 87, 0.502);
+  background-color: rgba(105, 99, 87, 0.7);
   border-radius: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -83,7 +90,7 @@
 
 .dropdown-content {
   position: absolute;
-  background-color: rgba(105, 99, 87, 0.502);
+  background-color: rgba(105, 99, 87, 0.7);
   min-width: 230px;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -125,4 +132,8 @@
 
 .show {
   display: block;
+}
+
+.icons {
+  display: flex;
 }

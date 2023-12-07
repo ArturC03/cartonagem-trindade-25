@@ -236,8 +236,7 @@ if (isset($_SESSION['username'])) {
             $dbname = "plantdb";
             
             $con1 = new mysqli($servername, $username, $password, $dbname);
-            $sql1 = "SELECT grupo,id_sensor FROM location WHERE grupo != '0' GROUP BY grupo;
-                ";
+            $sql1 = "SELECT grupo,id_sensor FROM location WHERE grupo != '0' GROUP BY grupo;";
                 $result1 = $con1->query($sql1);
                 
                 if ($result1->num_rows > 0) {
