@@ -1,5 +1,16 @@
+body{
+    width: 100%;
+}
+
+.graph-containers {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .heatmap {
-    position: relative; /* Altera para posição relativa para manter as coordenadas relativas */
+    position: relative;
 }
 
 .buttonSensor.selected{
@@ -13,6 +24,16 @@
     border:  2px solid #555555;
 }
 
-body{
-    width: 100%;
+#canvasHeat {
+    width: 90vw;
+    height: 70vh;
+}
+
+#heatMap1 {
+    display: inline-block;
+    width: 90vw;
+    height: 70vh;
+    background-image: url("../images/plantaV3.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
