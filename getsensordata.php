@@ -13,6 +13,8 @@ $result = $conn->query("SELECT
     location.id_sensor,
     location.location_x,
     location.location_y,
+    location.size_x,
+    location.size_y,
     CAST(sensors.temperature AS SIGNED) AS temperatura_int,
     location.status,
     CAST(CONV(RIGHT(sensors.id_sensor, 2), 16, 10) AS SIGNED) AS id_sensor_decimal
@@ -50,6 +52,8 @@ while ($row = $result->fetch_assoc()) {
   $data[] = array(
     'x' => $row['location_x'],
     'y' => $row['location_y'],
+    'size_x' => $row['size_x'],
+    'size_y' => $row['size_y'],
     'value' => $row['temperatura_int'],
   );
 }

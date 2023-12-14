@@ -21,12 +21,14 @@ if (isset($_POST['completeYes'])) {
 	$id_sensor = $_POST['id'];
 	$location_x = $_POST['location_x'];
 	$location_y = $_POST['location_y'];
+    $size_x = $_POST['size_x'];
+    $size_y = $_POST['size_y'];
 	$sqlCheck = "SELECT id_sensor FROM location WHERE id_sensor='$id_sensor'";
 	$res = mysqli_query($conn, $sqlCheck);
     
     
 	if (mysqli_num_rows($res) > 0) {
-        $sql = "UPDATE `location` SET `location_x`='$location_x',`location_y`='$location_y' where `id_sensor` = '$id_sensor';";
+        $sql = "UPDATE `location` SET `location_x`='$location_x',`location_y`='$location_y',`size_x`='$size_x',`size_y`='$size_y' where `id_sensor` = '$id_sensor';";
         
 		if ($conn->query($sql) === TRUE) {
             echo "<script type='text/javascript'>
@@ -36,8 +38,8 @@ if (isset($_POST['completeYes'])) {
 		}
 	} else if (mysqli_num_rows($res) == 0) {
 
-        $sql = "INSERT INTO location (location_x, location_y, id_sensor) VALUES 
-			('$location_x', '$location_y','$id_sensor' )";
+        $sql = "INSERT INTO location (location_x, location_y, size_x, size_y, id_sensor) VALUES 
+			('$location_x', '$location_y', '$size_x', '$size_y', '$id_sensor' )";
 
 if ($conn->query($sql) === TRUE) {
     echo "<script type='text/javascript'>
@@ -57,6 +59,8 @@ if ($conn->query($sql) === TRUE) {
             <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
             <input type="hidden" name="location_x" id="location_x">
             <input type="hidden" name="location_y" id="location_y">
+            <input type="hidden" name="size_x" id="size_x">
+            <input type="hidden" name="size_y" id="size_y">
             
             <h2>Definir Localização para o nó <?php echo $_GET['id']; ?></h2>
         </div>
@@ -80,6 +84,7 @@ if ($conn->query($sql) === TRUE) {
     </form>
 
     <script src="js/EditLocation.js"></script>
+    <script src="js/setImageSize.js"></script>
 <?php
 include('footer.inc.php');
 }else{

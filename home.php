@@ -3,21 +3,25 @@ include('config.inc.php');
 include('header.inc.php');
 // include('monthdb.php');
 
-header("refresh: 10000;");  
+// header("refresh: 10000;");  
 
 ?>
 
 <div class="graph-containers">
-  <div id='heatMap1'>
-    <canvas id="canvasHeat"></canvas> 
-  </div>
+  <div id='heatMap1'></div>
   <div id='GradTemperature'>
 </div>
 
 <?php
   include('footer.inc.php');
 ?>
-<script> 
+<script>
+  const img_planta = document.getElementById('heatMap1');
+  const size_x = img_planta.offsetWidth;
+  const size_y = img_planta.offsetHeight;
+
+  console.log(size_x + 'x' + size_y);
+
   var heatmapInstance = h337.create({
     container: document.getElementById('heatMap1')
   });
@@ -31,13 +35,21 @@ header("refresh: 10000;");
       for (var i = 0; i < data1.data.length; i++) {
         {
           var point = {
-            x: data1.data[i].x,
-            y: data1.data[i].y,
+            x: (parseFloat(data1.data[i].x) * (size_x / parseFloat(data1.data[i].size_x))),
+            y: (parseFloat(data1.data[i].y) * (size_y / parseFloat(data1.data[i].size_y))),
             value: data1.data[i].value,
             radius: 25
           }
+
+          point.x = (Math.round(point.x*100)/100).toString();
+          point.y = (Math.round(point.y*100)/100).toString();
+
+          console.log(point.x, point.y, point.value);
+          console.log(size_x / parseFloat(data1.data[i].size_x));
+          console.log(size_y / parseFloat(data1.data[i].size_y));
           points.push(point);
         }
+        console.log(data1.data[i].size_x, data1.data[i].size_y);
       }
       var data_final = {
         min: 0,
@@ -172,71 +184,76 @@ header("refresh: 10000;");
 
 function renderTemperatures() {
   var GradTemperature = {
-                  "graphset": [
-        {
-            "type": "mixed",
-            "background-color":"none",
-            "scale-x":{
-                "visible":0
-            },
-            "scale-y":{
-                "guide":{
-                    "visible":0
-                },
-                "tick":{
-                    "line-color":"#A8A8A8",
-                    "line-width":1
-                },
-                "line-width":1,
-                "line-color":"#A8A8A8",
-                "values":"0:35:1",
-                "format":"%v°C",
-                "markers":[
-                    {
-                        "type":"line",
-                        "range":5
-                    }    
-                ]
-            },
-            "tooltip":{
-                "visible":0
-            },
-            
-            "plot":{
-                "bars-overlap":"100%",
-                "hover-state":{
-                    "visible":0
-                }
-            },
-            "series": [
-                {
-                    "type":"bar",
-                    "values": [35],
-                    "gradient-colors":"#e6e6ff #d4d4ff #b3c0f3 #99cdcc #80ea96 #80ff66 #a5ff4d #ddff33 #ffb91a #ff0300",
-                    "gradient-stops":"0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1",
-                    "fill-angle":-90
-                },
-                {
-                  "type":"scatter",
-                  "values":[actualTemperature],
-                  "marker":{
-                    "type":"rectangle",
-                    "height":3,
-                    "width":"20%"
-                  }
-                  },
-                    
-                  
-              ]
+    "graphset": [
+      {
+        "type": "mixed",
+        "background-color":"none",
+        "scale-x": {
+          "visible":0
+        },
+        "scale-y":{
+          "guide":{
+            "visible":0
+          },
+          "tick":{
+            "line-color":"#A8A8A8",
+            "line-width":1
+          },
+          "line-width":1,
+          "line-color":"#A8A8A8",
+          "values":"0:35:1",
+          "format":"%v°C",
+          "markers":[
+            {
+              "type":"line",
+              "range":5
+            }    
+          ]
+        },
+        "tooltip":{
+            "visible":0
+        }, 
+        "plot":{
+          "bars-overlap":"100%",
+          "hover-state":{
+            "visible":0
           }
-      ]
+        },
+        "series": [
+          {
+            "type":"bar",
+            "values": [35],
+            "gradient-colors":"#e6e6ff #d4d4ff #b3c0f3 #99cdcc #80ea96 #80ff66 #a5ff4d #ddff33 #ffb91a #ff0300",
+            "gradient-stops":"0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1",
+            "fill-angle":-90
+          },
+          {
+            "type":"scatter",
+            "values":[actualTemperature],
+            "marker":{
+              "type":"rectangle",
+              "height":3,
+              "width":"20%"
+            }
+          },        
+        ],
+        "gui":{
+          "contextMenu": {
+            "button": {
+              "visible": false
+            }
+          }
+        },
+      }
+    ]
   };
 
-    zingchart.render({ 
-        id : 'GradTemperature', 
-        data : GradTemperature, 
-        height: 600, 
-        width: 140
-    });
-  }
+  zingchart.render({ 
+      id : 'GradTemperature', 
+      data : GradTemperature, 
+      height: 600, 
+      width: 140
+  });
+  zingchart.bind('GradTemperature', 'contextmenu', function(p) { return false; });
+}
 </script>

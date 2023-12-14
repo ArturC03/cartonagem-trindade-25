@@ -1,0 +1,18 @@
+body {
+    width: 98%;
+    margin: 0;
+    padding-left: 1%;
+    padding-right: 1%;
+    background-image: url('../images/cartonagem.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
