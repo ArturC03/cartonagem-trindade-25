@@ -20,6 +20,32 @@
         <a href="editarTitulo.php">Alterar Título</a>
       </div>
     </div>
+    <div class="menu-mobile">
+      <div class="menu-mobile-item">
+        <?php
+        switch ($_SERVER['PHP_SELF']) {
+          case '/csvtools.php':
+            echo '<p id="dropbtn3-1">CSV</p>';
+            break;
+          case '/archive2.php':
+            echo '<p id="dropbtn3-1">Arquivo</p>';
+            break;
+          case '/home.php':
+            echo '<p id="dropbtn3-1">Home</p>';
+            break;
+          default:
+            echo '<p id="dropbtn3-1">Home</p>';
+            break;
+        }
+        ?>
+        <img src="images/down-arrow.svg" class="dropbtn" id="dropbtn3"></img>
+      </div>
+      <div class="dropdown-content" id="dropdown3">
+        <a href="home.php">Home</a>
+        <a href="archive2.php">Arquivo</a>
+        <a href="csvtools.php">CSV</a>
+      </div>
+    </div>
     <div>
       <img id="dropbtn2" class="dropbtn" src="images/user.svg" alt="">
       <div id="dropdown2" class="dropdown-content">

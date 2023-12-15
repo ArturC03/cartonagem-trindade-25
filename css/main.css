@@ -1,8 +1,11 @@
-body {
-    width: 98%;
+* { 
     margin: 0;
-    padding-left: 1%;
-    padding-right: 1%;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
     background-image: url('../images/cartonagem.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;

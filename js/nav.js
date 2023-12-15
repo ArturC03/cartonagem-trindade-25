@@ -3,11 +3,22 @@ window.onclick = function (event) {
     toggleDropdownContent("dropdown1");
     if (document.getElementById("dropdown2").classList.contains('show')) {
       document.getElementById("dropdown2").classList.remove('show');
+    } else if (document.getElementById("dropdown3").classList.contains('show')) {
+      document.getElementById("dropdown3").classList.remove('show');
     }
   } else if (event.target.matches('#dropbtn2')) {
     toggleDropdownContent("dropdown2");
     if (document.getElementById("dropdown1").classList.contains('show')) {
       document.getElementById("dropdown1").classList.remove('show');
+    } else if (document.getElementById("dropdown3").classList.contains('show')) {
+      document.getElementById("dropdown3").classList.remove('show');
+    }
+  } else if (event.target.matches('#dropbtn3') || event.target.matches('#dropbtn3-1')) {
+    toggleDropdownContent("dropdown3");
+    if (document.getElementById("dropdown1").classList.contains('show')) {
+      document.getElementById("dropdown1").classList.remove('show');
+    } else if (document.getElementById("dropdown2").classList.contains('show')) {
+      document.getElementById("dropdown2").classList.remove('show');
     }
   } else {
     closeAllDropdowns();

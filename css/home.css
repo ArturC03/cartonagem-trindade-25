@@ -3,6 +3,7 @@ body{
 }
 
 .graph-containers {
+    max-width: 99vw;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
