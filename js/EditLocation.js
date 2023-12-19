@@ -1,6 +1,8 @@
 const svg = document.querySelector('svg');
 const inputX = document.getElementById('location_x');
 const inputY = document.getElementById('location_y');
+var lastX = 0;
+var lastY = 0;
 
 svg.addEventListener('click', e => {
 const { pageX, pageY, currentTarget } = e;
@@ -10,7 +12,14 @@ const x = pageX - left - scrollX;
 const y = pageY - top - scrollY;
 const diameter = 20;
 
-svg.innerHTML = createCircle({ x, y }, diameter);
+if (svg.innerHTML.includes(createCircle({ x:lastX, y:lastY }, diameter))) {
+    svg.innerHTML = svg.innerHTML.replace(createCircle({ x:lastX, y:lastY }, diameter), '');
+}
+
+svg.innerHTML += createCircle({ x, y }, diameter);
+
+lastX = x;
+lastY = y;
 });
 
 function createCircle(center, diameter) {

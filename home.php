@@ -3,12 +3,16 @@ include('config.inc.php');
 include('header.inc.php');
 // include('monthdb.php');
 
-// header("refresh: 10000;");  
+header("refresh: 10000;");  
 
 ?>
 
 <div class="graph-containers">
-  <div id='heatMap1'></div>
+  <div id='heatMap1'>
+    <svg width="90vw" height="80vh" xmlns="http://www.w3.org/2000/svg">
+      <image id="image" width="90vw" height="80vh" href="images/plantaV3.png" />
+    </svg>
+  </div>
   <div id='GradTemperature'>
 </div>
 
@@ -16,6 +20,8 @@ include('header.inc.php');
   include('footer.inc.php');
 ?>
 <script>
+  window.onresize = function(){ location.reload(); }
+
   const img_planta = document.getElementById('heatMap1');
   const size_x = img_planta.offsetWidth;
   const size_y = img_planta.offsetHeight;
@@ -23,7 +29,7 @@ include('header.inc.php');
   console.log(size_x + 'x' + size_y);
 
   var heatmapInstance = h337.create({
-    container: document.getElementById('heatMap1')
+    container: document.getElementById('heatMap1'),
   });
 
   var points = [];
@@ -40,11 +46,8 @@ include('header.inc.php');
             value: data1.data[i].value,
             radius: 25
           }
-
-          point.x = (Math.round(point.x*100)/100).toString();
-          point.y = (Math.round(point.y*100)/100).toString();
-
-          console.log(point.x, point.y, point.value);
+          
+          console.log(point.x, point.y);
           console.log(size_x / parseFloat(data1.data[i].size_x));
           console.log(size_y / parseFloat(data1.data[i].size_y));
           points.push(point);
@@ -183,7 +186,80 @@ include('header.inc.php');
   renderTemperatures();
 
 function renderTemperatures() {
-  var GradTemperature = {
+  if (window.matchMedia("(max-width: 960px)").matches) {
+    var GradTemperature = {
+    "graphset": [
+      {
+        "type": "mixed",
+        "background-color":"none",
+        "scale-x": {
+          "guide":{
+            "visible":0
+          },
+          "tick":{
+            "line-color":"#A8A8A8",
+            "line-width":1
+          },
+          "line-width":1,
+          "line-color":"#A8A8A8",
+          "values":"0:35:1",
+          "format":"%v°C",
+          "markers":[
+            {
+              "type":"line",
+              "range":1
+            }    
+          ]
+        },
+        "scale-y":{
+          "visible":0
+        },
+        "tooltip":{
+            "visible":0
+        }, 
+        "plot":{
+          "bars-overlap":"100%",
+          "hover-state":{
+            "visible":0
+          }
+        },
+        "series": [
+          {
+            "type":"hbar",
+            "values": [35],
+            "gradient-colors":"#e6e6ff #d4d4ff #b3c0f3 #99cdcc #80ea96 #80ff66 #a5ff4d #ddff33 #ffb91a #ff0300",
+            "gradient-stops":"0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1",
+            "fill-angle":0
+          },
+          {
+            "type":"scatter",
+            "values":[actualTemperature],
+            "marker":{
+              "type":"rectangle",
+              "height":"20%",
+              "width":3
+            }
+          },        
+        ],
+        "gui":{
+          "contextMenu": {
+            "button": {
+              "visible": false
+            }
+          }
+        },
+      }
+    ]
+  };
+
+  zingchart.render({ 
+    id : 'GradTemperature', 
+    data : GradTemperature, 
+    height: 140, 
+    width: size_y
+  });
+  } else {
+    var GradTemperature = {
     "graphset": [
       {
         "type": "mixed",
@@ -247,13 +323,14 @@ function renderTemperatures() {
       }
     ]
   };
-
+  
   zingchart.render({ 
-      id : 'GradTemperature', 
-      data : GradTemperature, 
-      height: 600, 
-      width: 140
+    id : 'GradTemperature', 
+    data : GradTemperature, 
+    height: size_y, 
+    width: 140
   });
+}
   zingchart.bind('GradTemperature', 'contextmenu', function(p) { return false; });
 }
 </script>

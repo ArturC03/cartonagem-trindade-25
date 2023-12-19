@@ -76,9 +76,9 @@ if ($conn->query($sql) === TRUE) {
                 $y = $row['location_y'];
             }
             ?>
-            <div class="image">
-                <svg xmlns="http://www.w3.org/2000/svg"></svg>
-            </div>
+            <svg width="90vw" height="80vh" xmlns="http://www.w3.org/2000/svg">
+                <image id="image" width="90vw" height="80vh" href="images/plantaV3.png" />
+            </svg>
         </div>
         <input class="btn btn-success" type="submit" id="submit" name="completeYes" value="Guardar">    
     </form>
