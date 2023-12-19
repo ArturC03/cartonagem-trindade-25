@@ -23,13 +23,13 @@ if (isset($_SESSION['username'])) {
         }
       }
     
-    if(isset($_POST['submeter'])){
+    if(isset($_POST['submit'])){
       $sensores= "('$id1', '$id2', '$id3')";
-      $dataMinima= "".$_POST["text2"];
-      $dataMaxima= "".$_POST["text3"];
+      $dataMinima= "".$_POST["mindate"];
+      $dataMaxima= "".$_POST["maxdate"];
       
-      $horaMinima= $_POST["hora1"];
-      $horaMaxima= $_POST["hora2"];
+      $horaMinima= $_POST["mintime"];
+      $horaMaxima= $_POST["maxtime"];
       
       $timestamp= strtotime($dataMaxima);
       $timestamp2= strtotime($dataMinima);
@@ -232,7 +232,7 @@ fclose($file);
           } 
           function back(){
             
-            window.location.href = "archive2.php";
+            window.location.href = "archive.php";
           }
           $(document).ready(function() {
             $('#tableSensors').DataTable(

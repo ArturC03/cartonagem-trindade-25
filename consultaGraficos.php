@@ -706,7 +706,7 @@ socket.emit('dbRequest', sensorId);
     }
     function back(){
       
-      window.location.href = "archive2.php";//archive2.php é a nova versão da página com todas as atualizações
+      window.location.href = "archive.php";
     }
   </script>
    <?php

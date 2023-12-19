@@ -4,7 +4,7 @@
   <div class="menu">
     <ul>
       <li><a href="home.php">Home</a></li>
-      <li><a href="archive2.php">Arquivo</a></li>
+      <li><a href="archive.php">Arquivo</a></li>
       <li><a href="csvtools.php">CSV</a></li>
     </ul>
   </div>
@@ -27,7 +27,7 @@
           case '/csvtools.php':
             echo '<p id="dropbtn3-1">CSV</p>';
             break;
-          case '/archive2.php':
+          case '/archive.php':
             echo '<p id="dropbtn3-1">Arquivo</p>';
             break;
           case '/home.php':
@@ -42,7 +42,7 @@
       </div>
       <div class="dropdown-content" id="dropdown3">
         <a href="home.php">Home</a>
-        <a href="archive2.php">Arquivo</a>
+        <a href="archive.php">Arquivo</a>
         <a href="csvtools.php">CSV</a>
       </div>
     </div>
