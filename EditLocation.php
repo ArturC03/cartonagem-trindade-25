@@ -76,6 +76,11 @@ if ($conn->query($sql) === TRUE) {
         ?>
         <svg width="90vw" height="80vh" xmlns="http://www.w3.org/2000/svg">
             <image id="image" width="90vw" height="80vh" href="images/plantaV3.png" />
+            <?php
+            if ($x != null && $y != null) {
+                echo '<circle id="circle" cx="' . $x . '" cy="' . $y . '" r="10" fill="red" />';
+            }
+            ?>
         </svg>
     </div>
     <button type="submit" id="submit" name="completeYes" value="Guardar"><a href="#"><span>Guardar</span></a></button>   
