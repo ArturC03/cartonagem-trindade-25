@@ -7,19 +7,13 @@ if (isset($_SESSION['username'])) {
 if(isset($_POST['submeter2'])){
   require('connect.inc.php');
   $site_title = $_POST['tit'];
-
-  $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-  if ($mysqli->connect_errno) { 
-    echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
-    exit();
-  }
   
   $sql = "INSERT into titulo values(null, '$site_title');";  
-  $conn->query($sql);
-  if ($conn->query($sql) === TRUE) {
+  $mysqli->query($sql);
+  if ($mysqli->query($sql) === TRUE) {
     echo "<br><p>Titulo atualizado.</p>";
   } else {
-    echo "Erro na criação de novo título! Tente outra vez! "  . $conn->error;
+    echo "Erro na criação de novo título! Tente outra vez! "  . $mysqli->error;
   } 
   
   echo "<br><br><a id='voltar' href='home.php'> Voltar </a>";

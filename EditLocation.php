@@ -5,18 +5,8 @@ if (isset($_SESSION['username'])) {
     include('header.inc.php');
 
 if (isset($_POST['completeYes'])) {
+    require 'connect.inc.php';
 
-    $servername = "localhost";
-	$username = "root";
-	$password = "";
-	$dbname = "plantdb";
- 
-	// Create connection
-	$conn = new mysqli($servername, $username, $password, $dbname);
-	// Check connection
-	if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-	}
 	$id_exists = false;
 	$id_sensor = $_POST['id'];
 	$location_x = $_POST['location_x'];
@@ -24,29 +14,29 @@ if (isset($_POST['completeYes'])) {
     $size_x = $_POST['size_x'];
     $size_y = $_POST['size_y'];
 	$sqlCheck = "SELECT id_sensor FROM location WHERE id_sensor='$id_sensor'";
-	$res = mysqli_query($conn, $sqlCheck);
+	$res = mysqli_query($mysqli, $sqlCheck);
     
     
 	if (mysqli_num_rows($res) > 0) {
         $sql = "UPDATE `location` SET `location_x`='$location_x',`location_y`='$location_y',`size_x`='$size_x',`size_y`='$size_y' where `id_sensor` = '$id_sensor';";
         
-		if ($conn->query($sql) === TRUE) {
+		if ($mysqli->query($sql) === TRUE) {
             echo "<script type='text/javascript'>
             window.location = 'manageSensors.php';</script>";
 		} else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: " . $sql . "<br>" . $mysqli->error;
 		}
 	} else if (mysqli_num_rows($res) == 0) {
 
         $sql = "INSERT INTO location (location_x, location_y, size_x, size_y, id_sensor) VALUES 
 			('$location_x', '$location_y', '$size_x', '$size_y', '$id_sensor' )";
 
-if ($conn->query($sql) === TRUE) {
+if ($mysqli->query($sql) === TRUE) {
     echo "<script type='text/javascript'>
     alert('Nova localização adicionada com sucesso!')
     window.location = 'manageSensors.php';</script>";
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $sql . "<br>" . $mysqli->error;
 }
 }
 }
@@ -64,9 +54,7 @@ if ($conn->query($sql) === TRUE) {
     </div>
     <div>
         <?php
-        require 'connect.inc.php';
         $id = $_GET['id'];
-        $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
         $sqlC = "SELECT location_x,location_y  FROM location WHERE id_sensor='$id'";
         $result = $mysqli->query($sqlC);
         while ($row = mysqli_fetch_array($result)) {

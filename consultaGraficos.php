@@ -168,13 +168,6 @@ body{
         <?php
     
     require 'connect.inc.php';
-    //error_reporting(0); 
-    $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-    
-    if ($mysqli->connect_errno) { 
-      echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
-      exit();
-    }
     
         $a= $_GET['sensor'];
         $b= $_GET['comp'];

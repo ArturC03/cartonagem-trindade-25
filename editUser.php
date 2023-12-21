@@ -7,150 +7,105 @@ if (isset($_SESSION['username'])) {
 	$id = $_GET['id'];
 
 if(isset($_POST['completeYes'])) {
-	
-	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$dbname = "plantdb";
-	
-	// Create connection
-		$conn = new mysqli($servername, $username, $password, $dbname);
-    	// Check connection
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		} 
-		$id_exists = false;
-		
-		$username = $_POST['username'];
-		
-		$pass = $_POST['psw'] ; 
-		
-		$email = $_POST['email'] ; 
-		$userType = $_POST['permitions'];
-		
-		if (is_null($pass))
-		{
-			$sql = "UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType' WHERE user_id='$id'";
-			
-			if ($conn->query($sql) === TRUE) {
-				
-				echo "<script type='text/javascript'>
-				alert('Dados de utilizador atualizados com sucesso!')
-				window.location = 'manageUser.php';</script>";
+	require 'connect.inc.php';
 
-			} else {
-				//echo "erro na alteração da password! Tente outra vez! "  . $conn->error;
-				header("location:editUser.php?msg=failed");
-			} 
-			//header("location:editarDados.php?msg=failed");
-			//echo "erro na alteração da password! Tente outra vez! "  . $conn->error;
-			//header("location:editarDados.php?msg=failed");
-			
+	$id_exists = false;
+	$username = $_POST['username'];
+	$pass = $_POST['psw'] ; 
+	$email = $_POST['email'] ; 
+	$userType = $_POST['permitions'];
+	
+	if (is_null($pass))
+	{
+		$sql = "UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType' WHERE user_id='$id'";
+		
+		if ($mysqli->query($sql) === TRUE) {
+			echo "<script type='text/javascript'>
+			alert('Dados de utilizador atualizados com sucesso!')
+			window.location = 'manageUser.php';</script>";
 		} else {
-			$password = sha1($pass);
-			$sql = "UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType', `password`='$password' WHERE user_id='$id'";
-			
-			
-			if ($conn->query($sql) === TRUE) {
-				
-				echo "<script type='text/javascript'>
-				alert('Dados de utilizador atualizados com sucesso!!')
-				window.location = 'manageUser.php';</script>";
-				
-			} else {
-				//echo "erro na alteração da password! Tente outra vez! "  . $conn->error;
-				header("location:editUser.php?msg=failed");
-			} 
-
-
-		} 
+			header("location:editUser.php?msg=failed");
+		}	
+	} else {
+		$password = sha1($pass);
+		$sql = "UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType', `password`='$password' WHERE user_id='$id'";
 		
-	} 
-	
-	?>
+		if ($mysqli->query($sql) === TRUE) {
+			echo "<script type='text/javascript'>
+			alert('Dados de utilizador atualizados com sucesso!!')
+			window.location = 'manageUser.php';</script>";
+		} else {
+			header("location:editUser.php?msg=failed");
+		} 
+	} 		
+} 
+?>
 
-	<body>
-		<div class="container-fluid page-container" >
-			<div class="row dashboard-container" >
-
-				<div class="col-12" style="margin-top: 2%;">
-					<div class="row dashboard-rows"> 
-						<div class="col-md-12 pr-md-1" >
-							<?php
-							require 'connect.inc.php';
-        					//error_reporting(0); 
-							$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-							
-							if ($mysqli->connect_errno) {
-								echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
-								exit();
-							}
-							
-							$query2 = "SELECT * FROM users where user_id='$id';";  
-							
-							$result = $mysqli->query($query2);
-							while($row = mysqli_fetch_array($result))  
-							{ 
-								
-								
-								
+	<div class="container-fluid page-container" >
+		<div class="row dashboard-container" >
+			<div class="col-12" style="margin-top: 2%;">
+				<div class="row dashboard-rows"> 
+					<div class="col-md-12 pr-md-1" >
+						<?php
+						$query2 = "SELECT * FROM users where user_id='$id';";  
+						
+						$result = $mysqli->query($query2);
+						while($row = mysqli_fetch_array($result))  
+						{ 
+						?>
+						<form method="post" class="modal-content" enctype="multipart/form-data" action="changeUser.php" onsubmit="return confirm('Pretende alterar os dados de utilizador?');">
+							<div class="container">
+								<h1>Alterar dados de Utilizador</h1>
+								<input type="hidden" name="id" value="<?php echo $_GET['id'];?>">
+								<hr>
+								<?php
+								if (isset($_GET["msg"]) && $_GET["msg"] == 'failed') {
+									echo '<span style="color: red;">ERRO A ALTERAR OS DADOS!!!</span>';
+								} 
 								?>
+								<label for="email"><b>Username</b></label>
+								<input type="text" value="<?php echo $row['username'];?>" placeholder="Inserir Username" name="username" id="username" required>
 
-							<form method="post" class="modal-content" enctype="multipart/form-data" action="changeUser.php" onsubmit="return confirm('Pretende alterar os dados de utilizador?');">
-								<div class="container">
-									<h1>Alterar dados de Utilizador</h1>
-									<input type="hidden" name="id" value="<?php echo $_GET['id'];?>">
-									<hr>
-									<?php
-									if (isset($_GET["msg"]) && $_GET["msg"] == 'failed') {
-										echo '<span style="color: red;">ERRO A ALTERAR OS DADOS!!!</span>';
-									} 
-									?>
-									<label for="email"><b>Username</b></label>
-									<input type="text" value="<?php echo $row['username'];?>" placeholder="Inserir Username" name="username" id="username" required>
+								<label for="email"><b>Email</b></label>
+								<input type="email" value="<?php echo $row['email'];?>" placeholder="Inserir Email" name="email" id="email" required>
 
-									<label for="email"><b>Email</b></label>
-									<input type="email" value="<?php echo $row['email'];?>" placeholder="Inserir Email" name="email" id="email" required>
-
-									<label for="psw"><b>Alterar Password</b></label><br>
-									&nbsp;&nbsp;&nbsp;<input type="checkbox" onclick="SeePass()"> Ver Password<br>
-									<input type="password" placeholder="Inserir Password" name="psw" id="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  >
-									
-									<p id="text" style="display:none; color:red;">CUIDADO! Caps lock Ligado.</p>
-									<div id="message">
-										<h3>A Password deve conter os seguintes requisitos:</h3>
-										<p id="capital" class="invalid">Uma letra maiúscula</p>
-										<p id="letter" class="invalid">Uma letra minúscula</p>
-										<p id="number" class="invalid">Um Número</p>
-										<p id="length" class="invalid">Pelo menos 8 caracteres</p>
-									</div>
-
-									<label for="psw-repeat"><b>Confirmar Nova Password</b></label>
-									<input type="password" placeholder="Confirmar Password" name="psw-repeat" id="psw-repeat" >
-									<p id="text2" style="display:none; color:red;">CUIDADO! Caps lock Ligado.</p>
-									<label><b>Atribuir permissões de administrador?</b></label><br>
+								<label for="psw"><b>Alterar Password</b></label><br>
+								&nbsp;&nbsp;&nbsp;<input type="checkbox" onclick="SeePass()"> Ver Password<br>
+								<input type="password" placeholder="Inserir Password" name="psw" id="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"  >
 								
-									<input type="radio" class="permitions" id="permitions-1" name="permitions" value="1" <?php if ($row['user_type']== '1') echo "checked";?>>Sim<br>
-									<input type="radio" class="permitions" id="permitions-0" name="permitions" value="0" <?php if ($row['user_type']== '0') echo "checked";?>>Não<br>
-									<br>
-
-									<br>
-
-									<div class="clearfix">
-										<div class="botaoutl" style="text-align: center; width: 100%">
-											<input class="btn btn-success" width="200px;" type="submit" id="submit" name="completeYes" value="Editar">
-										</div><br>
-									</div>
+								<p id="text" style="display:none; color:red;">CUIDADO! Caps lock Ligado.</p>
+								<div id="message">
+									<h3>A Password deve conter os seguintes requisitos:</h3>
+									<p id="capital" class="invalid">Uma letra maiúscula</p>
+									<p id="letter" class="invalid">Uma letra minúscula</p>
+									<p id="number" class="invalid">Um Número</p>
+									<p id="length" class="invalid">Pelo menos 8 caracteres</p>
 								</div>
-							</form>
 
-						</div>
+								<label for="psw-repeat"><b>Confirmar Nova Password</b></label>
+								<input type="password" placeholder="Confirmar Password" name="psw-repeat" id="psw-repeat" >
+								<p id="text2" style="display:none; color:red;">CUIDADO! Caps lock Ligado.</p>
+								<label><b>Atribuir permissões de administrador?</b></label><br>
+							
+								<input type="radio" class="permitions" id="permitions-1" name="permitions" value="1" <?php if ($row['user_type']== '1') echo "checked";?>>Sim<br>
+								<input type="radio" class="permitions" id="permitions-0" name="permitions" value="0" <?php if ($row['user_type']== '0') echo "checked";?>>Não<br>
+								<br>
+
+								<br>
+
+								<div class="clearfix">
+									<div class="botaoutl" style="text-align: center; width: 100%">
+										<input class="btn btn-success" width="200px;" type="submit" id="submit" name="completeYes" value="Editar">
+									</div><br>
+								</div>
+							</div>
+						</form>
 					</div>
-					
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
 <?php } ?>
 

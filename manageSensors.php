@@ -23,12 +23,6 @@ if (isset($_SESSION['username'])) {
 				</thead>   
 				<?php  
 				require 'connect.inc.php';
-				$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-				
-				if ($mysqli->connect_errno) {
-					echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
-					exit();
-				}
 				
 				$query = "SELECT DISTINCT l.id_sensor , IF(l.location_x IS NULL,'Localização Por Definir','Localização Definida') as location, l.status FROM location l";
 				

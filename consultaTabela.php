@@ -134,12 +134,6 @@ if (isset($_SESSION['username'])) {
                 <tbody>
                      <?php
                         require 'connect.inc.php';
-                        $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
-
-                        if ($mysqli->connect_errno) {
-                            echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
-                            exit();
-                        }
 
                         $mesMaxPesquisa= $mesMaxPesquisa +1;
 
@@ -156,7 +150,7 @@ if (isset($_SESSION['username'])) {
                             
                             $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
                             
-                            $result = $conn->query($sql);
+                            $result = $mysqli->query($sql);
                             
                             while($row = mysqli_fetch_array($result))  
                             { 
@@ -196,7 +190,7 @@ if (isset($_SESSION['username'])) {
                         }
 
                         $sq1="SELECT id_sensor,hour,date,temperature,humidity,pressure,eCO2,eTVOC from sensors where id_sensor in $sensores order by date ASC";
-                        $result2=mysqli_query($conn,$sq1);
+                        $result2=mysqli_query($mysqli,$sq1);
                         $fileName = 'download/dados.csv';
                         // Abre o arquivo para escrita
                         $file = fopen($fileName, 'w');
