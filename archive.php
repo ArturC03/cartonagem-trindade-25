@@ -3,6 +3,7 @@ include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
   include('header.inc.php');
+  require('connect.inc.php');
 ?>
     <div class="main-container">
         <form action="consultaTabela1.php" method="POST" class="search"> 
@@ -13,7 +14,7 @@ if (isset($_SESSION['username'])) {
             <label for="searchnos">Nós</label>
             <select class="searchnos" name="ids[]" id="" multiple required>
                 <?php 
-                $consulta = mysqli_query($conn,"SELECT id_sensor FROM location WHERE location.status=1 GROUP BY id_sensor");
+                $consulta = $mysqli->query("SELECT id_sensor FROM location WHERE location.status=1 GROUP BY id_sensor");
                 while ($resultado = mysqli_fetch_assoc($consulta)) {
                     echo "<option value=" . $resultado["id_sensor"] . ">" . $resultado["id_sensor"] . "</option>";
                 }
