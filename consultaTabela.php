@@ -4,73 +4,68 @@ include('config.inc.php');
 if (isset($_SESSION['username'])) {
     include('header.inc.php');
 
-    $id1=null;
-    $id2=null;
-    $id3=null;
-    if(isset($_POST["ids"])){ 
-      $idsSelecionados = $_POST["ids"]; // array de IDs selecionados
-      $numIdsSelecionados = count($idsSelecionados); // número de IDs selecionados
-      
-      // armazenar os IDs individualmente em variáveis
-      if($numIdsSelecionados >= 1){
-        list($id1) = $idsSelecionados;
-      }
-      if($numIdsSelecionados >= 2){
-        list($id1, $id2) = $idsSelecionados;
+    $ids = array();
+    if(isset($_POST["ids"])){
+        $idsSelecionados = $_POST["ids"];
+        
+        foreach($idsSelecionados as $id){
+            array_push($ids, $id);
         }
-        if($numIdsSelecionados >= 3){
-          list($id1, $id2, $id3) = $idsSelecionados;
-        }
-      }
+    }
     
     if(isset($_POST['submit'])){
-      $sensores= "('$id1', '$id2', '$id3')";
-      $dataMinima= "".$_POST["mindate"];
-      $dataMaxima= "".$_POST["maxdate"];
-      
-      $horaMinima= $_POST["mintime"];
-      $horaMaxima= $_POST["maxtime"];
-      
-      $timestamp= strtotime($dataMaxima);
-      $timestamp2= strtotime($dataMinima);
-      
-      $dataMinima= date("y-m-d", $timestamp2);
-      $dataMaxima= date("y-m-d", $timestamp);
-      
-      $comprimento= strlen($sensores);
-      
-      If($comprimento==3){
-          $sensores= "";
+        $sensores= "";
+        foreach($ids as $id){
+            $sensores= $sensores. "('".$id."',";
         }
+        $sensores= substr($sensores, 0, -1);
+        $sensores= $sensores.")";
+
+        $dataMinima= "".$_POST["mindate"];
+        $dataMaxima= "".$_POST["maxdate"];
         
+        $horaMinima= $_POST["mintime"];
+        $horaMaxima= $_POST["maxtime"];
+        
+        $timestamp= strtotime($dataMaxima);
+        $timestamp2= strtotime($dataMinima);
+        
+        $dataMinima= date("y-m-d", $timestamp2);
+        $dataMaxima= date("y-m-d", $timestamp);
+        
+        $comprimento= strlen($sensores);
+        
+        if($comprimento==3){
+            $sensores= "";
+        }
     
         $comp2= "".strlen($horaMinima);
         $comp3= "".strlen($horaMaxima);
         
         if($comp2==0 && $comp3==0){
-          $comp2= "s.hour BETWEEN '00:00' and '23:59' AND ";
+            $comp2= "s.hour BETWEEN '00:00' and '23:59' AND ";
         }elseif($comp2==0 && $comp3 <> 0){
-          $comp2= "s.hour BETWEEN '00:00' and '".$horaMaxima."' and ";
+            $comp2= "s.hour BETWEEN '00:00' and '".$horaMaxima."' and ";
         }elseif($comp2 <> 0 && $comp3 <> 0){
-          $comp2= "s.hour BETWEEN '".$horaMinima."' and '".$horaMaxima."' AND ";
+            $comp2= "s.hour BETWEEN '".$horaMinima."' and '".$horaMaxima."' AND ";
         }else{
-          $comp2= "s.hour BETWEEN '".$horaMinima."' and '23:59' AND ";
+            $comp2= "s.hour BETWEEN '".$horaMinima."' and '23:59' AND ";
         }
         
         $datas= "s.date BETWEEN '".$dataMinima."' and '".$dataMaxima."' AND ";        
-      }
-      $timestamp= strtotime($dataMaxima);
-      $timestamp2= strtotime($dataMinima);
-      
-      $diaMinPesquisa= date('d', $timestamp2);
-      $mesMinPesquisa= date('m', $timestamp2);
-      $anoMinPesquisa= date('y', $timestamp2);
-      
-      $diaMaxPesquisa= date('d', $timestamp);
-      $mesMaxPesquisa= date('m', $timestamp);
-      $anoMaxPesquisa= date('y', $timestamp);
-      
-      $diaAtual= date('d');
+    }
+    $timestamp= strtotime($dataMaxima);
+    $timestamp2= strtotime($dataMinima);
+    
+    $diaMinPesquisa= date('d', $timestamp2);
+    $mesMinPesquisa= date('m', $timestamp2);
+    $anoMinPesquisa= date('y', $timestamp2);
+    
+    $diaMaxPesquisa= date('d', $timestamp);
+    $mesMaxPesquisa= date('m', $timestamp);
+    $anoMaxPesquisa= date('y', $timestamp);
+    
+    $diaAtual= date('d');
     $mesAtual= date('m');
     $anoAtual= date('y');
 
@@ -78,188 +73,181 @@ if (isset($_SESSION['username'])) {
     
     if($anoMaxPesquisa == $anoAtual){
       $i= $mesAtual-$mesMaxPesquisa;
-    }
-
+    }     
     ?>
-    <div class="container1">
-      <div class="container">
-        <table  id="tableSensors" class="table table-striped table-bordered" style="border: 0px;">  
-          <thead class="thead-dark">  
-            <tr>    
-              <th>Id</th>
-              <th>Hora</th>
-              <th>Data</th>
-              <th>Temperatura(°C)</th>
-              <th>Humidade(%)</th>
-              <th>Pressão(HPA)</th>
-              <th>CO2(PPM)</th>
-              <th>TVOC(PPB)</th>
-            </tr>  
-          </thead>  
-          
-          
-          <tbody> 
-            <?php  
+    <main class="table">
+        <section class="table_header"> 
+            <h1 class="title">Consulta</h1>    
+            <div class="input-group">
+                <input type="search" placeholder="Procurar dados...">
+                <img src="images/search.svg" alt="">
+            </div>
+            <div class="radio-inputs">
+                <label class="radio">
+                    <input type="radio" name="column" value="0" checked>
+                    <span class="name">ID</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="1">
+                    <span class="name">Hora</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="2">
+                    <span class="name">Data</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="3">
+                    <span class="name">Temperatura (ºC)</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="4">
+                    <span class="name">Humidade (%)</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="5">
+                    <span class="name">Pressão (HPA)</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="6">
+                    <span class="name">CO2 (PPM)</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="7">
+                    <span class="name">TVOC (PPB)</span>
+                </label>
+            </div>
+        </section>
+        <section class="table_body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Hora</th>
+                        <th>Data</th>
+                        <th>Temperatura (ºC)</th>
+                        <th>Humidade (%)</th>
+                        <th>Pressão (HPA)</th>
+                        <th>CO2 (PPM)</th>
+                        <th>TVOC (PPB)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <?php
+                        require 'connect.inc.php';
+                        $mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
 
-require 'connect.inc.php';
-$mysqli = new mysqli("$servername", "$username", "$password", "$dbname");
+                        if ($mysqli->connect_errno) {
+                            echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
+                            exit();
+                        }
 
-if ($mysqli->connect_errno) {
-  echo "<p>MySQL error no {$mysqli->connect_errno} : {$mysqli->connect_error}</p>";
-  exit();
-}
+                        $mesMaxPesquisa= $mesMaxPesquisa +1;
 
-$mesMaxPesquisa= $mesMaxPesquisa +1;
+                        while($mesMinPesquisa <> $mesMaxPesquisa){
+                            $dataMensal= "20".$anoMinPesquisa."-".$mesMinPesquisa."-01";
+                            $dataMensal= strtotime($dataMensal);
+                            
+                            $dbname2= $anoMinPesquisa."_".date('M', $dataMensal);
+                            
+                            if($mesMinPesquisa == 12){
+                            $anoMinPesquisa++;
+                            $mesMinPesquisa = 0;
+                            }
+                            
+                            $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
+                            
+                            $result = $conn->query($sql);
+                            
+                            while($row = mysqli_fetch_array($result))  
+                            { 
+                            echo '  
+                            <tr>  
+                            <td>'. $row["id_sensor"]. '</td>
+                            <td>'. $row["hour"]. ' </td>
+                            <td>'. $row["date"]. ' </td>
+                            <td>'. ltrim($row["temperature"],'0'). '</td>
+                            <td>'. ltrim($row["humidity"],'0'). ' </td>
+                            <td>'. ltrim($row["pressure"],'0'). ' </td>
+                            <td>'. ltrim($row["eCO2"],'0'). ' </td>
+                            <td>'. ltrim($row["eTVOC"],'0'). ' </td>
+                            ';              
+                            }
+                            
+                            if($diaMaxPesquisa == $diaAtual){
+                            $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
+                            $result = $mysqli->query($sql);
+                            
+                            while($row = mysqli_fetch_array($result))  
+                            {   
+                                echo '  
+                                <tr>  
+                                <td>'. $row["id_sensor"]. '</td>
+                                <td>'. $row["hour"]. ' </td>
+                                <td>'. $row["date"]. ' </td>
+                                <td>'. ltrim($row["temperature"],'0'). '</td>
+                                <td>'. ltrim($row["humidity"],'0'). ' </td>
+                                <td>'. ltrim($row["pressure"],'0'). ' </td>
+                                <td>'. ltrim($row["eCO2"],'0'). ' </td>
+                                <td>'. ltrim($row["eTVOC"],'0'). ' </td>
+                                ';
+                            }        
+                            }
+                            $mesMinPesquisa++;
+                        }
 
-while($mesMinPesquisa <> $mesMaxPesquisa){
-  
-  $dataMensal= "20".$anoMinPesquisa."-".$mesMinPesquisa."-01";
-  $dataMensal= strtotime($dataMensal);
-  
-  $dbname2= $anoMinPesquisa."_".date('M', $dataMensal);
-  
-  
-  if($mesMinPesquisa == 12){
-    $anoMinPesquisa++;
-    $mesMinPesquisa = 0;
-  }
-  
-  $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
-  
-  $result = $conn->query($sql);
-  
-  while($row = mysqli_fetch_array($result))  
-  { 
-    
-    echo '  
-    <tr *ngFor="let sensor of sensorInfo.data |filter : term| paginate: { itemsPerPage: 4, currentPage: p }">  
-    <td>'. $row["id_sensor"]. '</td>
-    <td>'. $row["hour"]. ' </td>
-    <td>'. $row["date"]. ' </td>
-    <td>'. ltrim($row["temperature"],'0'). '</td>
-    <td>'. ltrim($row["humidity"],'0'). ' </td>
-    <td>'. ltrim($row["pressure"],'0'). ' </td>
-    <td>'. ltrim($row["eCO2"],'0'). ' </td>
-    <td>'. ltrim($row["eTVOC"],'0'). ' </td>
-    ';              
-  }
-  
-  if($diaMaxPesquisa == $diaAtual){
-    $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
-    $result = $mysqli->query($sql);
-    
-    while($row = mysqli_fetch_array($result))  
-    { 
-      
-      echo '  
-      <tr *ngFor="let sensor of sensorInfo.data |filter : term| paginate: { itemsPerPage: 4, currentPage: p }">  
-      <td>'. $row["id_sensor"]. '</td>
-      <td>'. $row["hour"]. ' </td>
-      <td>'. $row["date"]. ' </td>
-      <td>'. ltrim($row["temperature"],'0'). '</td>
-      <td>'. ltrim($row["humidity"],'0'). ' </td>
-      <td>'. ltrim($row["pressure"],'0'). ' </td>
-      <td>'. ltrim($row["eCO2"],'0'). ' </td>
-      <td>'. ltrim($row["eTVOC"],'0'). ' </td>
-      ';
-    }        
-  }
-  $mesMinPesquisa++;
-}
-
-$sq1="SELECT id_sensor,hour,date,temperature,humidity,pressure,eCO2,eTVOC from sensors where id_sensor in $sensores order by date ASC";
-$result2=mysqli_query($conn,$sq1);
-$fileName = 'dados.csv';
-// Abre o arquivo para escrita
-$file = fopen($fileName, 'w');
-fputcsv($file, array('id_sensors', 'Hora', 'Data', 'Temperatura', 'Humidade','Pressão','CO2','TVOC'),';');
-while ($row = mysqli_fetch_array($result2,MYSQLI_NUM)) {
-  $formattedTemperature = ltrim(sprintf("%.3f", $row[3]), '0');
-  $row[3] = $formattedTemperature;
-  $formattedHumidity = ltrim(sprintf("%.3f", $row[4]), '0');
-  $row[4] = $formattedHumidity;
-  
-  // Formata a pressão
-  $formattedPressure = ltrim(sprintf("%.3f", $row[5]), '0');
-  $row[5] = $formattedPressure;
-  
-  fputcsv($file, $row,';');
-}
-@header('Content-Type: text/csv');
-@header('Content-Disposition: attachment; filename="' . $fileName . '"');
-fclose($file);
-
-
-?> 
-            </tbody>  
-          </table>  
-          
-          <table cellspacing="0" cellpadding="0" border="">
-            <tbody>
-              <tr>
-                <td class="gutter">
-                  <div class="line number1 index0 alt2" style="display: none;">1</div>
-                </td>
-                <td class="code">
-                  <div class="container" style="display: none;">
-                    <div class="line number1 index0 alt2" style="display: none;">&nbsp;</div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <br>
-        </div>
+                        $sq1="SELECT id_sensor,hour,date,temperature,humidity,pressure,eCO2,eTVOC from sensors where id_sensor in $sensores order by date ASC";
+                        $result2=mysqli_query($conn,$sq1);
+                        $fileName = 'download/dados.csv';
+                        // Abre o arquivo para escrita
+                        $file = fopen($fileName, 'w');
+                        fputcsv($file, array('id_sensors', 'Hora', 'Data', 'Temperatura', 'Humidade','Pressão','CO2','TVOC'),';');
+                        while ($row = mysqli_fetch_array($result2,MYSQLI_NUM)) {
+                            $formattedTemperature = ltrim(sprintf("%.3f", $row[3]), '0');
+                            $row[3] = $formattedTemperature;
+                            $formattedHumidity = ltrim(sprintf("%.3f", $row[4]), '0');
+                            $row[4] = $formattedHumidity;
+                            
+                            // Formata a pressão
+                            $formattedPressure = ltrim(sprintf("%.3f", $row[5]), '0');
+                            $row[5] = $formattedPressure;
+                            
+                            fputcsv($file, $row,';');
+                        }
+                        @header('Content-Type: text/csv');
+                        @header('Content-Disposition: attachment; filename="' . $fileName . '"');
+                        fclose($file);
+                    ?>
+                </tbody>
+            </table>
+        </section>
         
-        <div class="botao">
-        <button id="alterarVista" name="botaoAlterarVista" value="submeter" class="button" onclick="altera2()"></button>
+        <section class="button-container">
+            <button class="learn-more" onclick="window.location.href='consultaGraficos.php';">
+                <div class="circle">
+                    <div class="icon arrow"></div>
+                </div>
+                <span class="button-text">Gráficos</span>
+            </button>
+            <a href="download/dados.csv" download>
+                <button class="learn-more">
+                    <div class="circle">
+                        <div class="icon arrow"></div>
+                    </div>
+                    <span class="button-text">Obter CSV</span>
+                </button>
+            </a>
+            <button class="learn-more" onclick="window.location.href='archive.php';">
+                <div class="circle">
+                    <div class="icon arrow"></div>
+                </div>
+                <span class="button-text">Voltar</span>
+            </button>
+        </section>
+    </main>
         
-        <a href="dados.csv" download><button type="button" id="botaodown" class="button"></button></a>
-        
-        <button id="botaoBack" type="button" name="botaoBack" class="button" onclick="back()"></button><br>
-        
-      </div>
-      </div>
-        <br>
-        
-        
-        <script>
-          function altera2(){
-            
-            window.location.href = "consultaGraficos.php?sensor=<?php echo urlencode($sensores);?>";
-            
-            
-          } 
-          function back(){
-            
-            window.location.href = "archive.php";
-          }
-          $(document).ready(function() {
-            $('#tableSensors').DataTable(
-              {
-                searching: false,
-                pageLength: 16,
-                lengthMenu: false,
-                "language": {
-                  "lengthMenu": "",
-                  "zeroRecords": "Nothing found - sorry",
-                  "info": "página _PAGE_ de _PAGES_",
-                  "infoEmpty": "No records available",
-                  "infoFiltered": "(filtered from _MAX_ total records)",
-                  "paginate": {
-          "first":      "First",
-          "last":       "Last",
-         "next":       "próxima",
-        "previous":   "anterior"
-        }
-      }
+    <script src="js/consultaTabela.js"></script>
+    <?php
+    include('footer.inc.php');
+    }else{
+      header('Location: login.php');
     }
-    );
-
-  } );
-    </script>
-<?php
-  include('footer.inc.php');
-}else{
-  header('Location: login.php');
-}
