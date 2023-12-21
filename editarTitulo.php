@@ -22,14 +22,16 @@ if(isset($_POST['submeter2'])){
   ?>
 
 
-<div class="asd">
+<main class="table">
   <form name="form01" method="POST" action="editarTitulo.php">
-    <label for="tit">Novo Título: </label> <br>
-    <input type="text" id="tit" name="tit" required placeholder="Título" maxlength="30"> <br>
-    <input type="reset" id="reset">
-    <input type="submit" id="submit" name="submeter2">
+    <label for="tit">Novo Título: </label>
+    <input type="text" id="tit" name="tit" required placeholder="Título" maxlength="30">
+    <div>
+      <input type="reset" id="reset">
+      <input type="submit" id="submit" name="submeter2">
+    </div>
   </form>
-</div>
+</main>
 <?php
 }
 ?>

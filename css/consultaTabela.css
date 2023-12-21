@@ -1,8 +1,5 @@
-main {
-    font-family: sans-serif;
-}
-
 main.table {
+    font-family: sans-serif;
     width: 90vw;
     max-width: 1200px;
     height: 85vh;

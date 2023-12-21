@@ -1,8 +1,5 @@
-main {
-    font-family: sans-serif;
-}
-
 main.table {
+    font-family: sans-serif;
     width: 90vw; 
     max-width: 1200px; 
     height: 85vh;
@@ -188,8 +185,7 @@ td {
     font-weight: 600;
     transition: background-color 0.4s;
 }
- 
- 
+
 button {
     position: relative;
     display: flex;
