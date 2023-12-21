@@ -7,25 +7,26 @@ if (isset($_SESSION['username'])) {
 ?>
 <div class="container">   
     <div class="sensor-container">
-        <p>Grupos</p>
-        <?php
+        <h2>Grupos</h2>
+        <section class="table_body">
+            <?php
             $sql = "SELECT grupo+1 AS grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location GROUP BY grupo;";
             
             $result = $mysqli->query($sql);
-
+            
             $gruposSensores = array();
             
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     $grupo = $row["grupo"];
                     $sensors = $row["id_sensors"];
-
+                    
                     if (!isset($gruposSensores[$grupo])) {
                         $gruposSensores[$grupo] = array();
                     }
-
+                    
                     $sensor = explode(",", $sensors);
-
+                    
                     foreach ($sensor as $s) {
                         if (!in_array($s, $gruposSensores[$grupo])) {
                             $gruposSensores[$grupo][] = $s;
@@ -34,9 +35,12 @@ if (isset($_SESSION['username'])) {
                 }
             }
             
-            echo '<table border="1">';
+            echo '<table>';
+            echo '<thead>';
             echo '<tr><th>Grupo</th><th>Sensores</th></tr>';
+            echo '</thead>';
             
+            echo '<tbody>';
             foreach ($gruposSensores as $grupo => $sensores) {
                 echo '<tr>';
                 echo '<td>' . $grupo . '</td>';
@@ -44,16 +48,17 @@ if (isset($_SESSION['username'])) {
                 echo '</tr>';
             }
             
+            echo '</tbody>';
             echo '</table>';
             
-        ?>    
+            ?>    
+        </section>
     </div> 
-    <br>
-        <form action="gerar_csv.php" method="post">
+    <form action="gerar_csv.php" method="post">
         <div class="sensor-container">
-            Selecione o grupo<br>
+            <h2>Selecione o grupo</h2>
             <select name="grupo">
-            <?php
+                <?php
             foreach ($gruposSensores as $grupo => $sensores) {
                 echo '<option value="' . $grupo . '">Grupo ' . $grupo . '</option>';
             }
@@ -75,7 +80,6 @@ if (isset($_SESSION['username'])) {
                     echo '<input type="checkbox" class="checkbox" name="sensores[]" value="' . $row['id_sensor'] . '">';
                     echo '<label class="sensor-name">' . $row['id_sensor'] . '</label>';
                     echo '</div>';
-                    echo '<br>';
                 }
             } else {
                 echo "Nenhum sensor encontrado.";
@@ -87,30 +91,7 @@ if (isset($_SESSION['username'])) {
         <button type="submit" class="btn-success" id="meuBotao">Agendar CSV</button>      
     </form>
 </div>
-<script>
-$(document).ready(function() {
-    // Função para carregar a lista de sensores ao carregar a página
-    function loadSensorList(grupo) {
-        $.ajax({
-            type: 'POST',
-            url: 'atualizar_sensores.php',
-            data: { grupo: grupo-1 },
-            success: function(response) {
-                $('.sensor-update').html(response);
-            }
-        });
-    }
-
-    // Carregar a lista de sensores quando a página for carregada
-    loadSensorList($('select[name="grupo"]').val());
-
-    // Lidar com a mudança na seleção de grupo
-    $('select[name="grupo"]').change(function() {
-        var selectedGrupo = $(this).val();
-        loadSensorList(selectedGrupo);
-    });
-});
-</script>
+<script src="js/csvtools.js"></script>
 <?php
     include('footer.inc.php');
 }else{
