@@ -3,39 +3,26 @@ include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
     include('header.inc.php');
+    require 'connect.inc.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['sensores'])) {
             ob_clean();
             // Processar a geração do CSV aqui
             $sensoresSelecionados = $_POST['sensores'];
-            
-            // Conexão com o banco de dados 
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "plantdb";
-            
-            $conn = new mysqli($servername, $username, $password, $dbname);
+            array_splice($sensoresSelecionados, 0, 1);
 
-            if ($conn->connect_error) {
-                die("Falha na conexão: " . $conn->connect_error);
-            }
-            
             // Consulta SQL para selecionar os dados dos sensores escolhidos
             // Calcula a data de agora
-            $current_date = date('Y-m-d');
-            $current_time = date('H:i:s');
-            
-            // Calcula a data e hora de ontem à mesma hora
-            $yesterday_datetime = date('Y-m-d', strtotime('-1 day')) . ' ' . $current_time;
+            $min_datetime = $_POST['horaMinima'];
+            $max_datetime = $_POST['horaMaxima'];
             
             // Sua consulta SQL
-            $sql = "SELECT id_sensor, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
+            $sql = "SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
             FROM sensors
             WHERE id_sensor IN (" . implode(',', $sensoresSelecionados) . ")
-            AND ((date = '$current_date' AND hour <= '$current_time') OR (date = '$current_date' AND hour >= '$yesterday_datetime'))";
-            $result = $conn->query($sql);
+            AND (date >= DATE('$min_datetime') AND date <= DATE('$max_datetime') AND hour >= TIME('$min_datetime') AND hour <= TIME('$max_datetime'))";
+            $result = $mysqli->query($sql);
             
             if ($result->num_rows > 0) {
                 // Nome do arquivo CSV
@@ -47,235 +34,192 @@ if (isset($_SESSION['username'])) {
                 $header = ["ID do Sensor", "Hora","Temperatura (°C)", "Umidade (%)", "Pressão (hPa)", "Altitude (m)", "eCO2", "eTVOC"];
                 fputcsv($csvFile, $header);
                 
-            while ($row = $result->fetch_assoc()) {
-                // Formate os dados conforme necessário
-                $formattedData = [
-                    $row['id_sensor'],
-                    $row['hour'],
-                    $row['temperature'],
-                    $row['humidity'],
-                    $row['pressure'],
-                    $row['altitude'],
-                    $row['eCO2'],
-                    $row['eTVOC']
-                ];
+                while ($row = $result->fetch_assoc()) {
+                    // Formate os dados conforme necessário
+                    $formattedData = [
+                        $row['id_sensor'],
+                        $row['hour'],
+                        $row['temperature'],
+                        $row['humidity'],
+                        $row['pressure'],
+                        $row['altitude'],
+                        $row['eCO2'],
+                        $row['eTVOC']
+                    ];
+                    fputcsv($csvFile, $formattedData);
+                }
+                // Escreve os dados no CSV
+                while ($row = $result->fetch_assoc()) {
+                    fputcsv($csvFile, $row);
+                }
                 
-                fputcsv($csvFile, $formattedData);
+                // Fecha o arquivo CSV
+                fclose($csvFile);
+                
+                // Define os cabeçalhos para download
+                header('Content-Type: text/csv');
+                header('Content-Disposition: attachment; filename="' . $filename . '"');
+                
+                // Lê e envia o arquivo CSV para o cliente
+                readfile($filename);
+            } else {
+                echo "Nenhum dado encontrado para os sensores selecionados.";
+                echo $min_datetime;
+                echo $max_datetime;
+                print_r($sensoresSelecionados);
             }
-            // Escreve os dados no CSV
-            while ($row = $result->fetch_assoc()) {
-                fputcsv($csvFile, $row);
-            }
-            
-            // Fecha o arquivo CSV
-            fclose($csvFile);
-            
-            // Define os cabeçalhos para download
-            header('Content-Type: text/csv');
-            header('Content-Disposition: attachment; filename="' . $filename . '"');
-            
-            // Lê e envia o arquivo CSV para o cliente
-            readfile($filename);
+            exit();
         } else {
-            echo "Nenhum dado encontrado para os sensores selecionados.";
+            echo "Nenhum dado encontrado para os grupos selecionados.";
+            echo $min_datetime;
+            echo $max_datetime;
+            print_r($sensoresSelecionados);
         }
-        
-        $conn->close();
         exit();
-    } elseif (isset($_POST['grupos'])) {
-        // Mapeamento de grupos para nomes de arquivo
-        $grupoNomesArquivo = [
-            1 => "data_zona1",
-            2 => "data_zona2",
-            3 => "data_zona3",
-            4 => "data_zona4",
-            5 => "data_zona5",
-            6 => "data_zona6",
-            7 => "data_zona7",
-            8 => "data_zona8"
-        ];
-        
-        // Processar a geração do CSV aqui
-        $gruposSelecionados = $_POST['grupos'];
-        
-        // Conexão com o banco de dados
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "plantdb";
-        
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        
-        if ($conn->connect_error) {
-            die("Falha na conexão: " . $conn->connect_error);
-        }
-        
-        // Consulta SQL para selecionar os sensores dos grupos escolhidos
-        // Calcula o tempo atual
-        $current_time = date('H:i:s');
-        
-    // Calcula o tempo 24 horas atrás
-    $twentyFourHoursAgo = date('H:i:s', strtotime('-24 hours'));
-
-    // Sua consulta SQL
-    // Calcula a data e hora de agora
-    $current_date = date('Y-m-d');
-    $current_time = date('H:i:s');
-
-    // Calcula a data de ontem à mesma hora
-    $yesterday_date = date('Y-m-d', strtotime('-1 day'));
-
-    // Sua consulta SQL
-    $sql = "SELECT l.grupo,s.hour,s.id_sensor, s.temperature, s.humidity, s.pressure, s.altitude, s.eCO2, s.eTVOC, s.date, s.hour
-            FROM location l
-            INNER JOIN sensors s ON l.id_sensor = s.id_sensor
-            WHERE l.grupo IN (" . implode(',', $gruposSelecionados) . ")
-            AND (
-                (s.date = '$current_date' AND s.hour <= '$current_time') OR
-                (s.date = '$yesterday_date' AND s.hour >= '$current_time')
-                )";$result = $conn->query($sql);
-                
-                if ($result->num_rows > 0) {
-                    // Verifica se o grupo existe no mapeamento
-                    foreach ($gruposSelecionados as $grupo) {
-                        if (array_key_exists($grupo, $grupoNomesArquivo)) {
-                            // Nome do arquivo CSV
-                            $filename = $grupoNomesArquivo[$grupo] . ".csv";
-                            
-                            // Cria um arquivo CSV
-                            $csvFile = fopen($filename, 'w');
-                            
-                            $header = ["Grupo","Hora", "ID do Sensor", "Temperatura (°C)", "Umidade (%)", "Pressão (hPa)", "Altitude (m)", "eCO2", "eTVOC"];
-                            fputcsv($csvFile, $header);
-                            
-                        while ($row = $result->fetch_assoc()) {
-                            if ($row['grupo'] == $grupo) {
-                                // Formate os dados conforme necessário
-                                $formattedData = [
-                                    $row['grupo'],
-                                    $row['hour'],
-                                    $row['id_sensor'],
-                                    $row['temperature'],
-                                    $row['humidity'],
-                                    $row['pressure'],
-                                    $row['altitude'],
-                                    $row['eCO2'],
-                                    $row['eTVOC']
-                                ];
-                                
-                                fputcsv($csvFile, $formattedData);
-                            }
+    } else {
+?>
+<div class="container">   
+    <div class="sensor-container">
+        <h2>Grupos</h2>
+        <section class="table_body">
+            <?php
+            $sql = "SELECT grupo+1 AS grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location GROUP BY grupo;";
+            
+            $result = $mysqli->query($sql);
+            
+            $gruposSensores = array();
+            
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $grupo = $row["grupo"];
+                    $sensors = $row["id_sensors"];
+                    
+                    if (!isset($gruposSensores[$grupo])) {
+                        $gruposSensores[$grupo] = array();
+                    }
+                    
+                    $sensor = explode(",", $sensors);
+                    
+                    foreach ($sensor as $s) {
+                        if (!in_array($s, $gruposSensores[$grupo])) {
+                            $gruposSensores[$grupo][] = $s;
                         }
-                        
-                        // Fecha o arquivo CSV
-                        fclose($csvFile);
-                        
-                        // Define os cabeçalhos para download
-                        header('Content-Type: text/csv');
-                        header('Content-Disposition: attachment; filename="' . $filename . '"');
-                        
-                        // Lê e envia o arquivo CSV para o cliente
-                        readfile($filename);
-                    } else {
-                        echo "Nome do grupo não mapeado para arquivo.";
                     }
                 }
-            } else {
-                echo "Nenhum dado encontrado para os grupos selecionados.";
             }
             
-            $conn->close();
-            exit();
-        }
-    }
-    ?>
-        <div class="container">
-            <h1>Selecione os Sensores</h1>
-            <form action="" method="post" class="form-container">
-            <div class="sensor-container row">
+            echo '<table>';
+            echo '<thead>';
+            echo '<tr><th>Grupo</th><th>Sensores</th></tr>';
+            echo '</thead>';
+            
+            echo '<tbody>';
+            foreach ($gruposSensores as $grupo => $sensores) {
+                echo '<tr>';
+                echo '<td>' . $grupo . '</td>';
+                echo '<td>' . implode(", ", $sensores) . '</td>';
+                echo '</tr>';
+            }
+            echo '</tbody>';
+            echo '</table>';
+            
+            ?>    
+        </section>
+    </div>
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <div class="sensor-container">
+            <h2>Selecione o Grupo</h2>
+            <select name="grupo">
                 <?php
-                // Conexão com o banco de dados 
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "plantdb";
-                
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                if ($conn->connect_error) {
-                    die("Falha na conexão: " . $conn->connect_error);
+                foreach ($gruposSensores as $grupo => $sensores) {
+                    echo '<option value="' . $grupo . '">Grupo ' . $grupo . '</option>';
                 }
-                
-                // Consulta SQL para obter a lista de sensores
-                $sql = "SELECT id_sensor FROM sensors GROUP BY id_sensor";
-                $result = $conn->query($sql);
+                ?>
+            </select>
+            <div class="sensor-update">
+                <label class="check-container">
+                    <input type="checkbox" name="todos" id="todos" value="Selecionar Tudo">
+                    <div class="checkmark"></div>
+                    <span>Selecionar todos</span>
+                </label>
+                <?php
+                $sql = "SELECT location.id_sensor, location.location_x,location.location_y, CAST(CONV(RIGHT(sensors.id_sensor, 2), 16, 10) AS SIGNED) AS id_sensor_decimal,sensors.Active
+                FROM location
+                INNER JOIN sensors ON 
+                location.id_sensor = sensors.id_sensor
+                where location.grupo=$grupo GROUP BY location.id_sensor";
+
+                $result = $mysqli->query($sql);
                 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo '<div class="col-md-2 form-check">'; // Col-md-4 para criar três colunas
-                        echo '<input type="checkbox" class="form-check-input" name="sensores[]" value="' . $row['id_sensor'] . '">';
-                        echo '<label class="form-check-label">' . $row['id_sensor'] . '</label>';
-                        echo '</div>';
+                        echo '<label class="check-container">';
+                        echo '<input type="checkbox" class="checkbox" name="sensores[]" value="' . $row['id_sensor'] . '">';
+                        echo '<div class="checkmark"></div>';
+                        echo '<span>' . $row['id_sensor'] . '</span>';
+                        echo '</label>';
                     }
                 } else {
                     echo "Nenhum sensor encontrado.";
                 }
-                
-                $conn->close();
                 ?>
-                <button type="submit" class="btn btn-primary mt-3">Gerar CSV</button>    
-            </form>
             </div>
-            <form action="" method="post" class="form-container">
-            <div class="sensor-container row">
-                Geração Por Grupos
-            <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "plantdb";
-            
-            $con1 = new mysqli($servername, $username, $password, $dbname);
-            $sql1 = "SELECT grupo,id_sensor FROM location WHERE grupo != '0' GROUP BY grupo;";
-                $result1 = $con1->query($sql1);
-                
-                if ($result1->num_rows > 0) {
-                    while ($row1 = $result1->fetch_assoc()) {
-                        echo '<div class="col-md-2 form-check">'; // Col-md-4 para criar três colunas
-                        echo '<input type="checkbox" class="form-check-input grupoCheckbox" name="grupos[]" value="' . $row1['grupo'] . '">';
-                        echo '<label class="form-check-label">' . $row1['grupo'] . '</label>';
-                        echo '</div>';
-                    }
-                } else {
-                    echo "Nenhum sensor encontrado.";
-                }
-                
-                $con1->close();
-                ?>
-                <button type="submit2" class="btn btn-primary mt-3">Gerar CSV por Grupo</button>  
-            </form>
-        </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const checkboxes = document.querySelectorAll(".grupoCheckbox");
+            <h2>Período</h2>
+            <input type="datetime-local" name="horaMinima" id="horaMinima" step="1">
+            <input type="datetime-local" name="horaMaxima" id="horaMaxima" step="1">
+            <button type="submit" class="btn-success" id="meuBotao">Gerar CSV</button>      
+        </div>        
+        </form>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    // Função para carregar a lista de sensores ao carregar a página
+    function loadSensorList(grupo) {
+        $.ajax({
+            type: 'POST',
+            url: 'atualizar_sensores.php',
+            data: { grupo: grupo-1 },
+            success: function(response) {
+                $('.sensor-update').html(response);
+            }
+        });
+    }
 
-                checkboxes.forEach(function (checkbox) {
-                    checkbox.addEventListener("change", function () {
-                        if (this.checked) {
-                            // Desmarcar os outros checkboxes
-                            checkboxes.forEach(function (otherCheckbox) {
-                                if (otherCheckbox !== checkbox) {
-                                    otherCheckbox.checked = false;
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-        </script>
+    // Carregar a lista de sensores quando a página for carregada
+    loadSensorList($('select[name="grupo"]').val());
+
+    // Lidar com a mudança na seleção de grupo
+    $('select[name="grupo"]').change(function() {
+        var selectedGrupo = $(this).val();
+        $("#todos").prop("checked", false);
+        loadSensorList(selectedGrupo);
+    });
+
+    
+    $(document).on('click', 'input[type="checkbox"]', function () {
+        if (!this.checked) {
+            $("#todos").prop("checked", false);
+        }
+        
+        if ($('input[type="checkbox"]:not(#todos):checked').length == $('input[type="checkbox"]').length - 1 && !$("#todos").is(":checked") && $(this).attr("id") != "todos") {
+            $("#todos").prop("checked", true);
+        }
+    });
+
+    $(document).on('click', "#todos", function(){
+        if ($(this).is(":checked")){
+            $(".checkbox").prop("checked", true);
+        } else {
+            $(".checkbox").prop("checked", false);
+        }
+    });
+});
+</script>
+
 <?php
     include('footer.inc.php');
-
+    }
 }else{
     header('Location: login.php');
 }

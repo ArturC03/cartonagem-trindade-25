@@ -3,41 +3,34 @@ include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
     include('header.inc.php');
+    require 'connect.inc.php';
 ?>
 <div class="container">   
-<div class="sensor-container row">
-<p>Grupos</p>
-<?php
-            // Conexão com o banco de dados 
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "plantdb";
+    <div class="sensor-container">
+        <p>Grupos</p>
+        <?php
+            $sql = "SELECT grupo+1 AS grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location GROUP BY grupo;";
             
-            $conn = new mysqli($servername, $username, $password, $dbname);
+            $result = $mysqli->query($sql);
 
-            if ($conn->connect_error) {
-                die("Falha na conexão: " . $conn->connect_error);
-            } 
-            $sql = "SELECT location.grupo, location.id_sensor, sensors.id_sensor FROM location INNER JOIN sensors ON location.id_sensor = sensors.id_sensor where location.gerar=1 group by sensors.id_sensor ";
-            
-            $result = $conn->query($sql);
-            
-            // Um array para armazenar os grupos e seus sensores
             $gruposSensores = array();
             
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     $grupo = $row["grupo"];
-                    $sensor = $row["id_sensor"];
-                    
-                    // Verifica se o grupo já existe no array
+                    $sensors = $row["id_sensors"];
+
                     if (!isset($gruposSensores[$grupo])) {
                         $gruposSensores[$grupo] = array();
                     }
-                    
-                    // Adicione o sensor ao grupo
-                    $gruposSensores[$grupo][] = $sensor;
+
+                    $sensor = explode(",", $sensors);
+
+                    foreach ($sensor as $s) {
+                        if (!in_array($s, $gruposSensores[$grupo])) {
+                            $gruposSensores[$grupo][] = $s;
+                        }
+                    }
                 }
             }
             
@@ -53,68 +46,47 @@ if (isset($_SESSION['username'])) {
             
             echo '</table>';
             
-            ?>    
+        ?>    
     </div> 
     <br>
-        <form action="gerar_csv.php" method="post" class="form-container">
-        <div class="sensor-container row">
+        <form action="gerar_csv.php" method="post">
+        <div class="sensor-container">
             Selecione o grupo<br>
             <select name="grupo">
-            <option value="1">Grupo 1</option>
-            <option value="2">Grupo 2</option>
-            <option value="3">Grupo 3</option>
-            <option value="4">Grupo 4</option>
-            <option value="5">Grupo 5</option>
-            <option value="6">Grupo 6</option>
-            </select>
-            <div class="sensor-update row">
             <?php
-            // Conexão com o banco de dados 
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "plantdb";
-            
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            
-            if ($conn->connect_error) {
-                die("Falha na conexão: " . $conn->connect_error);
+            foreach ($gruposSensores as $grupo => $sensores) {
+                echo '<option value="' . $grupo . '">Grupo ' . $grupo . '</option>';
             }
-            
-            // Consulta SQL para obter a lista de sensores
-            $sql1 = "SELECT id_sensor FROM sensors GROUP BY id_sensor";
-            $sql = "SELECT  location.id_sensor, location.location_x,location.location_y, CAST(CONV(RIGHT(sensors.id_sensor, 2), 16, 10) AS SIGNED) AS id_sensor_decimal,sensors.Active
-        FROM 
-            location
-        INNER JOIN 
-            sensors 
-        ON 
+            ?>
+            </select>
+            <div class="sensor-update">
+            <?php
+            $sql = "SELECT location.id_sensor, location.location_x,location.location_y, CAST(CONV(RIGHT(sensors.id_sensor, 2), 16, 10) AS SIGNED) AS id_sensor_decimal,sensors.Active
+            FROM location
+            INNER JOIN sensors ON 
             location.id_sensor = sensors.id_sensor
             where location.grupo=$grupo GROUP BY location.id_sensor";
-            $result = $conn->query($sql);
+
+            $result = $mysqli->query($sql);
             
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    echo '<div class="col-md-2 form-check">'; // Col-md-4 para criar três colunas
-                    echo '<input type="checkbox" class="form-check-input" name="sensores[]" value="' . $row['id_sensor'] . '">';
-                    echo '<label class="form-check-label">' . $row['id_sensor'] . '</label>';
+                    echo '<div>';
+                    echo '<input type="checkbox" class="checkbox" name="sensores[]" value="' . $row['id_sensor'] . '">';
+                    echo '<label class="sensor-name">' . $row['id_sensor'] . '</label>';
                     echo '</div>';
                     echo '<br>';
                 }
             } else {
                 echo "Nenhum sensor encontrado.";
             }
-            
-            $conn->close();
-            
             ?>          
-            </div>
-            <p>Hora a definir</p>
-            <input type="datetime-local"style="width:123px" name="horaSelecionada" id="horaSelecionada" step="1">  
-           <button type="submit" class="btn btn-primary mt-3" id="meuBotao">Agendar CSV</button>      
+        </div>
+        <p>Hora a definir</p>
+        <input type="datetime-local" name="horaSelecionada" id="horaSelecionada" step="1">  
+        <button type="submit" class="btn-success" id="meuBotao">Agendar CSV</button>      
     </form>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</div>
 <script>
 $(document).ready(function() {
     // Função para carregar a lista de sensores ao carregar a página
@@ -122,7 +94,7 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
             url: 'atualizar_sensores.php',
-            data: { grupo: grupo },
+            data: { grupo: grupo-1 },
             success: function(response) {
                 $('.sensor-update').html(response);
             }

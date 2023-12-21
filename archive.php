@@ -6,7 +6,7 @@ if (isset($_SESSION['username'])) {
   require('connect.inc.php');
 ?>
     <div class="main-container">
-        <form action="consultaTabela1.php" method="POST" class="search"> 
+        <form action="consultaTabela.php" method="POST" class="search"> 
             <div class="title">
                 <h1>Arquivo</h1>
             </div>
