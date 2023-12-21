@@ -20,7 +20,7 @@ main.table {
     text-align: center;
     width: 100%;
     height: 10%;
-    background-color: #fff4;
+    background-color: rgba(105, 99, 87, 0.7);
     padding: .8rem 2rem;
     display: flex;
     justify-content: space-between;
