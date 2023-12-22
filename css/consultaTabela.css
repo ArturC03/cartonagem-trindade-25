@@ -1,7 +1,6 @@
 main.table {
     font-family: sans-serif;
-    width: 90vw;
-    max-width: 1200px;
+    width: 98vw;
     height: 85vh;
     background-color: #fff5;
     -webkit-backdrop-filter: blur(7px);
@@ -18,7 +17,7 @@ main.table {
     width: 100%;
     height: 10%;
     background-color: #fff4;
-    padding: .8rem 2rem;
+    padding: .8rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -76,8 +75,7 @@ tbody tr:hover {
 }
 
 .table_header .input-group {
-    width: 25%;
-    max-width: 200px; 
+    width: 50%; 
     height: 100%;
     background-color: rgba(219, 219, 219, 0.333);
     padding: 0 .8rem;
@@ -104,7 +102,7 @@ tbody tr:hover {
 }
 
 .table_header .input-group:hover {
-    width: 30%;
+    width: 50%;
     background-color: #fff7;
     box-shadow: 0 .1rem .4rem #0002;
 }
@@ -149,8 +147,7 @@ td {
     justify-content: center;
     flex-wrap: wrap;
     padding: 0.25rem;
-    font-size: 12px;
-    margin-top: auto;
+    font-size: 9px;
 }
 
 .radio-inputs .radio {
@@ -285,15 +282,6 @@ button {
 }
 
 @media screen and (max-width: 1195px) {
-    .table_header .input-group {
-        width: 10%;
-        max-width: none;
-    }
-
-    .table_header .input-group:hover {
-        width: 12%;
-    }
-    
     .table_header .input-group input::placeholder {
         color: transparent;
     }
@@ -304,7 +292,6 @@ button {
 
     .radio-inputs {
         padding: 0em;
-        font-size: 9px;
     }
 
     .title{

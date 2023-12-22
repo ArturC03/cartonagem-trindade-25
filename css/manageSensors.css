@@ -77,8 +77,7 @@ tbody tr:hover {
 }
  
 .table_header .input-group {
-    width: 25%;
-    max-width: 200px;
+    width: 50%;
     height: 100%;
     background-color: rgba(219, 219, 219, 0.333);
     padding: 0 .8rem;
@@ -105,7 +104,7 @@ tbody tr:hover {
 }
  
 .table_header .input-group:hover {
-    width: 30%;
+    width: 55%;
     background-color: #fff7;
     box-shadow: 0 .1rem .4rem #0002;
 }
@@ -155,7 +154,6 @@ td {
     flex-wrap: wrap;
     padding: 0.25rem;
     font-size: 12px;
-    margin-top: auto;
 }
  
 .radio-inputs .radio {
@@ -330,15 +328,10 @@ a, a:link, a:visited, a:hover, a:active {
 }
  
 @media screen and (max-width: 1195px) {
-    .table_header .input-group {
-        width: 10%;
-        max-width: none;
-    }
- 
     .table_header .input-group:hover {
-        width: 12%;
+        width: 50%;
     }
-   
+    
     .table_header .input-group input::placeholder {
         color: transparent;
     }
