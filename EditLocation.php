@@ -66,7 +66,7 @@ if ($mysqli->query($sql) === TRUE) {
             <image id="image" width="90vw" height="80vh" href="images/plantaV3.png" />
             <?php
             if ($x != null && $y != null) {
-                echo '<circle id="circle" cx="' . $x . '" cy="' . $y . '" r="10" fill="red" />';
+                echo '<circle id="circle" cx="' . $x . '" cy="' . $y . '" r="10" fill="#FF5733" />';
             }
             ?>
         </svg>

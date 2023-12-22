@@ -4,59 +4,79 @@ include('config.inc.php');
 if (isset($_SESSION['username'])) {
 	include('header.inc.php');
 ?>
-	<script type="text/javascript">
-		$(function() {
-			$('td a#a_id').click(function() {
-				return confirm("Are You sure that You want to delete this?");
-			});
-		});
-	</script>
-	<br><br>
-	<div class="container">
+    <script src="js/manageUser.js"></script>
+    <main class="table">
+        <section class="table_header">
+            <h1 class="title">Gerir Utilizadores</h1>    
+            <div class="input-group">
+                <input type="search" placeholder="Procurar dados...">
+                <img src="images/search.svg" alt="">
+            </div>
+            <div class="radio-inputs">
+                <label class="radio">
+                    <input type="radio" name="column" value="0" checked>
+                    <span class="name">Utilizador</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="1">
+                    <span class="name">Email</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="2">
+                    <span class="name">Permissões</span>
+                </label>
+            
+            </div>
+        </section>
+        
+        <section class="table_body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Utilizador</th>
+                        <th>Email</th>
+                        <th>Permissões</th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php  
+                        require 'connect.inc.php';
+                        
+                        $query = "SELECT user_id, username, email,  IF(user_type = '1','Admin','Utilizador') as permissoes FROM users";  
+                        
+                        $result = $mysqli->query($query);
+                        while($row = mysqli_fetch_array($result))  
+                        {   
+                            echo '  
+                            <tr> 
+                            <td>'. $row["username"]. '</td>
+                            <td>'. $row["email"]. '</td>  
+                            <td>'. $row["permissoes"]. '</td> 
+                            <td>
+                            <div class="button-container">
+                            <a type="button" class="edit" href="editUser.php?id='. $row["user_id"].'" >Editar</a>
+                            <a type="button" class="edit delete" id="a_id" href="deleteUser.php?id='. $row["user_id"].'" >Eliminar</a>
+                            </div>
+                            </td>  
+                            </tr>  
+                            ';  
+                        }  
+					?>
+                </tbody>
+            </table>
+        </section>
+        <button class="learn-more" onclick="window.location.href='AddUser.php';">
+            <div class="circle">
+                <div class="icon arrow"></div>
+            </div>
+            <span class="button-text">Add User</span>
+        </button>
+    </main>
+    <script src="js/consultaTabela.js"></script>
 
-		<form method="post" enctype="multipart/form-data" style="background-color:#fff;  padding:20px; border-radius: 20px;" >
-
-			<h1>Gestão de utilizadores</h1>
-			<a type="button" href="AddUser.php" class="btn btn-outline-success" style="margin-bottom: 10px;">Add New User</a>
-			<div class="table-responsive">
-				<table class="table table-dark table-hover">
-					<thead>
-						<tr>
-							<th width="20%"; style="text-align: center; vertical-align: middle;">Utilizador</th>
-							<th width="40%"; style="text-align: center; vertical-align: middle;">Email</th>
-							<th width="25%"; style="text-align: center; vertical-align: middle;">Permissões</th>
-							<th width="15%"; style="text-align: center; vertical-align: middle;">Editar</th>
-						</tr>
-					</thead>   
-					<?php  
-					require 'connect.inc.php';
-					
-					$query = "SELECT user_id, username, email,  IF(user_type = '1','Admin','Utilizador') as permissoes FROM users";  
-					
-					$result = $mysqli->query($query);
-					while($row = mysqli_fetch_array($result))  
-					{   
-						echo '  
-						<tr> 
-						<td style="text-align: center; vertical-align: middle;  font-size: 20px; "> '. $row["username"]. '</td>
-						<td style="text-align: center; vertical-align: middle;  font-size: 20px; "> '. $row["email"]. '</td>  
-						<td style="text-align: center;" vertical-align: middle;">'. $row["permissoes"]. ' </td> 
-						<td style="text-align: center; vertical-align: middle;  font-size: 20px; ">
-						<a type="button" class="btn btn-primary" style="margin-bottom:5px;" href="editUser.php?id='. $row["user_id"].'" >Edit</a>
-						<a type="button" class="btn btn-danger" style="margin-bottom:5px;" id="a_id" href="deleteUser.php?id='. $row["user_id"].'" >Delete</a>
-						</td>  
-						</tr>  
-						';  
-					}  
-					?>  
-				</table>  
-			</div>
-		</form>
-
-
-	</div> 
 <?php
-	include('footer.inc.php');
-}else{
-	header('Location: login.php');
+    include('footer.inc.php');
+} else {
+    header('Location: login.php');
 }

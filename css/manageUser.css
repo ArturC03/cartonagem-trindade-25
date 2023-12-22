@@ -1,7 +1,7 @@
 main.table {
     font-family: sans-serif;
-    width: 90vw;
-    max-width: 1200px;
+    width: 90vw; 
+    max-width: 1200px; 
     height: 85vh;
     background-color: #fff5;
     -webkit-backdrop-filter: blur(7px);
@@ -11,19 +11,19 @@ main.table {
     overflow: hidden;
     margin-top: 1rem;
 }
-
+ 
 .table_header {
     color: white;
     text-align: center;
     width: 100%;
     height: 10%;
-    background-color: rgba(105, 99, 87, 0.7);
+    background-color: #fff4;
     padding: .8rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
+ 
 .table_body {
     width: 95%;
     max-height: 65vh;
@@ -32,31 +32,31 @@ main.table {
     border-radius: .6rem;
     overflow: auto;
 }
-
+ 
 .table_body::-webkit-scrollbar {
     width: 0.5rem;
     height: 0.5rem;
 }
-
+ 
 .table_body::-webkit-scrollbar-thumb {
     border-radius: .5rem;
     background-color: #0004;
     visibility: hidden;
 }
-
+ 
 .table_body:hover::-webkit-scrollbar-thumb {
     visibility: visible;
 }
-
+ 
 table {
     width: 100%;
 }
-
+ 
 table, th, td {
     border-collapse: collapse;
     padding: 1rem;
 }
-
+ 
 thead th {
     position: sticky;
     top: 0;
@@ -64,20 +64,20 @@ thead th {
     background-color: #ffcc5efe;
     text-align: center;
 }
-
+ 
 tbody tr:nth-child(even) {
     background-color: #ffd56265;
     transition: background-color 0.7s;
 }
-
+ 
 tbody tr:hover {
     background-color: #fff6;
     transition: background-color 0.7s;
 }
-
+ 
 .table_header .input-group {
     width: 25%;
-    max-width: 200px; 
+    max-width: 200px;
     height: 100%;
     background-color: rgba(219, 219, 219, 0.333);
     padding: 0 .8rem;
@@ -87,12 +87,12 @@ tbody tr:hover {
     align-items: center;
     transition: .2s;
 }
-
+ 
 .table_header .input-group img {
     width: 1.2rem;
     height: 1.2rem;
 }
-
+ 
 .table_header .input-group input {
     width: 100%;
     padding: 0 .5rem 0 .3rem;
@@ -102,48 +102,52 @@ tbody tr:hover {
     font-size: 14px;
     color: white;
 }
-
+ 
 .table_header .input-group:hover {
     width: 30%;
     background-color: #fff7;
     box-shadow: 0 .1rem .4rem #0002;
 }
-
+ 
 tbody tr.hide {
     --delay: .1s;
     transition: .5s ease-in-out var(--delay), background-color 0s;
 }
-
+ 
 tbody tr.hide {
     opacity: 0;
     transform: translateX(100%);
 }
 
+tbody tr.hide .button-container {
+    display: none;
+}
+ 
 tbody tr:hover {
     background-color: #fff6;
     transition: background-color 0.7s;
 }
-
+ 
 tbody tr td,
 tbody tr td p {
     transition: .2s ease-in-out;
 }
-
+ 
 tbody tr.hide td,
 tbody tr.hide td p {
     padding: 0;
     font: 0 / 0 sans-serif;
     transition: .2s ease-in-out .5s;
 }
-
+ 
 th {
     color: rgb(255, 255, 255);
 }
-
+ 
 td {
     text-align: center;
 }
-
+ 
 .radio-inputs {
     display: flex;
     justify-content: center;
@@ -152,17 +156,17 @@ td {
     font-size: 12px;
     margin-top: auto;
 }
-
+ 
 .radio-inputs .radio {
     flex: 1 1 auto;
     text-align: center;
     margin: 0.25rem;
 }
-
+ 
 .radio-inputs .radio input {
     display: none;
 }
-
+ 
 .radio-inputs .radio .name {
     display: flex;
     cursor: pointer;
@@ -176,15 +180,14 @@ td {
     color: white;
     font-weight: bold;
     transition: background-color 0.7s;
-
+ 
 }
-
+ 
 .radio-inputs .radio input:checked + .name {
     background-color: #ffcc5efe;
     font-weight: 600;
     transition: background-color 0.4s;
 }
-
 
 button {
     position: relative;
@@ -197,16 +200,15 @@ button {
     padding: 0;
     font-size: inherit;
     font-family: inherit;
-   }
-   
-   button.learn-more {
-    width: 12rem;
-    height: auto;
-    margin: 0.5rem; 
 }
-
    
-   button.learn-more .circle {
+button.learn-more {
+    width: 17rem;
+    height: auto;
+    margin:auto
+} 
+   
+button.learn-more .circle {
     transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
     position: relative;
     display: block;
@@ -215,26 +217,26 @@ button {
     height: 3rem;
     background: #ffcc5efe;
     border-radius: 1.625rem;
-   }
+}
    
-   button.learn-more .circle .icon {
+button.learn-more .circle .icon {
     transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
     position: absolute;
     top: 0;
     bottom: 0;
     margin: auto;
     background: #fff;
-   }
+}
    
-   button.learn-more .circle .icon.arrow {
+button.learn-more .circle .icon.arrow {
     transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
     left: 0.625rem;
     width: 1.125rem;
     height: 0.125rem;
     background: none;
-   }
+}
    
-   button.learn-more .circle .icon.arrow::before {
+button.learn-more .circle .icon.arrow::before {
     position: absolute;
     content: "";
     top: -0.29rem;
@@ -244,9 +246,9 @@ button {
     border-top: 0.125rem solid #fff;
     border-right: 0.125rem solid #fff;
     transform: rotate(45deg);
-   }
-
-   button.learn-more .button-text {
+}
+ 
+button.learn-more .button-text {
     transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
     position: absolute;
     top: 0;
@@ -254,59 +256,107 @@ button {
     right: 0;
     bottom: 0;
     padding: 0.75rem 0;
-    margin: 0 0 0 1.85rem;
+    margin: 0 0 0 2rem;
     color: #ffcc5efe;
     font-weight: 700;
     line-height: 1.6;
     text-align: center;
     text-transform: uppercase;
-   }
+    width: 18rem;
+    font-size: 15px;
+    margin: auto;
+}
    
-   button:hover .circle {
+button:hover .circle {
     width: 100%;
-   }
+}
    
-   button:hover .circle .icon.arrow {
+button:hover .circle .icon.arrow {
     background: #fff;
     transform: translate(1rem, 0);
-   }
+}
    
-   button:hover .button-text {
+button:hover .button-text {
     color: #fff;
-   }
-
-   .button-container {
+}
+ 
+.button-container {
     margin-top: 1rem;
-    margin-bottom: 1rem; 
-    text-align: center; 
+    margin-bottom: 1rem;
+    text-align: center;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
 }
 
+a, a:link, a:visited, a:hover, a:active {
+    color: inherit;
+    text-decoration: inherit;
+    font-weight: inherit;
+}
+
+.edit{
+    background-color: rgb(255, 193, 61) ;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    margin-right: 10px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}   
+    
+.changestate{
+    background-color: rgb(255, 193, 61) ;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    margin-right: 10px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10vw;
+    max-width: 100px;
+}
+ 
+.button-container {
+    display: flex;
+    align-items: center;
+}
+
+.delete{
+    background-color: red;
+}
+
+
+ 
 @media screen and (max-width: 1195px) {
     .table_header .input-group {
         width: 10%;
         max-width: none;
     }
-
+ 
     .table_header .input-group:hover {
         width: 12%;
     }
-    
+   
     .table_header .input-group input::placeholder {
         color: transparent;
     }
-
+ 
     .table_header{
         font-size: 13px;
     }
-
+ 
     .radio-inputs {
         padding: 0em;
         font-size: 9px;
     }
-
+ 
     .title{
         font-size: 15px;
     }

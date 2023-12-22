@@ -4,61 +4,66 @@ include('config.inc.php');
 if (isset($_SESSION['username'])) {
 	include('header.inc.php');
 ?>
-<br><br>
-	<div class="container">
-
-		<form method="post" enctype="multipart/form-data" style="background-color:#fff;  padding:20px; border-radius: 20px;" >
-
-			<h1>Gestão de Nós</h1>
-			<br>
-			  <div class="table-responsive">
-			<table class="table table-dark table-hover">
-				<thead>
-					<tr>
-						<th width="20%"; style="text-align: center; vertical-align: middle;">ID do Nó</th>
-						<th width="50%"; style="text-align: center; vertical-align: middle;">Localização</th>
-						<th width="15%"; style="text-align: center; vertical-align: middle;">Editar</th>
-						<th width="15%"; style="text-align: center; vertical-align: middle;" >Alterar Estado</th>
-					</tr>
-				</thead>   
-				<?php  
-				require 'connect.inc.php';
-				
-				$query = "SELECT DISTINCT l.id_sensor , IF(l.location_x IS NULL,'Localização Por Definir','Localização Definida') as location, l.status FROM location l";
-				
-				$result = $mysqli->query($query);
-				while($row = mysqli_fetch_array($result))  
-				{   
-					echo ' 
-					<tr> 
-					<td style="text-align: center; vertical-align: middle;  font-size: 20px; "> '. $row["id_sensor"]. '</td> 
-					<td style="text-align: center;" vertical-align: middle;">'. $row["location"]. ' </td> 
-					<td style="text-align: center; vertical-align: middle;  font-size: 20px; ">
-					<a type="button" class="btn btn-primary" href="EditLocation.php?id='. $row["id_sensor"].'" >Edit</a>
-					</td> 
-					<td style="text-align: center; vertical-align: middle;  font-size: 20px; ">
-					<a type="button" class="btn btn-primary"  href="ChangeSensorStatus.php?id='. $row["id_sensor"].'&status='. $row["status"].'">'
-					; 
-					
-					
-						if($row["status"] == 1)
-						{ echo "Activo" ;
-						}
-						else { echo "Inativo";
-						}
-						echo
-						'</a>
-						</td>  
-						</tr>  
-						';  
-					}  
-					?>  
-			</table>  
-		</div>
-		</form>
-
-
-	</div>
+    <main class="table">
+        <section class="table_header">
+            <h1 class="title">Gerir Nós</h1>    
+            <div class="input-group">
+                <input type="search" placeholder="Procurar dados...">
+                <img src="images/search.svg" alt="">
+            </div>
+            <div class="radio-inputs">
+                <label class="radio">
+                    <input type="radio" name="column" value="0" checked>
+                    <span class="name">ID</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="1">
+                    <span class="name">Localização</span>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="column" value="3">
+                    <span class="name">Estado</span>
+                </label>
+            
+            </div>
+        </section>
+        
+        <section class="table_body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID do Nó</th>
+                        <th>Localização</th>
+                        <th>Editar</th>
+                        <th>Alterar Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php  
+                        require 'connect.inc.php';
+                        
+                        $query = "SELECT DISTINCT l.id_sensor , IF(l.location_x IS NULL,'Localização Por Definir','Localização Definida') as location, l.status FROM location l";
+                        
+                        $result = $mysqli->query($query);
+                        while($row = mysqli_fetch_array($result))  
+                        {
+                            echo '<tr>';
+                            echo '<td>' . $row["id_sensor"] . '</td>';
+                            echo '<td>' . $row["location"] .'</td>';
+                            echo '<td><a type="button" class="edit" href=\'EditLocation.php?id=' . $row["id_sensor"] . '\'">Editar</a></td>';
+                            echo '<td><a type="button" id="state-button" class="changestate ' . ($row["status"] == 1 ? "active" : "inactive") . '" href=\'changeSensorStatus.php?id=' . $row["id_sensor"] . '&status=' . $row["status"] . '\'">' . ($row["status"] == 1 ? "Ativo" : "Inativo") . '</a></td>';
+                            echo '</tr>';
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script src="js/consultaTabela.js"></script>
+    <script>
+        console.log(document.getElementById('state-button').style.zIndex);
+        console.log(document.querySelector('.edit').style.backgroundColor);
+    </script>
 <?php
 	include('footer.inc.php');
 }else{
