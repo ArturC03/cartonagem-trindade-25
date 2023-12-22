@@ -5,33 +5,25 @@ if (isset($_SESSION['username'])) {
 	include('header.inc.php');
 
 if(isset($_POST['completeYes'])) {
-	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$dbname = "plantdb";
-
-	// Create connection
-	$conn = new mysqli($servername, $username, $password, $dbname);
-	// Check connection
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	} 
+	require 'connect.inc.php';
+	
 	$id_exists = false;
-	$passO =$_POST['psw-old']; 
+	$passO =$_POST['psw-old'];
 	
 	$passOld=sha1($passO);
 	$pass = $_POST['psw'] ; 
 	$password = sha1($pass);
-	
+	$session_id = $_SESSION['username'];
+
 	$sqlCheck = "SELECT * FROM users WHERE  password LIKE '{$passOld}' and email LIKE '{$session_id}'";
-	$res=mysqli_query($conn,$sqlCheck);
+	$res=mysqli_query($mysqli,$sqlCheck);
 	
 	if (mysqli_num_rows($res) > 0)
 	{
 		
 		$sql = "UPDATE `users` SET `password`='$password' WHERE email='$session_id'";
 		
-		if ($conn->query($sql) === TRUE) {
+		if ($mysqli->query($sql) === TRUE) {
 			
 			echo "<script type='text/javascript'>
 			alert('Password atualizada com sucesso!')
@@ -41,25 +33,19 @@ if(isset($_POST['completeYes'])) {
 			header("location:editarDados.php?msg=failed");
 		}
 	}
-	
-	
 	else if (mysqli_num_rows($res) == 0)
 	{
 		header("location:editarDados.php?msg=failed");
-	}
-	
-	
+	}	
 } 
 
 ?>
 	<body>
-		<div class="container-fluid page-container" >
-			<div class="row dashboard-container" >
-
+		<div class="container-fluid page-container">
+			<div class="row dashboard-container">
 				<div class="col-12" style="margin-top: 2%;">
 					<div class="row dashboard-rows"> 
-						<div class="col-md-12 pr-md-1" >
-
+						<div class="col-md-12 pr-md-1">
 							<form method="post" class="modal-content" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" onsubmit="return confirm('Pretende alterar a password?');">
 								<div class="container">
 									<h1>Alterar Password</h1>
@@ -100,10 +86,8 @@ if(isset($_POST['completeYes'])) {
 									</div>
 								</div>
 							</form>
-
 						</div>
 					</div>
-					
 				</div>
 			</div>
 		</div>

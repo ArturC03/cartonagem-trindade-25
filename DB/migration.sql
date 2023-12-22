@@ -147,7 +147,7 @@ SELECT DISTINCT
     `plantdb`.`sensors`.`id_sensor`,
     '' AS `description`,
     `plantdb`.`location`.`location_id`,
-    1 AS `group`,
+    `plantdb`.`location`.`grupo`+1 AS `group`,
     `plantdb`.`location`.`status`
 FROM
     `plantdb`.`sensors`

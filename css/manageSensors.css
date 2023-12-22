@@ -120,6 +120,10 @@ tbody tr.hide {
     transform: translateX(100%);
 }
  
+tbody tr.hide a {
+    display: none;
+}
+ 
 tbody tr:hover {
     background-color: #fff6;
     transition: background-color 0.7s;
