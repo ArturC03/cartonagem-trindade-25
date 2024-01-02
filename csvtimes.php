@@ -87,8 +87,12 @@ if (isset($_SESSION['username'])) {
             ?>          
         </div>
         <p>Hora a definir</p>
-        <input type="datetime-local" name="horaSelecionada" id="horaSelecionada" step="1">  
-        <button type="submit" class="btn-success" id="meuBotao">Agendar CSV</button>      
+        <input type="datetime-local" name="horaSelecionada" id="horaSelecionada" step="1" required>
+
+        <div class="button-container">
+            <button type="submit" class="btn-success" id="BotaoCSV">Agendar CSV</button>
+            <button type="submit" class="btn-success" id="BotaoJSON">Agendar JSON</button>
+        </div>
     </form>
 </div>
 <script src="js/csvtools.js"></script>

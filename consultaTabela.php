@@ -34,10 +34,6 @@ if (isset($_SESSION['username'])) {
         $dataMaxima= date("y-m-d", $timestamp);
         
         $comprimento= strlen($sensores);
-        
-        if($comprimento==3){
-            $sensores= "";
-        }
     
         $comp2= "".strlen($horaMinima);
         $comp3= "".strlen($horaMaxima);
@@ -53,28 +49,34 @@ if (isset($_SESSION['username'])) {
         }
         
         $datas= "s.date BETWEEN '".$dataMinima."' and '".$dataMaxima."' AND ";        
+        $timestamp= strtotime($dataMaxima);
+        $timestamp2= strtotime($dataMinima);
+        
+        $diaMinPesquisa= date('d', $timestamp2);
+        $mesMinPesquisa= date('m', $timestamp2);
+        $anoMinPesquisa= date('y', $timestamp2);
+        
+        $diaMaxPesquisa= date('d', $timestamp);
+        $mesMaxPesquisa= date('m', $timestamp);
+        $anoMaxPesquisa= date('y', $timestamp);
+        
+        $diaAtual= date('d');
+        $mesAtual= date('m');
+        $anoAtual= date('y');
+        
+        $dataAtual= $anoAtual."_".$mesAtual;
+        
+        if($anoMaxPesquisa == $anoAtual){
+            $i= $mesAtual-$mesMaxPesquisa;
+        }     
     }
-    $timestamp= strtotime($dataMaxima);
-    $timestamp2= strtotime($dataMinima);
-    
-    $diaMinPesquisa= date('d', $timestamp2);
-    $mesMinPesquisa= date('m', $timestamp2);
-    $anoMinPesquisa= date('y', $timestamp2);
-    
-    $diaMaxPesquisa= date('d', $timestamp);
-    $mesMaxPesquisa= date('m', $timestamp);
-    $anoMaxPesquisa= date('y', $timestamp);
-    
-    $diaAtual= date('d');
-    $mesAtual= date('m');
-    $anoAtual= date('y');
-
-    $dataAtual= $anoAtual."_".$mesAtual;
-    
-    if($anoMaxPesquisa == $anoAtual){
-      $i= $mesAtual-$mesMaxPesquisa;
-    }     
     ?>
+    <!-- <p id="mindate" class="d-none"><?php echo $dataMinima; ?></p>
+    <p id="maxdate" class="d-none"><?php echo $dataMaxima; ?></p>
+    <p id="mintime" class="d-none"><?php echo $horaMinima; ?></p>
+    <p id="maxtime" class="d-none"><?php echo $horaMaxima; ?></p>
+    <p id="sensores" class="d-none"><?php print_r($sensores); ?></p>
+    <script src="js/pageScroll.js"></script> -->
     <main class="table">
         <section class="table_header"> 
             <h1 class="title">Consulta</h1>    
@@ -144,15 +146,15 @@ if (isset($_SESSION['username'])) {
                             $dbname2= $anoMinPesquisa."_".date('M', $dataMensal);
                             
                             if($mesMinPesquisa == 12){
-                            $anoMinPesquisa++;
-                            $mesMinPesquisa = 0;
+                                $anoMinPesquisa++;
+                                $mesMinPesquisa = 0;
                             }
                             
                             $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
                             
                             $result = $mysqli->query($sql);
                             
-                            while($row = mysqli_fetch_array($result))  
+                            while($row = mysqli_fetch_array($result))
                             { 
                             echo '  
                             <tr>  
@@ -213,6 +215,9 @@ if (isset($_SESSION['username'])) {
                     ?>
                 </tbody>
             </table>
+            <div class="loader">
+                <div class="justify-content-center jimu-primary-loading"></div>
+            </div>
         </section>
         
         <section class="button-container">

@@ -135,20 +135,24 @@ select:hover {
 }
 /* End Checkbox */
 
-.btn-success{
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 30%;
+}
+
+.btn-success{
     height: 40px;
     border: none;
     border-radius: 8px;
-    margin: 0 5px;
     cursor: pointer;
     background-color: #fbd461;
     color: white;
     font-size: 16px;
-    margin: auto;
-    margin-bottom: 5px;
     transition: background-color 0.5s ease, transform 0.3s ease-in-out;
     flex-direction: row;
+    padding: 0 10px;
 }
 
 .btn-success:hover{

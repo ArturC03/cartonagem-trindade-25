@@ -6,76 +6,81 @@ if (isset($_SESSION['username'])) {
     require 'connect.inc.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST['sensores'])) {
-            ob_clean();
-            // Processar a geração do CSV aqui
-            $sensoresSelecionados = $_POST['sensores'];
-            array_splice($sensoresSelecionados, 0, 1);
+        if (isset($_POST['botaoCSV'])){
 
-            // Consulta SQL para selecionar os dados dos sensores escolhidos
-            // Calcula a data de agora
-            $min_datetime = $_POST['horaMinima'];
-            $max_datetime = $_POST['horaMaxima'];
-            
-            // Sua consulta SQL
-            $sql = "SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
-            FROM sensors
-            WHERE id_sensor IN (" . implode(',', $sensoresSelecionados) . ")
-            AND (date >= DATE('$min_datetime') AND date <= DATE('$max_datetime') AND hour >= TIME('$min_datetime') AND hour <= TIME('$max_datetime'))";
-            $result = $mysqli->query($sql);
-            
-            if ($result->num_rows > 0) {
-                // Nome do arquivo CSV
-                $filename = "dados_sensores.csv";
+            if (isset($_POST['sensores'])) {
+                ob_clean();
+                // Processar a geração do CSV aqui
+                $sensoresSelecionados = $_POST['sensores'];
+                array_splice($sensoresSelecionados, 0, 1);
+
+                // Consulta SQL para selecionar os dados dos sensores escolhidos
+                // Calcula a data de agora
+                $min_datetime = $_POST['horaMinima'];
+                $max_datetime = $_POST['horaMaxima'];
                 
-                // Cria um arquivo CSV
-                $csvFile = fopen($filename, 'w');
+                // Sua consulta SQL
+                $sql = "SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
+                FROM sensors
+                WHERE id_sensor IN (" . implode(',', $sensoresSelecionados) . ")
+                AND (date >= DATE('$min_datetime') AND date <= DATE('$max_datetime') AND hour >= TIME('$min_datetime') AND hour <= TIME('$max_datetime'))";
+                $result = $mysqli->query($sql);
                 
-                $header = ["ID do Sensor", "Hora","Temperatura (°C)", "Umidade (%)", "Pressão (hPa)", "Altitude (m)", "eCO2", "eTVOC"];
-                fputcsv($csvFile, $header);
-                
-                while ($row = $result->fetch_assoc()) {
-                    // Formate os dados conforme necessário
-                    $formattedData = [
-                        $row['id_sensor'],
-                        $row['hour'],
-                        $row['temperature'],
-                        $row['humidity'],
-                        $row['pressure'],
-                        $row['altitude'],
-                        $row['eCO2'],
-                        $row['eTVOC']
-                    ];
-                    fputcsv($csvFile, $formattedData);
+                if ($result->num_rows > 0) {
+                    // Nome do arquivo CSV
+                    $filename = "dados_sensores.csv";
+                    
+                    // Cria um arquivo CSV
+                    $csvFile = fopen($filename, 'w');
+                    
+                    $header = ["ID do Sensor", "Hora","Temperatura (°C)", "Umidade (%)", "Pressão (hPa)", "Altitude (m)", "eCO2", "eTVOC"];
+                    fputcsv($csvFile, $header);
+                    
+                    while ($row = $result->fetch_assoc()) {
+                        // Formate os dados conforme necessário
+                        $formattedData = [
+                            $row['id_sensor'],
+                            $row['hour'],
+                            $row['temperature'],
+                            $row['humidity'],
+                            $row['pressure'],
+                            $row['altitude'],
+                            $row['eCO2'],
+                            $row['eTVOC']
+                        ];
+                        fputcsv($csvFile, $formattedData);
+                    }
+                    // Escreve os dados no CSV
+                    while ($row = $result->fetch_assoc()) {
+                        fputcsv($csvFile, $row);
+                    }
+                    
+                    // Fecha o arquivo CSV
+                    fclose($csvFile);
+                    
+                    // Define os cabeçalhos para download
+                    header('Content-Type: text/csv');
+                    header('Content-Disposition: attachment; filename="' . $filename . '"');
+                    
+                    // Lê e envia o arquivo CSV para o cliente
+                    readfile($filename);
+                } else {
+                    echo "Nenhum dado encontrado para os sensores selecionados.";
+                    echo $min_datetime;
+                    echo $max_datetime;
+                    print_r($sensoresSelecionados);
                 }
-                // Escreve os dados no CSV
-                while ($row = $result->fetch_assoc()) {
-                    fputcsv($csvFile, $row);
-                }
-                
-                // Fecha o arquivo CSV
-                fclose($csvFile);
-                
-                // Define os cabeçalhos para download
-                header('Content-Type: text/csv');
-                header('Content-Disposition: attachment; filename="' . $filename . '"');
-                
-                // Lê e envia o arquivo CSV para o cliente
-                readfile($filename);
+                exit();
             } else {
-                echo "Nenhum dado encontrado para os sensores selecionados.";
+                echo "Nenhum dado encontrado para os grupos selecionados.";
                 echo $min_datetime;
                 echo $max_datetime;
                 print_r($sensoresSelecionados);
             }
             exit();
-        } else {
-            echo "Nenhum dado encontrado para os grupos selecionados.";
-            echo $min_datetime;
-            echo $max_datetime;
-            print_r($sensoresSelecionados);
+        } else if (isset($_POST['botaoJSON'])) {
+
         }
-        exit();
     } else {
 ?>
 <div class="container">   
@@ -165,9 +170,13 @@ if (isset($_SESSION['username'])) {
                 ?>
             </div>
             <h2>Período</h2>
-            <input type="datetime-local" name="horaMinima" id="horaMinima" step="1">
-            <input type="datetime-local" name="horaMaxima" id="horaMaxima" step="1">
-            <button type="submit" class="btn-success" id="meuBotao">Gerar CSV</button>      
+            <input type="datetime-local" name="horaMinima" id="horaMinima" step="1" required>
+            <input type="datetime-local" name="horaMaxima" id="horaMaxima" step="1" required>
+            
+            <div class="button-container">
+                <button type="submit" class="btn-success" id="BotaoCSV">Agendar CSV</button>
+                <button type="submit" class="btn-success" id="BotaoJSON">Agendar JSON</button>
+            </div>
         </div>        
         </form>
     </div>
