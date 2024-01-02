@@ -9,8 +9,8 @@ header("refresh: 10000;");
 
 <div class="graph-containers">
   <div id='heatMap1'>
-    <svg width="90vw" height="80vh" xmlns="http://www.w3.org/2000/svg">
-      <image id="image" width="90vw" height="80vh" href="images/plantaV3.png" />
+    <svg width="<?php echo $viewportWidth * 100; ?>vw" height="<?php echo $heightInPixels; ?>" xmlns="http://www.w3.org/2000/svg">
+      <image id="image" width="<?php echo $viewportWidth * 100; ?>vw" height="<?php echo $heightInPixels; ?>" href="images/plantaV3.png" />
     </svg>
   </div>
   <div id='GradTemperature'>

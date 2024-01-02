@@ -40,7 +40,6 @@ if ($mysqli->query($sql) === TRUE) {
 }
 }
 }
-
 ?>
 <form method="post" id="SetLocation" name="SetLocation" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" onsubmit="return confirm('Pretende guardar a nova localização?');" >
     <div>
@@ -62,8 +61,8 @@ if ($mysqli->query($sql) === TRUE) {
             $y = $row['location_y'];
         }
         ?>
-        <svg width="90vw" height="80vh" xmlns="http://www.w3.org/2000/svg">
-            <image id="image" width="90vw" height="80vh" href="images/plantaV3.png" />
+        <svg width="<?php echo $viewportWidth * 100; ?>vw" height="<?php echo $heightInPixels; ?>" xmlns="http://www.w3.org/2000/svg">
+            <image id="image" width="<?php echo $viewportWidth * 100; ?>vw" height="<?php echo $heightInPixels; ?>" href="images/plantaV3.png" />
             <?php
             if ($x != null && $y != null) {
                 echo '<circle id="circle" cx="' . $x . '" cy="' . $y . '" r="10" fill="#FF5733" />';
