@@ -53,20 +53,20 @@ if ($mysqli->query($sql) === TRUE) {
     </div>
     <div>
         <?php
-        $id = $_GET['id'];
-        $sqlC = "SELECT location_x,location_y  FROM location WHERE id_sensor='$id'";
-        $result = $mysqli->query($sqlC);
-        while ($row = mysqli_fetch_array($result)) {
-            $x = $row['location_x'];
-            $y = $row['location_y'];
-        }
+        // $id = $_GET['id'];
+        // $sqlC = "SELECT location_x,location_y, size_x, size_y  FROM location WHERE id_sensor='$id'";
+        // $result = $mysqli->query($sqlC);
+        // while ($row = mysqli_fetch_array($result)) {
+        //     $x = $row['location_x'] * ($row['size_x'] / $originalImageWidth);
+        //     $y = $row['location_y'] * ($row['size_y'] / $originalImageHeight);
+        // }
         ?>
         <svg width="<?php echo $viewportWidth * 100; ?>vw" height="<?php echo $heightInPixels; ?>" xmlns="http://www.w3.org/2000/svg">
             <image id="image" width="<?php echo $viewportWidth * 100; ?>vw" height="<?php echo $heightInPixels; ?>" href="images/plantaV3.png" />
             <?php
-            if ($x != null && $y != null) {
-                echo '<circle id="circle" cx="' . $x . '" cy="' . $y . '" r="10" fill="#FF5733" />';
-            }
+            // if ($x != null && $y != null) {
+            //     echo '<circle id="circle" cx="' . $x . '" cy="' . $y . '" r="10" fill="#FF5733" />';
+            // }
             ?>
         </svg>
     </div>

@@ -24,8 +24,14 @@ include('header.inc.php');
   $(window).resize(function() {
       clearTimeout(resizeId);
       resizeId = setTimeout(doneResizing, 300);
+      var afterResize = setTimeout(afterResizing, 300);
   });
   function doneResizing(){
+    location.reload();
+    setInterval(afterResizing, 300);
+    location.reload();
+  }
+  function afterResizing(){
     location.reload();
   }
 

@@ -17,7 +17,7 @@ if (!isset($_SESSION['screenWidth'])) {
   echo "<script src='js/setScreenWidth.js'></script>";
 }
 
-$viewportWidthPixels = $_SESSION['screenWidth'] * $viewportWidth; //SUBSTITUIR COM JS PARA OBTER O TAMANHO DA TELA
+$viewportWidthPixels = $_SESSION['screenWidth'] * $viewportWidth;
 
 $originalImageWidth = getimagesize('images/plantaV3.png')[0];
 $originalImageHeight = getimagesize('images/plantaV3.png')[1];
