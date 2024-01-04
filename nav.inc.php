@@ -3,7 +3,7 @@
 <div class="full-menu">
   <div class="menu">
     <ul>
-      <li id="title"><a href="home.php"><?php echo $site_title; ?></a></li>
+      <li class="title" id="title"><a href="home.php"><?php echo $site_title; ?></a></li>
       <li><a href="home.php">Home</a></li>
       <li><a href="archive.php">Arquivo</a></li>
       <li><a href="csvtools.php">CSV</a></li>
