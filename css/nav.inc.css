@@ -24,6 +24,8 @@
   justify-content: left;
   font-size: 20px;
   margin-right: 50px;
+  align-items: center;
+
 }
 
 .menu ul li {
@@ -58,6 +60,7 @@
 
 .menu ul li a:hover::after {
   width: 100%;
+
 }
 
 .menu a::after {
