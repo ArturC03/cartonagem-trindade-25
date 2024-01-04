@@ -1,9 +1,9 @@
 <?php
 include('config.inc.php');
 include('header.inc.php');
-include('monthdb.php');
+//include('monthdb.php');
 
-header("refresh: 10000;");  
+//header("refresh: 10000;");  
 
 ?>
 

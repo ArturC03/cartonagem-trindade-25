@@ -41,7 +41,7 @@ if ($mysqli->query($sql) === TRUE) {
 }
 }
 ?>
-<form method="post" id="SetLocation" name="SetLocation" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" onsubmit="return confirm('Pretende guardar a nova localização?');" >
+<form method="post" id="SetLocation" name="SetLocation" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $_GET['id']; ?>" onsubmit="return confirm('Pretende guardar a nova localização?');" >
     <div>
         <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
         <input type="hidden" name="location_x" id="location_x">
