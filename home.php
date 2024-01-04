@@ -20,13 +20,18 @@ include('header.inc.php');
   include('footer.inc.php');
 ?>
 <script>
-  window.onresize = function(){ location.reload(); }
+  var resizeId;
+  $(window).resize(function() {
+      clearTimeout(resizeId);
+      resizeId = setTimeout(doneResizing, 300);
+  });
+  function doneResizing(){
+    location.reload();
+  }
 
   const img_planta = document.getElementById('heatMap1');
   const size_x = img_planta.offsetWidth;
   const size_y = img_planta.offsetHeight;
-
-  console.log(size_x + 'x' + size_y);
 
   var heatmapInstance = h337.create({
     container: document.getElementById('heatMap1'),

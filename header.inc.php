@@ -24,7 +24,6 @@ include("config.inc.php");
 </head>
 <body>
     <?php
-        include("setScreenWidth.inc.php");
         include("nav.inc.php");
     ?>
     <div class="main">
