@@ -1,16 +1,7 @@
 <?php
 // Verifique se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "plantdb";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Falha na conexão: " . $conn->connect_error);
-    }
+    require_once('db.inc.php');
 
     if (isset($_POST['botaoCSV'])) {
         if (isset($_POST["sensores"]) && is_array($_POST["sensores"])) {
@@ -29,17 +20,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $sensoresConvertidos[] = $sensorConvertido;
             }
             // Defina o campo 'gerar' para 0 para todos os sensores
-            $sql1="UPDATE hora SET hora_geracao = '$horaselecionada' where id_hora=1";
-            $conn->query($sql1);
-            $sqlReset = "UPDATE location SET gerar = 0";
-            $conn->query($sqlReset);
+            
+            my_query("UPDATE hora SET hora_geracao = '$horaselecionada' where id_hora=1");
+            my_query("UPDATE location SET gerar = 0");
 
             // Defina o campo 'gerar' para 1 apenas para os sensores selecionados
             foreach ($sensoresConvertidos as $sensor) {
-                $sqlUpdate = "UPDATE location SET gerar = 1 WHERE id_sensor = '$sensor'";
-                $conn->query($sqlUpdate);
+                my_query("UPDATE location SET gerar = 1 WHERE id_sensor = '$sensor'");
             }
-            $conn->close();
 
             // Redirecione para a página anterior ou outra página de confirmação
             header("Location:csvtimes.php"); // Substitua 'index.php' pela página desejada

@@ -7,7 +7,7 @@ if (isset($_SESSION['username'])) {
 	$id = $_GET['id'];
 
 if(isset($_POST['completeYes'])) {
-	require 'connect.inc.php';
+	require_once('db.inc.php');
 
 	$id_exists = false;
 	$username = $_POST['username'];
@@ -17,9 +17,7 @@ if(isset($_POST['completeYes'])) {
 	
 	if (is_null($pass))
 	{
-		$sql = "UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType' WHERE user_id='$id'";
-		
-		if ($mysqli->query($sql) === TRUE) {
+		if (my_query("UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType' WHERE user_id='$id'") === TRUE) {
 			echo "<script type='text/javascript'>
 			alert('Dados de utilizador atualizados com sucesso!')
 			window.location = 'manageUser.php';</script>";
@@ -28,9 +26,8 @@ if(isset($_POST['completeYes'])) {
 		}	
 	} else {
 		$password = sha1($pass);
-		$sql = "UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType', `password`='$password' WHERE user_id='$id'";
 		
-		if ($mysqli->query($sql) === TRUE) {
+		if (my_query("UPDATE `users` SET `username`='$username', `email`='$email', `user_type`='$userType', `password`='$password' WHERE user_id='$id'") === TRUE) {
 			echo "<script type='text/javascript'>
 			alert('Dados de utilizador atualizados com sucesso!!')
 			window.location = 'manageUser.php';</script>";
@@ -47,11 +44,9 @@ if(isset($_POST['completeYes'])) {
 				<div class="row dashboard-rows"> 
 					<div class="col-md-12 pr-md-1" >
 						<?php
-						$query2 = "SELECT * FROM users where user_id='$id';";  
-						
-						$result = $mysqli->query($query2);
-						while($row = mysqli_fetch_array($result))  
-						{ 
+						$result = my_query("SELECT * FROM users where user_id='$id';");
+						foreach ($result as $row)
+						{
 						?>
 						<form method="post" class="modal-content" enctype="multipart/form-data" action="changeUser.php" onsubmit="return confirm('Pretende alterar os dados de utilizador?');">
 							<div class="container">

@@ -20,7 +20,7 @@ include("config.inc.php");
     <script src='http://cdn.zingchart.com/zingchart.min.js'></script>
     <script src="js/setScreenWidth.js"></script>
 
-    <title><?php echo $site_title;?></title>
+    <title><?php echo $arrConfig['site_title'];?></title>
 </head>
 <body>
     <?php

@@ -5,57 +5,37 @@ if (isset($_SESSION['username'])) {
 	include('header.inc.php');
 	
 	if(isset($_POST['completeYes'])) {
-			 $servername = "localhost";
-			 $username = "root";
-			 $password = "";
-			 $dbname = "plantdb";
+		require_once("db.inc.php");
+
+		$id_exists = false;
+		$username = $_POST['username'];
+		$pass = $_POST['psw'] ; 
+		$password = sha1($pass);
+		$email = $_POST['email'] ; 
+		$userType = $_POST['permitions'];
+		$sqlCheck = "SELECT email FROM users WHERE email='$email'";
+		$res = my_query($sqlCheck);
 	
-	 // Create connection
-			$conn = new mysqli($servername, $username, $password, $dbname);
-	 // Check connection
-			if ($conn->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			} 
-			$id_exists = false;
-			$username = $_POST['username'];
-			$pass = $_POST['psw'] ; 
-			$password = sha1($pass);
-			$email = $_POST['email'] ; 
-			$userType = $_POST['permitions'];
-			$sqlCheck = "SELECT email FROM users WHERE email='$email'";
-			$res=mysqli_query($conn,$sqlCheck);
-	
-	
-			if (mysqli_num_rows($res) > 0)
-			{
+		if (count($res) != 0)
+		{
+			echo "<script type='text/javascript'>
+			alert('O email inserido já existe!')
+			window.location = 'AddUser.php';</script>";
+		}
+		else
+		{
+			$sql = "INSERT INTO `users`(`username`, `email`, `user_type`, `password`) VALUES ('$username','$email','$userType','$password')";
+
+			if (my_query($sql) === TRUE) {
 				echo "<script type='text/javascript'>
-				alert('O email inserido já existe!')
-				window.location = 'AddUser.php';</script>";
-				}
-					
-			
-	
-	
-			else if (mysqli_num_rows($res) == 0)
-			{
-	
-				$sql = "INSERT INTO `users`(`username`, `email`, `user_type`, `password`) VALUES ('$username','$email','$userType','$password')";
-	
-				if ($conn->query($sql) === TRUE) {
-					
-					echo "<script type='text/javascript'>
-					alert('Novo utilizador adicionado com sucesso!')
-					window.location = 'manageUser.php';</script>";
-				} else {
-					echo "erro na criação so novo utilizador! Tente outra vez! "  . $conn->error;
-				} 
-	
-			}
-	
-	
-		} 
-	
-		?>
+				alert('Novo utilizador adicionado com sucesso!')
+				window.location = 'manageUser.php';</script>";
+			} else {
+				echo "erro na criação so novo utilizador! Tente outra vez! "  . $arrConfig['conn']->error;
+			} 
+		}
+	} 	
+?>
 			<div class="container-fluid page-container" >
 				<div class="row dashboard-container" >
 	

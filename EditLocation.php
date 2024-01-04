@@ -5,7 +5,7 @@ if (isset($_SESSION['username'])) {
     include('header.inc.php');
 
 if (isset($_POST['completeYes'])) {
-    require 'connect.inc.php';
+    require_once('db.inc.php');
 
 	$id_exists = false;
 	$id_sensor = $_POST['id'];
@@ -13,32 +13,24 @@ if (isset($_POST['completeYes'])) {
 	$location_y = $_POST['location_y'];
     $size_x = $_POST['size_x'];
     $size_y = $_POST['size_y'];
-	$sqlCheck = "SELECT id_sensor FROM location WHERE id_sensor='$id_sensor'";
-	$res = mysqli_query($mysqli, $sqlCheck);
+	$res = my_query("SELECT id_sensor FROM location WHERE id_sensor='$id_sensor'");
     
-    
-	if (mysqli_num_rows($res) > 0) {
-        $sql = "UPDATE `location` SET `location_x`='$location_x',`location_y`='$location_y',`size_x`='$size_x',`size_y`='$size_y' where `id_sensor` = '$id_sensor';";
-        
-		if ($mysqli->query($sql) === TRUE) {
+	if (count($res) > 0) {
+		if (my_query("UPDATE `location` SET `location_x`='$location_x',`location_y`='$location_y',`size_x`='$size_x',`size_y`='$size_y' where `id_sensor` = '$id_sensor';") === TRUE) {
             echo "<script type='text/javascript'>
             window.location = 'manageSensors.php';</script>";
 		} else {
             echo "Error: " . $sql . "<br>" . $mysqli->error;
 		}
-	} else if (mysqli_num_rows($res) == 0) {
-
-        $sql = "INSERT INTO location (location_x, location_y, size_x, size_y, id_sensor) VALUES 
-			('$location_x', '$location_y', '$size_x', '$size_y', '$id_sensor' )";
-
-if ($mysqli->query($sql) === TRUE) {
-    echo "<script type='text/javascript'>
-    alert('Nova localização adicionada com sucesso!')
-    window.location = 'manageSensors.php';</script>";
-} else {
-    echo "Error: " . $sql . "<br>" . $mysqli->error;
-}
-}
+	} else {
+        if (my_query("INSERT INTO location (location_x, location_y, size_x, size_y, id_sensor) VALUES ('$location_x', '$location_y', '$size_x', '$size_y', '$id_sensor' )") === TRUE) {
+            echo "<script type='text/javascript'>
+            alert('Nova localização adicionada com sucesso!')
+            window.location = 'manageSensors.php';</script>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $mysqli->error;
+        }
+    }
 }
 ?>
 <form method="post" id="SetLocation" name="SetLocation" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $_GET['id']; ?>" onsubmit="return confirm('Pretende guardar a nova localização?');" >

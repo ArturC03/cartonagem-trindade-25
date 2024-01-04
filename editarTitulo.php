@@ -5,12 +5,10 @@ if (isset($_SESSION['username'])) {
   include('header.inc.php');
 
 if(isset($_POST['submeter2'])){
-  require('connect.inc.php');
-  $site_title = $_POST['tit'];
-  
-  $sql = "INSERT into titulo values(null, '$site_title');";  
-  $mysqli->query($sql);
-  if ($mysqli->query($sql) === TRUE) {
+  require_once('db.inc.php');
+  $arrConfig['site_title'] = $_POST['tit'];
+
+  if (my_query("INSERT into titulo values(null, '" . $arrConfig['site_title']. "');") === TRUE) {
     echo "<br><p>Titulo atualizado.</p>";
   } else {
     echo "Erro na criação de novo título! Tente outra vez! "  . $mysqli->error;
@@ -19,7 +17,7 @@ if(isset($_POST['submeter2'])){
   echo "<br><br><a id='voltar' href='home.php'> Voltar </a>";
 }else{
   
-  ?>
+?>
 
 
 <main class="table">

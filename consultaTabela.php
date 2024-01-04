@@ -135,46 +135,24 @@ if (isset($_SESSION['username'])) {
                 </thead>
                 <tbody>
                      <?php
-                        require 'connect.inc.php';
+                        require_once('db.inc.php');
 
-                        $mesMaxPesquisa= $mesMaxPesquisa +1;
+                        $mesMaxPesquisa = $mesMaxPesquisa +1;
 
-                        while($mesMinPesquisa <> $mesMaxPesquisa){
-                            $dataMensal= "20".$anoMinPesquisa."-".$mesMinPesquisa."-01";
-                            $dataMensal= strtotime($dataMensal);
+                        while($mesMinPesquisa <> $mesMaxPesquisa) {
+                            $dataMensal = "20".$anoMinPesquisa."-".$mesMinPesquisa."-01";
+                            $dataMensal = strtotime($dataMensal);
                             
-                            $dbname2= $anoMinPesquisa."_".date('M', $dataMensal);
+                            $dbname2 = $anoMinPesquisa."_".date('M', $dataMensal);
                             
                             if($mesMinPesquisa == 12){
                                 $anoMinPesquisa++;
                                 $mesMinPesquisa = 0;
                             }
                             
-                            $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
+                            $result = my_query("SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;");
                             
-                            $result = $mysqli->query($sql);
-                            
-                            while($row = mysqli_fetch_array($result))
-                            { 
-                            echo '  
-                            <tr>  
-                            <td>'. $row["id_sensor"]. '</td>
-                            <td>'. $row["hour"]. ' </td>
-                            <td>'. $row["date"]. ' </td>
-                            <td>'. ltrim($row["temperature"],'0'). '</td>
-                            <td>'. ltrim($row["humidity"],'0'). ' </td>
-                            <td>'. ltrim($row["pressure"],'0'). ' </td>
-                            <td>'. ltrim($row["eCO2"],'0'). ' </td>
-                            <td>'. ltrim($row["eTVOC"],'0'). ' </td>
-                            ';              
-                            }
-                            
-                            if($diaMaxPesquisa == $diaAtual){
-                            $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;";
-                            $result = $mysqli->query($sql);
-                            
-                            while($row = mysqli_fetch_array($result))  
-                            {   
+                            foreach($result as $row){ 
                                 echo '  
                                 <tr>  
                                 <td>'. $row["id_sensor"]. '</td>
@@ -185,16 +163,33 @@ if (isset($_SESSION['username'])) {
                                 <td>'. ltrim($row["pressure"],'0'). ' </td>
                                 <td>'. ltrim($row["eCO2"],'0'). ' </td>
                                 <td>'. ltrim($row["eTVOC"],'0'). ' </td>
-                                ';
-                            }        
+                                ';              
+                            }
+                            
+                            if($diaMaxPesquisa == $diaAtual){
+                                $result = my_query("SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC;");
+                                
+                                while($row = mysqli_fetch_array($result))  
+                                {   
+                                    echo '  
+                                    <tr>  
+                                    <td>'. $row["id_sensor"]. '</td>
+                                    <td>'. $row["hour"]. ' </td>
+                                    <td>'. $row["date"]. ' </td>
+                                    <td>'. ltrim($row["temperature"],'0'). '</td>
+                                    <td>'. ltrim($row["humidity"],'0'). ' </td>
+                                    <td>'. ltrim($row["pressure"],'0'). ' </td>
+                                    <td>'. ltrim($row["eCO2"],'0'). ' </td>
+                                    <td>'. ltrim($row["eTVOC"],'0'). ' </td>
+                                    ';
+                                }        
                             }
                             $mesMinPesquisa++;
                         }
 
-                        $sq1="SELECT id_sensor,hour,date,temperature,humidity,pressure,eCO2,eTVOC from sensors where id_sensor in $sensores order by date ASC";
-                        $result2=mysqli_query($mysqli,$sq1);
+                        $result2 = my_query("SELECT id_sensor,hour,date,temperature,humidity,pressure,eCO2,eTVOC from sensors where id_sensor in $sensores order by date ASC");
                         $fileName = 'download/dados.csv';
-                        // Abre o arquivo para escrita
+                        
                         $file = fopen($fileName, 'w');
                         fputcsv($file, array('id_sensors', 'Hora', 'Data', 'Temperatura', 'Humidade','Pressão','CO2','TVOC'),';');
                         while ($row = mysqli_fetch_array($result2,MYSQLI_NUM)) {
@@ -203,7 +198,6 @@ if (isset($_SESSION['username'])) {
                             $formattedHumidity = ltrim(sprintf("%.3f", $row[4]), '0');
                             $row[4] = $formattedHumidity;
                             
-                            // Formata a pressão
                             $formattedPressure = ltrim(sprintf("%.3f", $row[5]), '0');
                             $row[5] = $formattedPressure;
                             

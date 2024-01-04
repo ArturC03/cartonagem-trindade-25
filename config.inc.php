@@ -1,14 +1,16 @@
 <?php
 @session_start();
+global $arrConfig;
 
-include('connect.inc.php');
+$arrConfig['servername'] = 'localhost';
+$arrConfig['username'] = 'root';
+$arrConfig['password'] = '';
+$arrConfig['dbname'] = 'plantdb';
 
-$sql = "SELECT titulo from titulo WHERE id=(select max(id) from titulo);";
+include_once('db.inc.php');
 
-$result = $mysqli->query($sql);
-while($row = mysqli_fetch_array($result)){
-  $site_title = $row['titulo'];
-}
+$result = my_query("SELECT titulo from titulo WHERE id=(select max(id) from titulo);");
+$arrConfig['site_title'] = $result[0]['titulo'];
 
 $viewportWidth = 0.62;
 

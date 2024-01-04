@@ -5,7 +5,7 @@ if (isset($_SESSION['username'])) {
 	include('header.inc.php');
 
   if(isset($_POST['completeYes'])) {
-    require 'connect.inc.php';
+    require_once('db.inc.php');
     
     $id_exists = false;
     $passO =$_POST['current-password'];
@@ -15,25 +15,19 @@ if (isset($_SESSION['username'])) {
     $password = sha1($pass);
     $session_id = $_SESSION['username'];
 
-    $sqlCheck = "SELECT * FROM users WHERE  password LIKE '{$passOld}' and email LIKE '{$session_id}'";
-    $res=mysqli_query($mysqli,$sqlCheck);
+    $res = my_query("SELECT * FROM users WHERE password LIKE '{$passOld}' and email LIKE '{$session_id}'");
     
-    if (mysqli_num_rows($res) > 0)
+    if (count($res) > 0)
     {
-      
-      $sql = "UPDATE `users` SET `password`='$password' WHERE email='$session_id'";
-      
-      if ($mysqli->query($sql) === TRUE) {
-        
+      if (my_query("UPDATE `users` SET `password`='$password' WHERE email='$session_id'") === TRUE) {
         echo "<script type='text/javascript'>
         alert('Password atualizada com sucesso!')
         window.location = 'logout.php';</script>";
-        
       } else {
         header("location:editarDados.php?msg=failed");
       }
     }
-    else if (mysqli_num_rows($res) == 0)
+    else
     {
       header("location:editarDados.php?msg=failed");
     }	

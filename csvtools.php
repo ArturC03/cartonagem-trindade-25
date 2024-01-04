@@ -3,7 +3,7 @@ include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
     include('header.inc.php');
-    require 'connect.inc.php';
+    require_once('db.inc.php');
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['botaoCSV'])){
@@ -20,13 +20,15 @@ if (isset($_SESSION['username'])) {
                 $max_datetime = $_POST['horaMaxima'];
                 
                 // Sua consulta SQL
-                $sql = "SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
+                
+                $result = my_query("
+                SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
                 FROM sensors
                 WHERE id_sensor IN (" . implode(',', $sensoresSelecionados) . ")
-                AND (date >= DATE('$min_datetime') AND date <= DATE('$max_datetime') AND hour >= TIME('$min_datetime') AND hour <= TIME('$max_datetime'))";
-                $result = $mysqli->query($sql);
+                AND (date >= DATE('$min_datetime') AND date <= DATE('$max_datetime') AND hour >= TIME('$min_datetime') AND hour <= TIME('$max_datetime'))
+                ");
                 
-                if ($result->num_rows > 0) {
+                if (count($result) > 0) {
                     // Nome do arquivo CSV
                     $filename = "dados_sensores.csv";
                     
@@ -36,7 +38,7 @@ if (isset($_SESSION['username'])) {
                     $header = ["ID do Sensor", "Hora","Temperatura (°C)", "Umidade (%)", "Pressão (hPa)", "Altitude (m)", "eCO2", "eTVOC"];
                     fputcsv($csvFile, $header);
                     
-                    while ($row = $result->fetch_assoc()) {
+                    foreach ($result as $row) {
                         // Formate os dados conforme necessário
                         $formattedData = [
                             $row['id_sensor'],
@@ -49,10 +51,6 @@ if (isset($_SESSION['username'])) {
                             $row['eTVOC']
                         ];
                         fputcsv($csvFile, $formattedData);
-                    }
-                    // Escreve os dados no CSV
-                    while ($row = $result->fetch_assoc()) {
-                        fputcsv($csvFile, $row);
                     }
                     
                     // Fecha o arquivo CSV
@@ -79,7 +77,7 @@ if (isset($_SESSION['username'])) {
             }
             exit();
         } else if (isset($_POST['botaoJSON'])) {
-
+            //FAZER JSON
         }
     } else {
 ?>
@@ -88,27 +86,23 @@ if (isset($_SESSION['username'])) {
         <h2>Grupos</h2>
         <section class="table_body">
             <?php
-            $sql = "SELECT grupo+1 AS grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location GROUP BY grupo;";
-            
-            $result = $mysqli->query($sql);
+            $result = my_query("SELECT grupo+1 AS grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location GROUP BY grupo;");
             
             $gruposSensores = array();
             
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $grupo = $row["grupo"];
-                    $sensors = $row["id_sensors"];
-                    
-                    if (!isset($gruposSensores[$grupo])) {
-                        $gruposSensores[$grupo] = array();
-                    }
-                    
-                    $sensor = explode(",", $sensors);
-                    
-                    foreach ($sensor as $s) {
-                        if (!in_array($s, $gruposSensores[$grupo])) {
-                            $gruposSensores[$grupo][] = $s;
-                        }
+            foreach ($result as $row) {
+                $grupo = $row["grupo"];
+                $sensors = $row["id_sensors"];
+                
+                if (!isset($gruposSensores[$grupo])) {
+                    $gruposSensores[$grupo] = array();
+                }
+                
+                $sensor = explode(",", $sensors);
+                
+                foreach ($sensor as $s) {
+                    if (!in_array($s, $gruposSensores[$grupo])) {
+                        $gruposSensores[$grupo][] = $s;
                     }
                 }
             }
@@ -148,16 +142,16 @@ if (isset($_SESSION['username'])) {
                     <span>Selecionar todos</span>
                 </label>
                 <?php
-                $sql = "SELECT location.id_sensor, location.location_x,location.location_y, CAST(CONV(RIGHT(sensors.id_sensor, 2), 16, 10) AS SIGNED) AS id_sensor_decimal,sensors.Active
+                $result = my_query("
+                SELECT location.id_sensor, location.location_x,location.location_y, CAST(CONV(RIGHT(sensors.id_sensor, 2), 16, 10) AS SIGNED) AS id_sensor_decimal,sensors.Active
                 FROM location
                 INNER JOIN sensors ON 
                 location.id_sensor = sensors.id_sensor
-                where location.grupo=$grupo GROUP BY location.id_sensor";
-
-                $result = $mysqli->query($sql);
+                where location.grupo=$grupo GROUP BY location.id_sensor
+                ");
                 
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
+                if (count($result) > 0) {
+                    foreach ($result as $row) {
                         echo '<label class="check-container">';
                         echo '<input type="checkbox" class="checkbox" name="sensores[]" value="' . $row['id_sensor'] . '">';
                         echo '<div class="checkmark"></div>';
