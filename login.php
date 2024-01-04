@@ -21,8 +21,8 @@ if (isset($_SESSION['username'])) {
                 <div class="content">
                     <h2>Trindade</h2>
                     <div class="text-sci">
-                        <h2>Welcome! <br><span>To Our New Website.</span></h2>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis recusandae soluta magnam sequi neque quam dolore corporis inventore consequatur quas commodi ipsam, iusto id. Ipsam vero fugiat cupiditate. Officia, suscipit?</p>
+                        <h2>Bem-vindo! <br><span>À nossa página.</span></h2>
+                        <p>Aqui pode visualizar todos os dados necessários para o controlo de qualidade e monitorização dos produtos. </p>
                     </div>
                 </div>
                 
