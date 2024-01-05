@@ -1,42 +1,53 @@
 <?php
-    include('connect.inc.php');
+    include('config.inc.php');
 
-    $day= date('d');
-    $month= date('m');
-    $year= date('y');
-    $data= $year."/".$month."/".$day;
-    
-    $dt = DateTime::createFromFormat('!d/m/Y', $data);
-    $dbname= $year."_".strtoupper($dt->format('M'));
-    
-    $prevday= $day - 1;
+    $year = date('Y');
+    $month = date('m');
 
-    $sql= "NOT EXISTS(SELECT * from $year where name = '$dbname')";
-    if($mysqli->query($sql) === false){
-        
-        $sql= "create database $dbname";
+    $dbnames = array();
+    $dates_db = array();
 
-        if($mysqli->query($sql) === TRUE){
-            echo "base de dados criada.";
-        }
-        
-        $sql= "create table $dbname.location LIKE plantdb.location";
-        $mysqli->query($sql);
-        $sql= "INSERT INTO $dbname.location select * from plantdb.location";
-        $mysqli->query($sql);
-        $sql= "create table $dbname.users LIKE plantdb.users";
-        $mysqli->query($sql);
-        $sql= "INSERT INTO $dbname.users select * from plantdb.users";
-        $mysqli->query($sql);
-        $sql= "create table $dbname.sensors LIKE plantdb.sensors";
-        $mysqli->query($sql);
+    $result = my_query("SHOW DATABASES LIKE '".$arrConfig['dbname']."_%';");
 
+    foreach ($result as $row) {
+        $dbnames[] = $row['Database ('.$arrConfig['dbname'].'_%)'];
+        $dates_db[] = DateTime::createFromFormat('!Y-m-d' ,str_replace('_', '-', str_replace($arrConfig['dbname'] . '_', '', $row['Database ('.$arrConfig['dbname'].'_%)'])).'-01');   
     }
-    $sql="INSERT INTO $dbname.sensors SELECT * from plantdb.sensors where date <= '20".$year."-".$month."-".$prevday."'";
-    $mysqli->query($sql);
-    
-    $sql="DELETE from plantdb.sensors where date <= '20".$year."-".$month."-".$prevday."'";
-    $mysqli->query($sql);
 
-    $mysqli->close(); 
+    if ($dates_db == NULL) {
+        $result = my_query("SELECT MIN(date) AS 'date' FROM ". $arrConfig['dbname'] .".sensors;");
+
+        foreach ($result as $row) {
+            $dates_db[] = DateTime::createFromFormat('!Y-m-d' , $row["date"]);
+        }
+    }
+
+    $last_db = max($dates_db);
+
+    $m = $last_db->format('m');
+    $y = $last_db->format('Y');
+
+    while ($year == $last_db->format('Y') && $month < $last_db->format('m') || $y < $year) {
+        
+        $new_dbname= $arrConfig['dbname'] . "_" . $y."_" . $m;
+        if(my_query("CREATE DATABASE IF NOT EXISTS $new_dbname;") == TRUE){
+            my_query("
+            select concat('create table
+            $new_dbname.',TABLE_NAME,' like ".$arrConfig['dbname'].".',TABLE_NAME,'; insert into
+            $new_dbname.',TABLE_NAME,';')
+            from information_schema.tables where table_schema = '".$arrConfig['dbname']."';
+            ");
+
+            my_query("INSERT INTO $new_dbname.location select * from ". $arrConfig['dbname'] .".location;");
+            my_query("INSERT INTO $new_dbname.users select * from ". $arrConfig['dbname'] .".users;");
+            my_query("INSERT INTO $new_dbname.sensors SELECT * from ". $arrConfig['dbname'] .".sensors where date <= '".$y."-".$m."-". cal_days_in_month(CAL_GREGORIAN, $m, $y) ."';");
+            my_query("DELETE from ". $arrConfig['dbname'] .".sensors where date <= '".$y."-".$m."-".cal_days_in_month(CAL_GREGORIAN, $m, $y)."';");
+        }
+
+        if ($m == 12) {
+            $m = 0;
+            $y++;
+        }
+        $m++;
+    }
 ?>

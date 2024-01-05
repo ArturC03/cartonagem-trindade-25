@@ -1,15 +1,8 @@
 <?php
-// Conecta ao banco de dados
-$conn = new mysqli('localhost', 'root', '', 'plantdb');
-
-// Checa se a conexão foi bem sucedida
-if ($conn->connect_error) {
-  die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-}
-
+include('config.inc.php');
 
 // Consulta os valores dos sensores
-$result = $conn->query("SELECT 
+$result = my_query("SELECT 
     location.id_sensor,
     location.location_x,
     location.location_y,
@@ -39,16 +32,11 @@ WHERE
 ;
 ");
 
-
-
-
-
-
 // Cria um array para armazenar os dados dos sensores
 $data = array();
 
 // Adiciona cada linha do resultado da consulta ao array
-while ($row = $result->fetch_assoc()) {
+foreach ($result as $row) {
   $data[] = array(
     'x' => $row['location_x'],
     'y' => $row['location_y'],

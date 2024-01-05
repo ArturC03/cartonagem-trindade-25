@@ -135,8 +135,6 @@ if (isset($_SESSION['username'])) {
                 </thead>
                 <tbody>
                      <?php
-                        require_once('db.inc.php');
-
                         $mesMaxPesquisa = $mesMaxPesquisa +1;
 
                         while($mesMinPesquisa <> $mesMaxPesquisa) {

@@ -5,7 +5,6 @@ if (isset($_SESSION['username'])) {
   include('header.inc.php');
 
 if(isset($_POST['submeter2'])){
-  require_once('db.inc.php');
   $arrConfig['site_title'] = $_POST['tit'];
 
   if (my_query("INSERT into titulo values(null, '" . $arrConfig['site_title']. "');") === TRUE) {

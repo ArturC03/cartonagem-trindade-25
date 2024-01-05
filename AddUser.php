@@ -5,8 +5,6 @@ if (isset($_SESSION['username'])) {
 	include('header.inc.php');
 	
 	if(isset($_POST['completeYes'])) {
-		require_once("db.inc.php");
-
 		$id_exists = false;
 		$username = $_POST['username'];
 		$pass = $_POST['psw'] ; 

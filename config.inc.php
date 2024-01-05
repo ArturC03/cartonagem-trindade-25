@@ -7,14 +7,14 @@ $arrConfig['username'] = 'root';
 $arrConfig['password'] = '';
 $arrConfig['dbname'] = 'plantdb';
 
-include_once('db.inc.php');
+require_once('db.inc.php');
 
 $result = my_query("SELECT titulo from titulo WHERE id=(select max(id) from titulo);");
 $arrConfig['site_title'] = $result[0]['titulo'];
 
 $viewportWidth = 0.62;
 
-if (!isset($_SESSION['screenWidth'])) {
+if (!isset($_SESSION['screenWidth']) && ($_SERVER['PHP_SELF'] == '/home.php' || $_SERVER['PHP_SELF'] == '/EditLocation.php')) {
   echo "<script src='https://code.jquery.com/jquery-3.7.1.min.js' integrity='sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=' crossorigin='anonymous'></script>";
   echo "<script src='js/setScreenWidth.js'></script>";
 }

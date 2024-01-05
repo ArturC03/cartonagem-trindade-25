@@ -40,13 +40,9 @@ if (isset($_SESSION['username'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php  
-                        require 'connect.inc.php';
-                        
-                        $query = "SELECT user_id, username, email,  IF(user_type = '1','Admin','Utilizador') as permissoes FROM users";  
-                        
-                        $result = $mysqli->query($query);
-                        while($row = mysqli_fetch_array($result))  
+                    <?php                        
+                        $result = my_query("SELECT user_id, username, email,  IF(user_type = '1','Admin','Utilizador') as permissoes FROM users");
+                        foreach ($result as $row)  
                         {   
                             echo '  
                             <tr> 

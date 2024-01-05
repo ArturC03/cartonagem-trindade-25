@@ -39,13 +39,9 @@ if (isset($_SESSION['username'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php  
-                        require 'connect.inc.php';
-                        
-                        $query = "SELECT DISTINCT l.id_sensor , IF(l.location_x IS NULL,'Localização Por Definir','Localização Definida') as location, l.status FROM location l";
-                        
-                        $result = $mysqli->query($query);
-                        while($row = mysqli_fetch_array($result))  
+                    <?php
+                        $result = my_query("SELECT DISTINCT l.id_sensor , IF(l.location_x IS NULL,'Localização Por Definir','Localização Definida') as location, l.status FROM location l");
+                        foreach ($result as $row) 
                         {
                             echo '<tr>';
                             echo '<td>' . $row["id_sensor"] . '</td>';
@@ -60,10 +56,6 @@ if (isset($_SESSION['username'])) {
         </section>
     </main>
     <script src="js/consultaTabela.js"></script>
-    <script>
-        console.log(document.getElementById('state-button').style.zIndex);
-        console.log(document.querySelector('.edit').style.backgroundColor);
-    </script>
 <?php
 	include('footer.inc.php');
 }else{

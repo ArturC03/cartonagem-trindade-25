@@ -7,8 +7,6 @@ if (isset($_SESSION['username'])) {
 	$id = $_GET['id'];
 
 if(isset($_POST['completeYes'])) {
-	require_once('db.inc.php');
-
 	$id_exists = false;
 	$username = $_POST['username'];
 	$pass = $_POST['psw'] ; 

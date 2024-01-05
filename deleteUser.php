@@ -1,5 +1,5 @@
 <?php
-require_once('db.inc.php');
+include('config.inc.php');
 $id = $_GET['id'];
 
 if (my_query("DELETE FROM users WHERE user_id = $id") === TRUE) {

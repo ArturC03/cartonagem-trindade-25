@@ -1,8 +1,7 @@
 <?php
+include('config.inc.php');
 // Verifique se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    require_once('db.inc.php');
-
     if (isset($_POST['botaoCSV'])) {
         if (isset($_POST["sensores"]) && is_array($_POST["sensores"])) {
             // Atualize a tabela 'sensors' com os valores corretos

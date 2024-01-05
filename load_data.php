@@ -1,4 +1,6 @@
 <?php
+    include('config.inc.php');
+
     $ids=$_POST['ids'];
     $sensores= "";
     foreach($ids as $id){
@@ -63,8 +65,6 @@
     if (isset($_POST['anoMinPesquisa'])) {
         $anoMinPesquisa= $_POST['anoMinPesquisa'];
     }
-    
-    require 'connect.inc.php';
 
     $mesMaxPesquisa= $mesMaxPesquisa +1;
 
@@ -86,10 +86,10 @@
         }
         
         $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC";
-        $result = $mysqli->query($sql . " LIMIT 100 OFFSET $offset;");
-        $offset = $offset + $result->num_rows;
+        $result = my_query($sql . " LIMIT 100 OFFSET $offset;");
+        $offset = $offset + count($result);
         if (sizeof($data) >= 100) {
-            while ($row = $result->fetch_assoc()) {
+            foreach ($result as $row) {
                 $data["sql"][] = $row;
             }
             $data["mesMinPesquisa"] = $mesMinPesquisa;

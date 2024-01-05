@@ -1,6 +1,5 @@
 <?php
 include('config.inc.php');
-require_once('db.inc.php');
 
 $grupo = $_POST['grupo']; // Recupere o grupo selecionado
 

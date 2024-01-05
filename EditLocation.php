@@ -5,8 +5,6 @@ if (isset($_SESSION['username'])) {
     include('header.inc.php');
 
 if (isset($_POST['completeYes'])) {
-    require_once('db.inc.php');
-
 	$id_exists = false;
 	$id_sensor = $_POST['id'];
 	$location_x = $_POST['location_x'];

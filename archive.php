@@ -3,7 +3,6 @@ include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
   include('header.inc.php');
-  require_once('db.inc.php');
 ?>
     <div class="main-container">
         <form action="consultaTabela.php" method="POST" class="search"> 

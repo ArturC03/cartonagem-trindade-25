@@ -87,17 +87,15 @@ if (isset($_SESSION['username'])) {
         </html>
     <?php
 	} else {
-		require 'connect.inc.php';
 		$username = $_POST['username'];
 		$pass = $_POST['password'];
 
 		$password = sha1($pass);
 
-		$sql = "SELECT * from users WHERE email LIKE '{$username}' AND password LIKE '{$password}' LIMIT 1;";
-		$result = $mysqli->query($sql);
+		$result = my_query("SELECT * from users WHERE email LIKE '{$username}' AND password LIKE '{$password}' LIMIT 1;");
 		$row=mysqli_fetch_array($result);
 
-		if (!$result->num_rows == 1) {
+		if (!count($result) == 1) {
 			header("location:login.php?msg=failed");
 
 		} else {

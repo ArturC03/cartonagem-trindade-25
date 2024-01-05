@@ -3,7 +3,6 @@ include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
     include('header.inc.php');
-    require_once('db.inc.php');
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['botaoCSV'])){
