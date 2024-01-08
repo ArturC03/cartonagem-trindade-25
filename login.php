@@ -93,13 +93,12 @@ if (isset($_SESSION['username'])) {
 		$password = sha1($pass);
 
 		$result = my_query("SELECT * from users WHERE email LIKE '{$username}' AND password LIKE '{$password}' LIMIT 1;");
-		$row=mysqli_fetch_array($result);
 
 		if (!count($result) == 1) {
 			header("location:login.php?msg=failed");
 
 		} else {
-			$_SESSION['username']=$row['email'];
+			$_SESSION['username']=$result[0]['email'];
 			header('location: home.php');
 		}
 	}

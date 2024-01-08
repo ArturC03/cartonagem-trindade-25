@@ -7,6 +7,7 @@ if (isset($_SESSION['username'])) {
 if (isset($_POST['completeYes'])) {
 	$id_exists = false;
 	$id_sensor = $_POST['id'];
+
 	$location_x = $_POST['location_x'];
 	$location_y = $_POST['location_y'];
     $size_x = $_POST['size_x'];
@@ -14,14 +15,14 @@ if (isset($_POST['completeYes'])) {
 	$res = my_query("SELECT id_sensor FROM location WHERE id_sensor='$id_sensor'");
     
 	if (count($res) > 0) {
-		if (my_query("UPDATE `location` SET `location_x`='$location_x',`location_y`='$location_y',`size_x`='$size_x',`size_y`='$size_y' where `id_sensor` = '$id_sensor';") === TRUE) {
+		if (my_query("UPDATE `location` SET `location_x`=$location_x,`location_y`=$location_y,`size_x`=$size_x,`size_y`=$size_y where `id_sensor` = '$id_sensor';") == TRUE) {
             echo "<script type='text/javascript'>
             window.location = 'manageSensors.php';</script>";
 		} else {
-            echo "Error: " . $sql . "<br>" . $mysqli->error;
+            echo "Error: " . $arrConfig['conn']->error;
 		}
 	} else {
-        if (my_query("INSERT INTO location (location_x, location_y, size_x, size_y, id_sensor) VALUES ('$location_x', '$location_y', '$size_x', '$size_y', '$id_sensor' )") === TRUE) {
+        if (my_query("INSERT INTO location (location_x, location_y, size_x, size_y, id_sensor) VALUES ('$location_x', '$location_y', '$size_x', '$size_y', '$id_sensor' )") == TRUE) {
             echo "<script type='text/javascript'>
             alert('Nova localização adicionada com sucesso!')
             window.location = 'manageSensors.php';</script>";
@@ -43,6 +44,7 @@ if (isset($_POST['completeYes'])) {
     </div>
     <div>
         <?php
+        // FUNCIONALIDADE DESATIVADA DE MOSTRAR CIRCULO NA LOCALIZACAO 1
         // $id = $_GET['id'];
         // $sqlC = "SELECT location_x,location_y, size_x, size_y  FROM location WHERE id_sensor='$id'";
         // $result = $mysqli->query($sqlC);
@@ -54,6 +56,7 @@ if (isset($_POST['completeYes'])) {
         <svg width="<?php echo $viewportWidth * 100; ?>vw" height="<?php echo $heightInPixels; ?>" xmlns="http://www.w3.org/2000/svg">
             <image id="image" width="<?php echo $viewportWidth * 100; ?>vw" height="<?php echo $heightInPixels; ?>" href="images/plantaV3.png" />
             <?php
+            // FUNCIONALIDADE DESATIVADA DE MOSTRAR CIRCULO NA LOCALIZACAO 2
             // if ($x != null && $y != null) {
             //     echo '<circle id="circle" cx="' . $x . '" cy="' . $y . '" r="10" fill="#FF5733" />';
             // }
