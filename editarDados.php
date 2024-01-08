@@ -17,7 +17,7 @@ if (isset($_SESSION['username'])) {
     
     if (count($res) > 0)
     {
-      if (my_query("UPDATE `users` SET `password`='$password' WHERE email='$session_id'") === TRUE) {
+      if (my_query("UPDATE `users` SET `password`='$password' WHERE email='$session_id'") == TRUE) {
         echo "<script type='text/javascript'>
         alert('Password atualizada com sucesso!')
         window.location = 'logout.php';</script>";
@@ -32,7 +32,7 @@ if (isset($_SESSION['username'])) {
   }
 ?>
 <div class="container">
-  <h2>Alterar Senha</h2>
+  <h2>Alterar Password</h2>
   <form method="post" class="modal-content" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" onsubmit="return confirm('Pretende alterar a password?');">
     <div id="change-password-form">
       <div class="form-group">
@@ -45,12 +45,12 @@ if (isset($_SESSION['username'])) {
         ?>
       </div>
       <div class="form-group">
-        <label for="new-password">Nova Senha</label>
+        <label for="new-password">Nova Password</label>
         <input type="password" id="new-password" name="new-password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
         <span class="error-message" id="new-password-error"></span>
       </div>
       <div id="password-requirements">
-          <h3>Requisitos da Senha:</h3>
+          <h3>Requisitos da Password:</h3>
           <ul>
             <li id="length">Pelo menos 8 caracteres</li>
             <li id="capital">Pelo menos uma letra maiúscula</li>
@@ -59,11 +59,11 @@ if (isset($_SESSION['username'])) {
           </ul>
       </div>
       <div class="form-group">
-        <label for="confirm-password">Confirmar Nova Senha</label>
+        <label for="confirm-password">Confirmar Nova Password</label>
         <input type="password" id="confirm-password" name="confirm-password" required>
         <span class="error-message" id="confirm-password-error"></span>
       </div>
-      <button type="submit" name="completeYes" id="change-password-button">Alterar Senha</button>
+      <button type="submit" name="completeYes" id="change-password-button">Alterar Password</button>
     </div>
   </form>
   <div id="change-password-feedback" class="hidden">

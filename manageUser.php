@@ -62,7 +62,7 @@ if (isset($_SESSION['username'])) {
                 </tbody>
             </table>
         </section>
-        <button class="learn-more" onclick="window.location.href='AddUser.php';">
+        <button class="learn-more" onclick="window.location.href='addUser.php';">
             <div class="circle">
                 <div class="icon arrow"></div>
             </div>

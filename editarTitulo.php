@@ -7,7 +7,7 @@ if (isset($_SESSION['username'])) {
 if(isset($_POST['submeter2'])){
   $arrConfig['site_title'] = $_POST['tit'];
 
-  if (my_query("INSERT into titulo values(null, '" . $arrConfig['site_title']. "');") === TRUE) {
+  if (my_query("INSERT into titulo values(null, '" . $arrConfig['site_title']. "');") == TRUE) {
     echo "<br><p>Titulo atualizado.</p>";
   } else {
     echo "Erro na criação de novo título! Tente outra vez! "  . $mysqli->error;
