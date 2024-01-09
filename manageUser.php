@@ -1,8 +1,8 @@
 <?php
-include('config.inc.php');
+include('include/config.inc.php');
 
 if (isset($_SESSION['username'])) {
-	include('header.inc.php');
+	include('include/header.inc.php');
 ?>
     <script src="js/manageUser.js"></script>
     <main class="table">
@@ -72,7 +72,7 @@ if (isset($_SESSION['username'])) {
     <script src="js/consultaTabela.js"></script>
 
 <?php
-    include('footer.inc.php');
+    include('include/footer.inc.php');
 } else {
     header('Location: login.php');
 }

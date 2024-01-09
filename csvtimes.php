@@ -1,8 +1,8 @@
 <?php
-include('config.inc.php');
+include('include/config.inc.php');
 
 if (isset($_SESSION['username'])) {
-    include('header.inc.php');
+    include('include/header.inc.php');
 ?>
 <div class="container">   
     <div class="sensor-container">
@@ -93,7 +93,7 @@ if (isset($_SESSION['username'])) {
 </div>
     <script src="js/csvtools.js"></script>
 <?php
-    include('footer.inc.php');
+    include('include/footer.inc.php');
 }else{
     header('Location: login.php');
 }

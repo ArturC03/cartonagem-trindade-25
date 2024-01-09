@@ -1,8 +1,8 @@
 <?php
-include('config.inc.php');
+include('include/config.inc.php');
 
 if (isset($_SESSION['username'])) {
-    include('header.inc.php');
+    include('include/header.inc.php');
 
 if (isset($_POST['completeYes'])) {
 	$id_exists = false;
@@ -69,7 +69,7 @@ if (isset($_POST['completeYes'])) {
 <script src="js/EditLocation.js"></script>
 <script src="js/setImageSize.js"></script>
 <?php
-include('footer.inc.php');
+include('include/footer.inc.php');
 }else{
     header('Location: login.php');
 }

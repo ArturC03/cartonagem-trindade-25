@@ -1,5 +1,5 @@
 <?php
-include('config.inc.php');
+include('include/config.inc.php');
 
 $sql = $_POST["sql"];
 $result2 = my_query($sql);

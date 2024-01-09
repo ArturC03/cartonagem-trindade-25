@@ -1,6 +1,6 @@
 
 <?php
-include("config.inc.php");
+include('include/config.inc.php');
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +24,6 @@ include("config.inc.php");
 </head>
 <body>
     <?php
-        include("nav.inc.php");
+        include('include/nav.inc.php');
     ?>
     <div class="main">

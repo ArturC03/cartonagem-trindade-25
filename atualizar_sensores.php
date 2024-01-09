@@ -1,5 +1,5 @@
 <?php
-include('config.inc.php');
+include('include/config.inc.php');
 
 $grupo = $_POST['grupo']; // Recupere o grupo selecionado
 

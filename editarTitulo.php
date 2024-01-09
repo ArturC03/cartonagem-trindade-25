@@ -1,8 +1,8 @@
 <?php
-include('config.inc.php');
+include('include/config.inc.php');
 
 if (isset($_SESSION['username'])) {
-  include('header.inc.php');
+  include('include/header.inc.php');
 
 if(isset($_POST['submeter2'])){
   $arrConfig['site_title'] = $_POST['tit'];
@@ -35,7 +35,7 @@ if(isset($_POST['submeter2'])){
 </body>
 
 <?php
-  include('footer.inc.php');
+  include('include/footer.inc.php');
 }else{
   header('Location: login.php');
 }
