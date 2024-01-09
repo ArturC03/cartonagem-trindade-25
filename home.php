@@ -1,7 +1,7 @@
 <?php
 include('include/config.inc.php');
 include('include/header.inc.php');
-//include('monthdb.php');
+//include('include/monthdb.inc.php');
 //header("refresh: 10000;");  
 ?>
 

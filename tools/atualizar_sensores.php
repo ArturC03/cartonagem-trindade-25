@@ -1,9 +1,8 @@
 <?php
 include('include/config.inc.php');
 
-$grupo = $_POST['grupo']; // Recupere o grupo selecionado
+$grupo = $_POST['grupo'];
 
-// Consulta SQL para obter a lista de sensores com base no grupo
 $sql = "SELECT location.id_sensor
         FROM location
         WHERE location.grupo = $grupo
@@ -28,4 +27,3 @@ if (count($result) > 0) {
 } else {
     echo "Nenhum sensor encontrado para este grupo.";
 }
-?>

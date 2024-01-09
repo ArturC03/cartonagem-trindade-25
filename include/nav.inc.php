@@ -53,7 +53,7 @@
         <?php
         if(isset($_SESSION['username'])){
           echo '<a href="manageUser.php">' . $_SESSION['username'] . '</a>';
-          echo '<a href="logout.php">Logout</a>';
+          echo '<a href="tools/logout.php">Logout</a>';
         }else{
           echo '<a href="login.php">Login</a>';
         }

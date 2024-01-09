@@ -1,5 +1,5 @@
 <?php
-include('config.inc.php');
+include('include/config.inc.php');
 $id = $_GET['id'];
 $status = $_GET['status'];
 echo "Id: $id  Status: $status ";
