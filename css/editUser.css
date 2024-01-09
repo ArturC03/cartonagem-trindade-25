@@ -84,3 +84,24 @@ button:hover {
 #feedback-message {
     color: green;
 }
+
+#password-requirements {
+    text-align: left;
+    margin-top: 15px;
+}
+  
+#password-requirements ul {
+    padding-left: 20px;
+    color: rgb(247, 0, 0);
+    font-weight: bold;
+    list-style-type: none;
+}
+  
+#password-requirements ul .done{
+    color: rgb(140, 247, 0);
+}
+  
+#password-requirements li {
+    list-style-type: disc;
+    margin-bottom: 5px;
+}

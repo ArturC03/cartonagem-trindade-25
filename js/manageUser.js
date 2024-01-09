@@ -1,5 +1,5 @@
 $(function() {
     $('td a#a_id').click(function() {
-        return confirm("Are You sure that You want to delete this?");
+        return confirm("Tem a certeza que pretende eliminar o utilizador?");
     });
 });

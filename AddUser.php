@@ -10,7 +10,7 @@ if (isset($_SESSION['username'])) {
 		$pass = $_POST['new-password'] ; 
 		$password = sha1($pass);
 		$email = $_POST['email'] ; 
-		$userType = $_POST['permitions'];
+		$userType = $_POST['permitions'] == 'yes' ? '1' : '0';
 		$sqlCheck = "SELECT email FROM users WHERE email='$email'";
 		$res = my_query($sqlCheck);
 	
@@ -37,7 +37,7 @@ if (isset($_SESSION['username'])) {
 	<div class="container">
         <h2>Criar Utilizador</h2>
 
-        <form id="userForm" class="user-form" action="addUser.php" method="post">
+        <form id="userForm" class="user-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 
             <label for="username" class="form-label">Utilizador:</label>
             <input type="text" id="username" name="username" class="form-input" required>
@@ -45,7 +45,7 @@ if (isset($_SESSION['username'])) {
             <label for="email" class="form-label">Email:</label>
             <input type="email" id="email" name="email" class="form-input" required>
 
-            <label for="new-password" class="form-label">Alterar Password:</label>
+            <label for="new-password" class="form-label">Password:</label>
             <input type="password" id="new-password" name="new-password" class="form-input">
 			
 			<div id="password-requirements">
@@ -64,9 +64,9 @@ if (isset($_SESSION['username'])) {
 
             <p class="radio-question">Conceder permissões de administrador?</p>
 
-            <div class="radio-group" id="permitions">
-                <label for="adminYes" class="radio-label"><input type="radio" id="adminYes" name="admin" value="yes">Sim</label>
-                <label for="adminNo" class="radio-label"><input type="radio" id="adminNo" name="admin" value="no" checked>Não</label>
+            <div class="radio-group">
+                <label for="adminYes" class="radio-label"><input type="radio" id="adminYes" name="permitions" value="yes">Sim</label>
+                <label for="adminNo" class="radio-label"><input type="radio" id="adminNo" name="permitions" value="no" checked>Não</label>
             </div>
 
             <button type="submit" class="form-button" name="completeYes">Criar</button>

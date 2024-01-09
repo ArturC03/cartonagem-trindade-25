@@ -1,36 +1,22 @@
-var dataMinima = $("#mindate").val();
-var dataMaxima = $("#maxdate").val();
-var horaMinima = $("#mintime").val();
-var horaMaxima = $("#maxtime").val();
-var ids = $("#sensores").val().replace("[", "").replace("]", "").split(",");
-var mesMinPesquisa = -1;
-var anoMinPesquisa = -1;
 var offset = -1;
+var tableBody;
 
 function load_data() {
-    $('#loader-holder').removeClass("d-none");
+    $('.loader').removeClass("d-none");
     setTimeout(function() {
         $.ajax({
             url: "load_data.php",
             method: 'POST',
             data: { offset: offset == -1 ? $('.table-body table > tbody > tr').length : offset,
-                    dataMinima: dataMinima,
-                    dataMaxima: dataMaxima,
-                    horaMinima: horaMinima,
-                    horaMaxima: horaMaxima,
-                    ids: ids,
-                    mesMinPesquisa: mesMinPesquisa == -1 ? new Date(dataMinima).getMonth() + 1 : mesMinPesquisa,
-                    anoMinPesquisa: anoMinPesquisa == -1 ? new Date(dataMinima).getFullYear().toString().slice(2, 4) : anoMinPesquisa
+                    sql: document.getElementById('sql').textContent
                 },
             dataType: 'json',
             error: err => {
                 console.log(err)
             },
             success: function(resp) {
-                mesMinPesquisa = resp['mesMinPesquisa'];
-                anoMinPesquisa = resp['anoMinPesquisa'];
                 offset = resp['offset'];
-                if (resp.length > 0) {
+                if (resp['sql'].length > 0) {
                     Object.keys(resp['sql']).forEach(k => {
                         const row = resp['sql'][k];
                         const newRow = `
@@ -45,26 +31,27 @@ function load_data() {
                                 <td>${String(row["eTVOC"]).replace(/^0+/, '')}</td>
                             </tr>
                         `;
-                        $('.table-body table > tbody').append(newRow);
+                        $('.table_body table > tbody').append(newRow);
                     });
                 }
             },
             complete: function() {
-                $('#loader').addClass("d-none");
+                $('.loader').addClass("d-none");
             }
         })
     }, 800)
 }
 $(function() {
+    tableBody = $('.table_body');
     load_data();
-})
-$(window).scroll(function() {
-    var scrollHeight = $('body').get(0).scrollHeight;
-    var _scrolled = $(window).get(0).innerHeight + $(window).get(0).scrollY + 1;
+    $("#table_body").scroll(function() {
+        var scrollHeight = tableBody[0].scrollHeight;
+        var _scrolled = tableBody.scrollTop() + tableBody.innerHeight();
 
-    if (scrollHeight <= _scrolled) {
-        if ($('#loader').is(':visible') == false){
-            load_data();
+        if (scrollHeight - _scrolled <= 0) {
+            if ($('.loader').is(':visible') == false){
+                load_data();
+            }
         }
-    }
+    });
 });

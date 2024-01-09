@@ -5,6 +5,7 @@ $status = $_GET['status'];
 echo "Id: $id  Status: $status ";
 
 if ($status == 1) {
+    my_query("update `location` set status = 0 WHERE id_sensor = '$id'");
     header('Location: manageSensors.php'); 
     exit;
 } elseif ($status == 0) {

@@ -6,27 +6,34 @@ if (isset($_SESSION['username'])) {
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['botaoCSV'])){
-
             if (isset($_POST['sensores'])) {
                 ob_clean();
                 // Processar a geração do CSV aqui
                 $sensoresSelecionados = $_POST['sensores'];
-                array_splice($sensoresSelecionados, 0, 1);
+
+                var_dump($sensoresSelecionados);
 
                 // Consulta SQL para selecionar os dados dos sensores escolhidos
                 // Calcula a data de agora
-                $min_datetime = $_POST['horaMinima'];
-                $max_datetime = $_POST['horaMaxima'];
+                $min_datetime = DateTime::createFromFormat('Y-m-d H:i', $_POST['horaMinima']); //AQUIII
+                $max_datetime = DateTime::createFromFormat('Y-m-d H:i', $_POST['horaMaxima']);
                 
                 // Sua consulta SQL
+                echo "
+                SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
+                FROM sensors
+                WHERE id_sensor IN (" . implode(',', $sensoresSelecionados) . ") //AQUIII
+                CONVERT(DATETIME2,CONVERT(VARBINARY(6),time)+CONVERT(BINARY(3),date)) >= $min_datetime AND CONVERT(DATETIME2,CONVERT(VARBINARY(6),time)+CONVERT(BINARY(3),date)) <= $max_datetime
+                ";
                 
                 $result = my_query("
                 SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
                 FROM sensors
                 WHERE id_sensor IN (" . implode(',', $sensoresSelecionados) . ")
-                AND (date >= DATE('$min_datetime') AND date <= DATE('$max_datetime') AND hour >= TIME('$min_datetime') AND hour <= TIME('$max_datetime'))
+                CONVERT(DATETIME2,CONVERT(VARBINARY(6),time)+CONVERT(BINARY(3),date)) >= $min_datetime AND CONVERT(DATETIME2,CONVERT(VARBINARY(6),time)+CONVERT(BINARY(3),date)) <= $max_datetime
                 ");
                 
+
                 if (count($result) > 0) {
                     // Nome do arquivo CSV
                     $filename = "dados_sensores.csv";
@@ -167,8 +174,8 @@ if (isset($_SESSION['username'])) {
             <input type="datetime-local" name="horaMaxima" id="horaMaxima" step="1" required>
             
             <div class="button-container">
-                <button type="submit" class="btn-success" id="BotaoCSV">Agendar CSV</button>
-                <button type="submit" class="btn-success" id="BotaoJSON">Agendar JSON</button>
+                <button type="submit" class="btn-success" id="botaoCSV" name="botaoCSV">Agendar CSV</button>
+                <button type="submit" class="btn-success" id="botaoJSON" name="botaoJSON">Agendar JSON</button>
             </div>
         </div>        
         </form>

@@ -11,7 +11,7 @@ if(isset($_POST['completeYes'])) {
 	$username = $_POST['username'];
 	$pass = $_POST['new-password'] ; 
 	$email = $_POST['email'] ; 
-	$userType = $_POST['permitions'];
+	$userType = $_POST['permitions'] == 'yes' ? 1 : 0;
 	
 	if (is_null($pass))
 	{
@@ -42,7 +42,7 @@ $result = my_query("SELECT * FROM users where user_id='$id';");
 <div class="container">
 	<h2>Alterar Dados do Utilizador</h2>
 
-	<form id="userForm" class="user-form" action="editUser.php" method="post">
+	<form id="userForm" class="user-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<input type="hidden" name="id" value="<?php echo $id;?>">
 		<?php
 			if (isset($_GET["msg"]) && $_GET["msg"] == 'failed') {
@@ -58,10 +58,19 @@ $result = my_query("SELECT * FROM users where user_id='$id';");
 
 		<label for="password" class="form-label">Alterar Password:</label>
 		<input type="password" id="new-password" name="new-password" class="form-input">
+		
+		<div id="password-requirements">
+			<h3>Requisitos da Password:</h3>
+			<ul>
+				<li id="length">Pelo menos 8 caracteres</li>
+				<li id="capital">Pelo menos uma letra maiúscula</li>
+				<li id="letter">Pelo menos uma letra minúscula</li>
+				<li id="number">Pelo menos um número</li>
+			</ul>
+		</div>
 
 		<label for="confirmPassword" class="form-label">Confirmar Password:</label>
 		<input type="password" id="confirm-password" name="confirm-password" class="form-input">
-
 
 		<p class="radio-question">Conceder permissões de administrador?</p>
 

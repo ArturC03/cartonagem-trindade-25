@@ -2,7 +2,7 @@ var screenWidth = window.innerWidth;
 
 $.ajax({
     type: "POST",
-    url: "setScreenWidth.inc.php",
+    url: "setScreenWidth.php",
     data: { screenWidth: screenWidth },
     success: function(response) {
         console.log(response, screenWidth);

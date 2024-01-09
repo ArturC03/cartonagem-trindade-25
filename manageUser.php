@@ -66,7 +66,7 @@ if (isset($_SESSION['username'])) {
             <div class="circle">
                 <div class="icon arrow"></div>
             </div>
-            <span class="button-text">Add User</span>
+            <span class="button-text">Adicionar Utilizador</span>
         </button>
     </main>
     <script src="js/consultaTabela.js"></script>
