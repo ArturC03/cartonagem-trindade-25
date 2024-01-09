@@ -53,7 +53,7 @@ $(function() {
             var scrollHeight = tableBody[0].scrollHeight;
             var _scrolled = tableBody.scrollTop() + tableBody.innerHeight();
 
-            if (scrollHeight - _scrolled <= 1) {
+            if (scrollHeight - _scrolled <= 0.1 * scrollHeight) {
                 if ($('.loader').is(':visible') == false){
                     load_data();
                 }
