@@ -1,8 +1,8 @@
 <?php
-include('include/config.inc.php');
+include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
-	include('include/header.inc.php');
+	include('header.inc.php');
 	
 	$id = $_GET['id'];
 
@@ -85,7 +85,7 @@ $result = my_query("SELECT * FROM users where user_id='$id';");
 </div>
 <script src="js/editarDados.js"></script>
 <?php
-	include('include/footer.inc.php');
+	include('footer.inc.php');
 }else{
 	header('Location: login.php');
 }

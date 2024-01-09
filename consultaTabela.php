@@ -1,8 +1,8 @@
 <?php
-include('include/config.inc.php');
+include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
-    include('include/header.inc.php');
+    include('header.inc.php');
 
     $ids=$_POST['ids'];
     $sensores= "";
@@ -135,7 +135,7 @@ if (isset($_SESSION['username'])) {
         
     <script src="js/consultaTabela.js"></script>
     <?php
-    include('include/footer.inc.php');
+    include('footer.inc.php');
     }else{
       header('Location: login.php');
     }

@@ -1,8 +1,8 @@
 <?php
-include('include/config.inc.php');
+include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
-	include('include/header.inc.php');
+	include('header.inc.php');
 
   if(isset($_POST['completeYes'])) {
     $id_exists = false;
@@ -72,7 +72,7 @@ if (isset($_SESSION['username'])) {
 </div>
 <script src="js/editarDados.js"></script>
 <?php
-  include('include/footer.inc.php');
+  include('footer.inc.php');
 } else {
   header('Location: login.php');
 }

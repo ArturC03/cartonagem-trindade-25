@@ -1,6 +1,6 @@
 <?php
-include('include/config.inc.php');
-include('include/header.inc.php');
+include('config.inc.php');
+include('header.inc.php');
 //include('monthdb.php');
 //header("refresh: 10000;");  
 ?>
@@ -16,5 +16,5 @@ include('include/header.inc.php');
 <script src="js/home.js"></script>
 
 <?php
-  include('include/footer.inc.php');
+  include('footer.inc.php');
 ?>

@@ -1,5 +1,5 @@
 <?php
-include('include/config.inc.php');
+include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
 	header('Location: index.php');

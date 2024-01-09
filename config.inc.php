@@ -7,7 +7,7 @@ $arrConfig['username'] = 'root';
 $arrConfig['password'] = '';
 $arrConfig['dbname'] = 'plantdb';
 
-require_once('include/db.inc.php');
+require_once('db.inc.php');
 
 $result = my_query("SELECT titulo from titulo WHERE id=(select max(id) from titulo);");
 $arrConfig['site_title'] = $result[0]['titulo'];

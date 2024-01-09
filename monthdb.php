@@ -1,5 +1,5 @@
 <?php
-    include('include/config.inc.php');
+    include('config.inc.php');
 
     $year = date('Y');
     $month = date('m');

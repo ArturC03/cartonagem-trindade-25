@@ -1,5 +1,5 @@
 <?php
-    include('include/config.inc.php');
+    include('config.inc.php');
 
     $sql = $_POST["sql"];
     $offset = $_POST["offset"];

@@ -1,5 +1,5 @@
 <?php
-include('include/config.inc.php');
+include('config.inc.php');
 
 if (isset($_SESSION['username'])) {
 ?>
@@ -29,7 +29,7 @@ if (isset($_SESSION['username'])) {
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <?php
 
-include('include/nav.inc.php');
+include('nav.inc.php');
 
 
 ?>

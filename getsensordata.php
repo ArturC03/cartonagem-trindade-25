@@ -1,5 +1,5 @@
 <?php
-include('include/config.inc.php');
+include('config.inc.php');
 
 // Consulta os valores dos sensores
 $result = my_query("SELECT 

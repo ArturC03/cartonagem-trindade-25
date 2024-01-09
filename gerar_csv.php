@@ -1,5 +1,5 @@
 <?php
-include('include/config.inc.php');
+include('config.inc.php');
 // Verifique se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['botaoCSV'])) {
