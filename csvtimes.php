@@ -49,7 +49,7 @@ if (isset($_SESSION['username'])) {
             ?>    
         </section>
     </div> 
-    <form action="tools/gerar_csv.php" method="post">
+    <form action="gerar_csv.php" method="post">
         <div class="sensor-container">
             <h2>Selecione o grupo</h2>
             <select name="grupo">

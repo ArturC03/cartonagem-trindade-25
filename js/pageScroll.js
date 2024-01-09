@@ -6,7 +6,7 @@ function load_data() {
     $('.loader').removeClass("d-none");
     setTimeout(function() {
         $.ajax({
-            url: "tools/load_data.php",
+            url: "load_data.php",
             method: 'POST',
             data: { offset: offset == -1 ? $('.table-body table > tbody > tr').length : offset,
                     sql: document.getElementById('sql').textContent
@@ -66,7 +66,7 @@ function sendToCSV() {
     $('.loader').removeClass("d-none");
     setTimeout(function() {
         $.ajax({
-            url: "tools/obterCSV.php",
+            url: "obterCSV.php",
             method: 'POST',
             data: { sql: document.getElementById('sql2').textContent},
             dataType: 'json',

@@ -1,6 +1,7 @@
 <?php
 include('include/config.inc.php');
 
+// Consulta os valores dos sensores
 $result = my_query("SELECT 
     location.id_sensor,
     location.location_x,
@@ -31,8 +32,10 @@ WHERE
 ;
 ");
 
+// Cria um array para armazenar os dados dos sensores
 $data = array();
 
+// Adiciona cada linha do resultado da consulta ao array
 foreach ($result as $row) {
   $data[] = array(
     'x' => $row['location_x'],
@@ -43,8 +46,10 @@ foreach ($result as $row) {
   );
 }
 
+// Retorna os dados como JSON
 echo json_encode(array(
   'min' => 0,
   'max' => 35,
   'data' => $data
 ));
+?>

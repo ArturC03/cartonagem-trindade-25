@@ -52,7 +52,7 @@ if (isset($_SESSION['username'])) {
                             <td>
                             <div class="button-container">
                             <a type="button" class="edit" href="editUser.php?id='. $row["user_id"].'" >Editar</a>
-                            <a type="button" class="edit delete" id="a_id" href="tools/deleteUser.php?id='. $row["user_id"].'" >Eliminar</a>
+                            <a type="button" class="edit delete" id="a_id" href="deleteUser.php?id='. $row["user_id"].'" >Eliminar</a>
                             </div>
                             </td>  
                             </tr>  

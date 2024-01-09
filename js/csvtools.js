@@ -3,7 +3,7 @@ $(document).ready(function() {
     function loadSensorList(grupo) {
         $.ajax({
             type: 'POST',
-            url: 'tools/atualizar_sensores.php',
+            url: 'atualizar_sensores.php',
             data: { grupo: grupo-1 },
             success: function(response) {
                 $('.sensor-update').html(response);

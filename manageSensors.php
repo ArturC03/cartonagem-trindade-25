@@ -47,7 +47,7 @@ if (isset($_SESSION['username'])) {
                             echo '<td>' . $row["id_sensor"] . '</td>';
                             echo '<td>' . $row["location"] .'</td>';
                             echo '<td><a type="button" class="edit" href=\'EditLocation.php?id=' . $row["id_sensor"] . '\'">Editar</a></td>';
-                            echo '<td><a type="button" id="state-button" class="changestate ' . ($row["status"] == 1 ? "active" : "inactive") . '" href=\'tools/changeSensorStatus.php?id=' . $row["id_sensor"] . '&status=' . $row["status"] . '\'">' . ($row["status"] == 1 ? "Ativo" : "Inativo") . '</a></td>';
+                            echo '<td><a type="button" id="state-button" class="changestate ' . ($row["status"] == 1 ? "active" : "inactive") . '" href=\'changeSensorStatus.php?id=' . $row["id_sensor"] . '&status=' . $row["status"] . '\'">' . ($row["status"] == 1 ? "Ativo" : "Inativo") . '</a></td>';
                             echo '</tr>';
                         }
                     ?>

@@ -20,7 +20,7 @@ if (isset($_SESSION['username'])) {
       if (my_query("UPDATE `users` SET `password`='$password' WHERE email='$session_id'") == TRUE) {
         echo "<script type='text/javascript'>
         alert('Password atualizada com sucesso!')
-        window.location = 'tools/logout.php';</script>";
+        window.location = 'logout.php';</script>";
       } else {
         header("location:editarDados.php?msg=failed");
       }

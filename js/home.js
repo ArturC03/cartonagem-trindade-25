@@ -23,7 +23,7 @@ var resizeId;
 
   var points = [];
   $.ajax({
-    url: 'tools/getsensordata.php',
+    url: 'getsensordata.php',
     dataType: 'json',
     Type:'GET',
     success: function(data1) {

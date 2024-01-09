@@ -76,7 +76,7 @@ if (isset($_SESSION['username'])) {
 	<script src="js/editarDados.js"></script>
 <?php
 
-include('include/footer.inc.php');
+include('footer.inc.php');
 }else{
 	header('Location: login.php');
 }
