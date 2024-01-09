@@ -1,5 +1,6 @@
 var offset = -1;
 var tableBody;
+var flag = false;
 
 function load_data() {
     $('.loader').removeClass("d-none");
@@ -33,6 +34,9 @@ function load_data() {
                         `;
                         $('.table_body table > tbody').append(newRow);
                     });
+                } else {
+                    flag = true;
+                    tableBody.off('scroll');
                 }
             },
             complete: function() {
@@ -42,16 +46,37 @@ function load_data() {
     }, 800)
 }
 $(function() {
-    tableBody = $('.table_body');
-    load_data();
-    $("#table_body").scroll(function() {
-        var scrollHeight = tableBody[0].scrollHeight;
-        var _scrolled = tableBody.scrollTop() + tableBody.innerHeight();
+    if (!flag) {
+        tableBody = $('.table_body');
+        load_data();
+        $("#table_body").scroll(function() {
+            var scrollHeight = tableBody[0].scrollHeight;
+            var _scrolled = tableBody.scrollTop() + tableBody.innerHeight();
 
-        if (scrollHeight - _scrolled <= 0) {
-            if ($('.loader').is(':visible') == false){
-                load_data();
+            if (scrollHeight - _scrolled <= 1) {
+                if ($('.loader').is(':visible') == false){
+                    load_data();
+                }
             }
-        }
-    });
+        });  
+    }
 });
+
+function sendToCSV() {
+    $('.loader').removeClass("d-none");
+    setTimeout(function() {
+        $.ajax({
+            url: "obterCSV.php",
+            method: 'POST',
+            data: { sql: document.getElementById('sql2').textContent},
+            dataType: 'json',
+            error: err => {
+                console.log(err)
+            },
+            complete: function () {
+                document.location.href = "download/dados.csv";
+                $('.loader').addClass("d-none");
+            }
+        })
+    }, 800)
+}

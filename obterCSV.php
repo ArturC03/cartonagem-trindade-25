@@ -1,22 +1,21 @@
 <?php
-$result2 = my_query("SELECT id_sensor,hour,date,temperature,humidity,pressure,eCO2,eTVOC from sensors where id_sensor in $sensores order by date ASC");
+include('config.inc.php');
+
+$sql = $_POST["sql"];
+$result2 = my_query($sql);
 $fileName = 'download/dados.csv';
 
 $file = fopen($fileName, 'w');
 fputcsv($file, array('id_sensors', 'Hora', 'Data', 'Temperatura', 'Humidade','Pressão','CO2','TVOC'),';');
 foreach ($result2 as $row) {
-    $formattedTemperature = ltrim(sprintf("%.3f", $row[3]), '0');
-    $row[3] = $formattedTemperature;
-    $formattedHumidity = ltrim(sprintf("%.3f", $row[4]), '0');
-    $row[4] = $formattedHumidity;
+    $formattedTemperature = ltrim(sprintf("%.3f", $row['temperature']), '0');
+    $row['temperature'] = $formattedTemperature;
+    $formattedHumidity = ltrim(sprintf("%.3f", $row['humidity']), '0');
+    $row['humidity'] = $formattedHumidity;
     
-    $formattedPressure = ltrim(sprintf("%.3f", $row[5]), '0');
-    $row[5] = $formattedPressure;
+    $formattedPressure = ltrim(sprintf("%.3f", $row['pressure']), '0');
+    $row['pressure'] = $formattedPressure;
     
     fputcsv($file, $row,';');
 }
-@header('Content-Type: text/csv');
-@header('Content-Disposition: attachment; filename="' . $fileName . '"');
 fclose($file);
-
-header('Location: download/dados.csv');

@@ -35,13 +35,8 @@ var resizeId;
             value: data1.data[i].value,
             radius: 25
           }
-          
-          console.log(point.x, point.y);
-          console.log(size_x / parseFloat(data1.data[i].size_x));
-          console.log(size_y / parseFloat(data1.data[i].size_y));
           points.push(point);
         }
-        console.log(data1.data[i].size_x, data1.data[i].size_y);
       }
       var data_final = {
         min: 0,
@@ -49,7 +44,6 @@ var resizeId;
         data: points
       }
       heatmapInstance.setData(data_final);
-      console.log(data1);
     },
     error: function() {
       alert('Erro ao carregar dados dos sensores.');
@@ -145,10 +139,6 @@ var resizeId;
           }
         }
       });
-
-    
-
-    console.log("dataTemperatura", dataTemperatura);
   }
 
   var demoWrapper = document.getElementById('heatMap1');

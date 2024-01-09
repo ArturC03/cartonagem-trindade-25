@@ -42,8 +42,10 @@ if (isset($_SESSION['username'])) {
     $datas= "s.date BETWEEN '".$dataMinima."' and '".$dataMaxima."' AND ";
 
     $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC";
+    $sql2 = "SELECT distinct s.id_sensor, s.date, s.hour, s.temperature, s.humidity, s.pressure, s.co2, s.tvoc FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC";
     ?>
     <p id="sql" class="d-none"><?php echo $sql; ?></p>
+    <p id="sql2" class="d-none"><?php echo $sql2; ?></p>
     <script src="js/pageScroll.js"></script>
     <main class="table">
         <section class="table_header"> 
@@ -116,14 +118,12 @@ if (isset($_SESSION['username'])) {
                 </div>
                 <span class="button-text">Gráficos</span>
             </button>
-            <a href="obterCSV.php" download>
-                <button class="learn-more">
-                    <div class="circle">
-                        <div class="icon arrow"></div>
-                    </div>
-                    <span class="button-text">Obter CSV</span>
-                </button>
-            </a>
+            <button class="learn-more" onclick="sendToCSV();">
+                <div class="circle">
+                    <div class="icon arrow"></div>
+                </div>
+                <span class="button-text">Obter CSV</span>
+            </button>
             <button class="learn-more" onclick="window.location.href='archive.php';">
                 <div class="circle">
                     <div class="icon arrow"></div>
