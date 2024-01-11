@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit();
         }
     } else if (isset($_POST['botaoJSON'])) {
-        
+        header("Location:503.html");
     }
 }
 ?>
