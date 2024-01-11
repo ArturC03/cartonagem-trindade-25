@@ -1,7 +1,5 @@
 <?php
 include('config.inc.php');
-if(session_destroy())
-{
-    header("Location: home.php");
-}
+unset($_SESSION['username']);
+header("Location: home.php");
 ?>
