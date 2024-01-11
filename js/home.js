@@ -19,6 +19,7 @@ var resizeId;
 
   var heatmapInstance = h337.create({
     container: document.getElementById('heatMap1'),
+    minOpacity: 0.07,
   });
 
   var points = [];

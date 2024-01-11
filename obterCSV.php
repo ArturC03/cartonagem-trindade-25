@@ -15,6 +15,12 @@ foreach ($result2 as $row) {
     
     $formattedPressure = ltrim(sprintf("%.3f", $row['pressure']), '0');
     $row['pressure'] = $formattedPressure;
+
+    $formattedCo2 = ltrim(sprintf("%.3f", $row['eCO2']), '0');
+    $row['eCO2'] = $formattedCo2;
+
+    $formattedTvoc = ltrim(sprintf("%.3f", $row['eTVOC']), '0');
+    $row['eTVOC'] = $formattedTvoc;
     
     fputcsv($file, $row,';');
 }
