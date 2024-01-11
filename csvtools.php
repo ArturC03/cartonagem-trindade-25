@@ -22,8 +22,7 @@ if (isset($_SESSION['username'])) {
                 SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
                 FROM sensors
                 WHERE id_sensor IN ('" . implode('\',\'', $sensoresSelecionados) . "')
-                AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "'
-                AND sensors.hour BETWEEN '".$min_datetime->format('H:i:s')."' and '".$max_datetime->format('H:i:s')."';"
+                AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "';"
                 );                
 
                 if (count($result) > 0) {
@@ -162,8 +161,8 @@ if (isset($_SESSION['username'])) {
                 ?>
             </div>
             <h2>Período</h2>
-            <input type="datetime-local" name="horaMinima" id="horaMinima" step="1" required>
-            <input type="datetime-local" name="horaMaxima" id="horaMaxima" step="1" required>
+            <input type="date" name="horaMinima" id="horaMinima" step="1" required>
+            <input type="date" name="horaMaxima" id="horaMaxima" step="1" required>
             
             <div class="button-container">
                 <button type="submit" class="btn-success" id="botaoCSV" name="botaoCSV">Agendar CSV</button>
