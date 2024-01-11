@@ -142,45 +142,43 @@ td {
     text-align: center;
 }
 
-.radio-inputs {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding: 0.25rem;
-    font-size: 2vh;
-}
 
-.radio-inputs .radio {
-    flex: 1 1 auto;
-    text-align: center;
-    margin: 0.25rem;
-}
 
-.radio-inputs .radio input {
-    display: none;
-}
-
-.radio-inputs .radio .name {
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.5rem;
-    border: none;
-    padding: .5rem 1rem;
-    color: rgba(51, 65, 85, 1);
-    transition: all .15s ease-in-out;
+.custom-select {
     color: white;
-    font-weight: bold;
-    transition: background-color 0.7s;
-
-}
-
-.radio-inputs .radio input:checked + .name {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    transition: border-color 0.3s;
     background-color: #ffcc5efe;
-    font-weight: 600;
-    transition: background-color 0.4s;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+   
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+.custom-select:focus {
+    outline: none;
+    border-color: #ffcc5efe;
+}
+
+.custom-select:focus + .custom-option {
+    background-color: #f0f0f0;
+}
+
+.custom-option {
+    font-size: 14px;
+    background-color: transparent;
+    transition: background-color 0.3s;
+}
+
+.custom-option:hover {
+    background-color: #f70606;
+}
+
+
 
 
 button {
