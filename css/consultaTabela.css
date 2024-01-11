@@ -147,7 +147,7 @@ td {
     justify-content: center;
     flex-wrap: wrap;
     padding: 0.25rem;
-    font-size: 9px;
+    font-size: 2vh;
 }
 
 .radio-inputs .radio {
@@ -377,6 +377,7 @@ button {
 
     .radio-inputs {
         padding: 0em;
+        font-size: 1vh;
     }
 
     .title{
