@@ -83,7 +83,7 @@ if (isset($_SESSION['username'])) {
             }
             exit();
         } else if (isset($_POST['botaoJSON'])) {
-            //FAZER JSON
+            header("Location:503.html");
         }
     } else {
 ?>

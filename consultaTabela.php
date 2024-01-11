@@ -92,7 +92,7 @@ if (isset($_SESSION['username'])) {
         </section>
         
         <section class="button-container">
-            <button class="learn-more" onclick="window.location.href='consultaGraficos.php';">
+            <button class="learn-more" onclick="window.location.href='503.html';">
                 <div class="circle">
                     <div class="icon arrow"></div>
                 </div>
