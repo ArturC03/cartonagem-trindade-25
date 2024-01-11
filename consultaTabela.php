@@ -54,40 +54,20 @@ if (isset($_SESSION['username'])) {
                 <input type="search" placeholder="Procurar dados...">
                 <img src="images/search.svg" alt="">
             </div>
-            <div class="radio-inputs">
-                <label class="radio">
-                    <input type="radio" name="column" value="0" checked>
-                    <span class="name">ID</span>
-                </label>
-                <label class="radio">
-                    <input type="radio" name="column" value="1">
-                    <span class="name">Hora</span>
-                </label>
-                <label class="radio">
-                    <input type="radio" name="column" value="2">
-                    <span class="name">Data</span>
-                </label>
-                <label class="radio">
-                    <input type="radio" name="column" value="3">
-                    <span class="name">Temperatura (ºC)</span>
-                </label>
-                <label class="radio">
-                    <input type="radio" name="column" value="4">
-                    <span class="name">Humidade (%)</span>
-                </label>
-                <label class="radio">
-                    <input type="radio" name="column" value="5">
-                    <span class="name">Pressão (HPA)</span>
-                </label>
-                <label class="radio">
-                    <input type="radio" name="column" value="6">
-                    <span class="name">CO2 (PPM)</span>
-                </label>
-                <label class="radio">
-                    <input type="radio" name="column" value="7">
-                    <span class="name">TVOC (PPB)</span>
-                </label>
+            <div class="custom-select-wrapper">
+                <select name="column" class="custom-select">
+                    <option value="0" class="custom-option" selected>ID</option>
+                    <option value="1" class="custom-option">Hora</option>
+                    <option value="2" class="custom-option">Data</option>
+                    <option value="3" class="custom-option">Temperatura (ºC)</option>
+                    <option value="4" class="custom-option">Humidade (%)</option>
+                    <option value="5" class="custom-option">Pressão (HPA)</option>
+                    <option value="6" class="custom-option">CO2 (PPM)</option>
+                    <option value="7" class="custom-option">TVOC (PPB)</option>
+                </select>
             </div>
+
+
         </section>
         <section class="table_body" id="table_body">
             <table>
