@@ -30,13 +30,13 @@ if (isset($_SESSION['username'])) {
     $comp3= strlen($horaMaxima);
     
     if($comp2==0 && $comp3==0){
-        $comp2= "s.hour BETWEEN '00:00' and '23:59' AND ";
+        $comp2= "s.hour BETWEEN '00:00:00' and '23:59:59' AND ";
     }elseif($comp2==0 && $comp3 <> 0){
-        $comp2= "s.hour BETWEEN '00:00' and '".$horaMaxima."' and ";
+        $comp2= "s.hour BETWEEN '00:00:00' and '".$horaMaxima."' and ";
     }elseif($comp2 <> 0 && $comp3 <> 0){
         $comp2= "s.hour BETWEEN '".$horaMinima."' and '".$horaMaxima."' AND ";
     }else{
-        $comp2= "s.hour BETWEEN '".$horaMinima."' and '23:59' AND ";
+        $comp2= "s.hour BETWEEN '".$horaMinima."' and '23:59:59' AND ";
     }
     
     $datas= "s.date BETWEEN '".$dataMinima."' and '".$dataMaxima."' AND ";
