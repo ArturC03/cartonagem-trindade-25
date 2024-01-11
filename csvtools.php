@@ -15,33 +15,25 @@ if (isset($_SESSION['username'])) {
 
                 // Consulta SQL para selecionar os dados dos sensores escolhidos
                 // Calcula a data de agora
-                $min_datetime = DateTime::createFromFormat('Y-m-d H:i', $_POST['horaMinima']); //AQUIII
-                $max_datetime = DateTime::createFromFormat('Y-m-d H:i', $_POST['horaMaxima']);
-                
-                // Sua consulta SQL
-                echo "
-                SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
-                FROM sensors
-                WHERE id_sensor IN (" . implode(',', $sensoresSelecionados) . ") //AQUIII
-                CONVERT(DATETIME2,CONVERT(VARBINARY(6),time)+CONVERT(BINARY(3),date)) >= $min_datetime AND CONVERT(DATETIME2,CONVERT(VARBINARY(6),time)+CONVERT(BINARY(3),date)) <= $max_datetime
-                ";
-                
+                $min_datetime = new DateTime($_POST['horaMinima']);
+                $max_datetime = new DateTime($_POST['horaMaxima']);
+
                 $result = my_query("
                 SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
                 FROM sensors
-                WHERE id_sensor IN (" . implode(',', $sensoresSelecionados) . ")
-                CONVERT(DATETIME2,CONVERT(VARBINARY(6),time)+CONVERT(BINARY(3),date)) >= $min_datetime AND CONVERT(DATETIME2,CONVERT(VARBINARY(6),time)+CONVERT(BINARY(3),date)) <= $max_datetime
-                ");
-                
+                WHERE id_sensor IN ('" . implode('\',\'', $sensoresSelecionados) . "')
+                AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "'
+                AND sensors.hour BETWEEN '".$min_datetime->format('H:i:s')."' and '".$max_datetime->format('H:i:s')."';"
+                );                
 
                 if (count($result) > 0) {
                     // Nome do arquivo CSV
-                    $filename = "dados_sensores.csv";
+                    $filename = "download/dados_sensores.csv";
                     
                     // Cria um arquivo CSV
                     $csvFile = fopen($filename, 'w');
                     
-                    $header = ["ID do Sensor", "Hora","Temperatura (°C)", "Umidade (%)", "Pressão (hPa)", "Altitude (m)", "eCO2", "eTVOC"];
+                    $header = ["ID do Sensor", "Hora","Temperatura (°C)", "Humidade (%)", "Pressao (hPa)", "Altitude (m)", "eCO2", "eTVOC"];
                     fputcsv($csvFile, $header);
                     
                     foreach ($result as $row) {
@@ -70,15 +62,15 @@ if (isset($_SESSION['username'])) {
                     readfile($filename);
                 } else {
                     echo "Nenhum dado encontrado para os sensores selecionados.";
-                    echo $min_datetime;
-                    echo $max_datetime;
+                    echo $min_datetime->format('Y-m-d H:i:s');
+                    echo $max_datetime->format('Y-m-d H:i:s');
                     print_r($sensoresSelecionados);
                 }
                 exit();
             } else {
                 echo "Nenhum dado encontrado para os grupos selecionados.";
-                echo $min_datetime;
-                echo $max_datetime;
+                echo $min_datetime->format('Y-m-d H:i:s');
+                echo $max_datetime->format('Y-m-d H:i:s');
                 print_r($sensoresSelecionados);
             }
             exit();
