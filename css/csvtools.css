@@ -5,7 +5,7 @@
 .sensor-container {    
     width: 90vw;
     max-width: 1200px;
-    background-color: #fff5;
+    background-color: rgba(56, 56, 56, 0.718);
     -webkit-backdrop-filter: blur(7px);
     backdrop-filter: blur(7px);
     box-shadow: 0 .4rem .8rem #0005;
