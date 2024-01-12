@@ -3,7 +3,7 @@ main.table {
     width: 90vw; 
     max-width: 1200px; 
     height: 85vh;
-    background-color: #fff5;
+    background-color: rgba(56, 56, 56, 0.718);
     -webkit-backdrop-filter: blur(7px);
     backdrop-filter: blur(7px);
     box-shadow: 0 .4rem .8rem #0005;
@@ -11,9 +11,8 @@ main.table {
     overflow: hidden;
     margin-top: 1rem;
 }
-
+ 
 .table_header {
-    z-index: 2;
     color: white;
     text-align: center;
     width: 100%;
@@ -28,7 +27,7 @@ main.table {
 .table_body {
     width: 95%;
     max-height: 65vh;
-    background-color: #fffb;
+    background-color: rgba(0, 0, 0, 0.733);
     margin: .8rem auto;
     border-radius: .6rem;
     overflow: auto;
@@ -67,7 +66,7 @@ thead th {
 }
  
 tbody tr:nth-child(even) {
-    background-color: #ffd56265;
+    background-color: rgba(0, 0, 0, 0.733);
     transition: background-color 0.7s;
 }
  
@@ -118,8 +117,8 @@ tbody tr.hide {
     opacity: 0;
     transform: translateX(100%);
 }
- 
-tbody tr.hide a {
+
+tbody tr.hide .button-container {
     display: none;
 }
  

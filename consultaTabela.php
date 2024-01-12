@@ -113,9 +113,9 @@ if (isset($_SESSION['username'])) {
         </section>
     </main>
         
-    <script src="js/consultaTabela.js"></script>
-    <?php
-    include('footer.inc.php');
-    }else{
-      header('Location: login.php');
-    }
+    <script src="js/consultaTabela2.js"></script>
+<?php
+include('footer.inc.php');
+}else{
+    header('Location: login.php');
+}

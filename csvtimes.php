@@ -8,18 +8,22 @@ if (isset($_SESSION['username'])) {
     <div class="sensor-container">
         <h2>Grupos</h2>
         <section class="table_body">
-            <?php
-            $result = my_query("SELECT grupo+1 AS grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location GROUP BY grupo;");
+        <?php
+            $result = my_query("SELECT grupos.id_grupo, grupos.grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location, grupos WHERE location.grupo = grupos.id_grupo GROUP BY grupo;");
             
+            $grupos = array();
             $gruposSensores = array();
             
             foreach ($result as $row) {
+                $id = $row["id_grupo"];
                 $grupo = $row["grupo"];
                 $sensors = $row["id_sensors"];
                 
                 if (!isset($gruposSensores[$grupo])) {
                     $gruposSensores[$grupo] = array();
                 }
+
+                $grupos[$id] = $grupo;
                 
                 $sensor = explode(",", $sensors);
                 
@@ -42,11 +46,10 @@ if (isset($_SESSION['username'])) {
                 echo '<td>' . implode(", ", $sensores) . '</td>';
                 echo '</tr>';
             }
-            
             echo '</tbody>';
             echo '</table>';
             
-            ?>    
+            ?>
         </section>
     </div> 
     <form action="gerar_csv.php" method="post">
@@ -54,32 +57,12 @@ if (isset($_SESSION['username'])) {
             <h2>Selecione o grupo</h2>
             <select name="grupo">
                 <?php
-                foreach ($gruposSensores as $grupo => $sensores) {
-                    echo '<option value="' . $grupo . '">Grupo ' . $grupo . '</option>';
+                foreach ($grupos as $k => $v) {
+                    echo '<option value="' . $k . '">Grupo ' . $v . '</option>';
                 }
                 ?>
             </select>
-            <div class="sensor-update">
-                <?php
-                $result = my_query("
-                SELECT location.id_sensor, location.location_x,location.location_y, CAST(CONV(RIGHT(sensors.id_sensor, 2), 16, 10) AS SIGNED) AS id_sensor_decimal,sensors.Active
-                FROM location
-                INNER JOIN sensors ON 
-                location.id_sensor = sensors.id_sensor
-                where location.grupo=$grupo GROUP BY location.id_sensor
-                ");
-                
-                if (count($result) > 0) {
-                    foreach ($result as $row) {
-                        echo '<div>';
-                        echo '<input type="checkbox" class="checkbox" name="sensores[]" value="' . $row['id_sensor'] . '">';
-                        echo '<label class="sensor-name">' . $row['id_sensor'] . '</label>';
-                        echo '</div>';
-                    }
-                } else {
-                    echo "Nenhum sensor encontrado.";
-                }
-                ?>          
+            <div class="sensor-update">          
             </div>
             <p>Hora a definir</p>
             <input type="datetime-local" name="horaSelecionada" id="horaSelecionada" step="1" required>

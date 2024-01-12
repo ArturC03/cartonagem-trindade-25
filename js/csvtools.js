@@ -4,7 +4,7 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
             url: 'atualizar_sensores.php',
-            data: { grupo: grupo-1 },
+            data: { grupo: grupo },
             success: function(response) {
                 $('.sensor-update').html(response);
             }

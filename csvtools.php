@@ -11,8 +11,6 @@ if (isset($_SESSION['username'])) {
                 // Processar a geração do CSV aqui
                 $sensoresSelecionados = $_POST['sensores'];
 
-                var_dump($sensoresSelecionados);
-
                 // Consulta SQL para selecionar os dados dos sensores escolhidos
                 // Calcula a data de agora
                 $min_datetime = new DateTime($_POST['horaMinima']);
@@ -83,17 +81,21 @@ if (isset($_SESSION['username'])) {
         <h2>Grupos</h2>
         <section class="table_body">
             <?php
-            $result = my_query("SELECT grupo+1 AS grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location GROUP BY grupo;");
+            $result = my_query("SELECT grupos.id_grupo, grupos.grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location, grupos WHERE location.grupo = grupos.id_grupo GROUP BY grupo;");
             
+            $grupos = array();
             $gruposSensores = array();
             
             foreach ($result as $row) {
+                $id = $row["id_grupo"];
                 $grupo = $row["grupo"];
                 $sensors = $row["id_sensors"];
                 
                 if (!isset($gruposSensores[$grupo])) {
                     $gruposSensores[$grupo] = array();
                 }
+
+                $grupos[$id] = $grupo;
                 
                 $sensor = explode(",", $sensors);
                 
@@ -127,38 +129,12 @@ if (isset($_SESSION['username'])) {
             <h2>Selecione o Grupo</h2>
             <select name="grupo">
                 <?php
-                foreach ($gruposSensores as $grupo => $sensores) {
-                    echo '<option value="' . $grupo . '">Grupo ' . $grupo . '</option>';
+                foreach ($grupos as $k => $v) {
+                    echo '<option value="' . $k . '">Grupo ' . $v . '</option>';
                 }
                 ?>
             </select>
             <div class="sensor-update">
-                <label class="check-container">
-                    <input type="checkbox" name="todos" id="todos" value="Selecionar Tudo">
-                    <div class="checkmark"></div>
-                    <span>Selecionar todos</span>
-                </label>
-                <?php
-                $result = my_query("
-                SELECT location.id_sensor, location.location_x,location.location_y, CAST(CONV(RIGHT(sensors.id_sensor, 2), 16, 10) AS SIGNED) AS id_sensor_decimal,sensors.Active
-                FROM location
-                INNER JOIN sensors ON 
-                location.id_sensor = sensors.id_sensor
-                where location.grupo=$grupo GROUP BY location.id_sensor
-                ");
-                
-                if (count($result) > 0) {
-                    foreach ($result as $row) {
-                        echo '<label class="check-container">';
-                        echo '<input type="checkbox" class="checkbox" name="sensores[]" value="' . $row['id_sensor'] . '">';
-                        echo '<div class="checkmark"></div>';
-                        echo '<span>' . $row['id_sensor'] . '</span>';
-                        echo '</label>';
-                    }
-                } else {
-                    echo "Nenhum sensor encontrado.";
-                }
-                ?>
             </div>
             <h2>Período</h2>
             <input type="date" name="horaMinima" id="horaMinima" step="1" required>
