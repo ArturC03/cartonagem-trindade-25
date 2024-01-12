@@ -161,12 +161,17 @@ select:hover {
 }
 
 /* Table */
+table {
+    overflow-y: scroll; /* Adiciona uma barra de rolagem vertical quando necessário */
+    max-height: 300px; /* Define a altura máxima para a tabela */
+  }
+
 .table_header {
     color: white;
     text-align: center;
-    width: 50%;
+    width: 100%;
     height: 10%;
-    background-color: #fff4;
+    background-color: rgba(72, 72, 72, 0.267);
     padding: .8rem 2rem;
     display: flex;
     justify-content: space-between;
@@ -174,9 +179,9 @@ select:hover {
 }
 
 .table_body {
-    width: 50%;
+    width: 95%;
     max-height: 65vh;
-    background-color: #fffb;
+    background-color: rgba(0, 0, 0, 0.733);
     margin: .8rem auto;
     border-radius: .6rem;
     overflow: auto;
@@ -189,23 +194,38 @@ select:hover {
 
 .table_body::-webkit-scrollbar-thumb {
     border-radius: .5rem;
-    background-color: #0004;
-    visibility: hidden;
+    background-color: rgba(223, 210, 210, 0.267);
 }
 
 .table_body:hover::-webkit-scrollbar-thumb {
-    visibility: visible;
+    /* visibility: visible; Remova esta linha */
 }
 
+ 
+.table_body::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+ 
+.table_body::-webkit-scrollbar-thumb {
+    border-radius: .5rem;
+    background-color: rgba(205, 195, 195, 0.267);
+    visibility: hidden;
+}
+ 
+.table_body:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}
+ 
 table {
     width: 100%;
 }
-
+ 
 table, th, td {
     border-collapse: collapse;
-    padding: 0.1rem;
+    padding: 1rem;
 }
-
+ 
 thead th {
     position: sticky;
     top: 0;
@@ -213,20 +233,19 @@ thead th {
     background-color: #ffcc5efe;
     text-align: center;
 }
-
+ 
 tbody tr:nth-child(even) {
-    background-color: #ffd56265;
+    background-color: rgba(0, 0, 0, 0.733);
     transition: background-color 0.7s;
 }
-
+ 
 tbody tr:hover {
     background-color: #fff6;
     transition: background-color 0.7s;
 }
-
+ 
 .table_header .input-group {
-    width: 25%;
-    max-width: 200px; 
+    width: 50%;
     height: 100%;
     background-color: rgba(219, 219, 219, 0.333);
     padding: 0 .8rem;
@@ -236,12 +255,12 @@ tbody tr:hover {
     align-items: center;
     transition: .2s;
 }
-
+ 
 .table_header .input-group img {
     width: 1.2rem;
     height: 1.2rem;
 }
-
+ 
 .table_header .input-group input {
     width: 100%;
     padding: 0 .5rem 0 .3rem;
@@ -251,44 +270,48 @@ tbody tr:hover {
     font-size: 14px;
     color: white;
 }
-
+ 
 .table_header .input-group:hover {
-    width: 30%;
+    width: 55%;
     background-color: #fff7;
     box-shadow: 0 .1rem .4rem #0002;
 }
-
+ 
 tbody tr.hide {
     --delay: .1s;
     transition: .5s ease-in-out var(--delay), background-color 0s;
 }
-
+ 
 tbody tr.hide {
     opacity: 0;
     transform: translateX(100%);
 }
 
+tbody tr.hide .button-container {
+    display: none;
+}
+ 
 tbody tr:hover {
     background-color: #fff6;
     transition: background-color 0.7s;
 }
-
+ 
 tbody tr td,
 tbody tr td p {
     transition: .2s ease-in-out;
 }
-
+ 
 tbody tr.hide td,
 tbody tr.hide td p {
     padding: 0;
     font: 0 / 0 sans-serif;
     transition: .2s ease-in-out .5s;
 }
-
+ 
 th {
     color: rgb(255, 255, 255);
 }
-
+ 
 td {
     text-align: center;
 }
