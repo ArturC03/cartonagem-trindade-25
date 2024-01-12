@@ -16,6 +16,7 @@
       <div id="dropdown1" class="dropdown-content">
         <a href="manageSensors.php">Gerir Nós</a>
         <a href="manageUser.php">Gerir Utilizadores</a>
+        <a href="manageGroup.php">Gerir Grupos</a>
         <a href="csvtimes.php">CSV Automático</a>
         <a href="editarDados.php">Alterar Password da Conta</a>
         <a href="editarTitulo.php">Alterar Título</a>

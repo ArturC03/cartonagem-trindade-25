@@ -9,7 +9,7 @@ if (isset($_SESSION['username'])) {
         <h2>Grupos</h2>
         <section class="table_body">
         <?php
-            $result = my_query("SELECT grupos.id_grupo, grupos.grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location, grupos WHERE location.grupo = grupos.id_grupo GROUP BY grupo;");
+            $result = my_query("SELECT grupos.id_grupo, grupos.grupo, GROUP_CONCAT(DISTINCT id_sensor) AS id_sensors FROM location, grupos WHERE location.grupo = grupos.id_grupo GROUP BY grupo ORDER BY id_grupo;");
             
             $grupos = array();
             $gruposSensores = array();
