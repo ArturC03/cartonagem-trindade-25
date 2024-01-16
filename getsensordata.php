@@ -14,7 +14,7 @@ location
 INNER JOIN 
 sensors 
 ON 
-CAST(RIGHT(location.id_sensor, 2) AS SIGNED) = CAST(CONV(RIGHT(sensors.id_sensor, 2), 16, 10) AS SIGNED)
+location.id_sensor = sensors.id_sensor
 WHERE 
 location.status = 1
 AND
