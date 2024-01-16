@@ -25,7 +25,7 @@ $result2 = my_query("SELECT distinct id_sensor FROM location");
 
 
 <div class="container">
-	<h2>Alterar Dados do Grupo</h2>
+	<h2>Adicionar Dados do Grupo</h2>
 
 	<form id="userForm" class="user-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<label for="grupo" class="form-label">Nome do Grupo:</label>

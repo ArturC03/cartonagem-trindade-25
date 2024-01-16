@@ -1,15 +1,11 @@
 .container {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #ffffffce;
+    background-color: rgba(56, 56, 56, 0.718);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center; /* Updated to center the content */
-}
-
-h2 {
-    color: #333;
+    width: 500px;
+    text-align: center;
 }
 
 .form-group {
@@ -17,25 +13,25 @@ h2 {
 }
 
 label {
+    display: block;
     margin-bottom: 5px;
-    color: #000000;
-    font-weight: 700;
-   
+    font-weight: 700;  
 }
 
 input {
-    width: 100%;
+    width: 70%;
+    height: 40px;
+    border: 2px solid #fbe961;
+    border-radius: 8px;
     padding: 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 1px solid #00000000;
-    border-radius: 12px;
-    transition: border-color 0.3s ease;
+    margin: 10px 0;
+    color: #5a5656;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
 }
-
-input:hover {
-    border-color: orange;
-    transition: border-color 0.3s ease;
+  
+input:hover{
+    border-color: #f39c12;
+    box-shadow: 0 0 10px #f39c12;
 }
 
 .radio-label {
@@ -86,12 +82,12 @@ button:hover {
 }
 
 #password-requirements {
-    text-align: left;
     margin-top: 15px;
 }
   
 #password-requirements ul {
-    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     color: rgb(247, 0, 0);
     font-weight: bold;
     list-style-type: none;
@@ -102,6 +98,5 @@ button:hover {
 }
   
 #password-requirements li {
-    list-style-type: disc;
     margin-bottom: 5px;
 }

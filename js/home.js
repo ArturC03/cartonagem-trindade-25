@@ -48,6 +48,9 @@ var resizeId;
     },
     error: function() {
       alert('Erro ao carregar dados dos sensores.');
+    },
+    complete: function() {
+      $('.loader').addClass("d-none");
     }
   }); 
 

@@ -13,6 +13,9 @@ include('header.inc.php');
   </div>
   <div id='GradTemperature'>
 </div>
+<div class="loader">
+  <div class="justify-content-center jimu-primary-loading"></div>
+</div>
 <script src="js/home.js"></script>
 
 <?php
