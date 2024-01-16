@@ -17,7 +17,7 @@ if (isset($_SESSION['username'])) {
                 $max_datetime = new DateTime($_POST['horaMaxima']);
 
                 $result = my_query("
-                SELECT id_sensor, date, hour,temperature, humidity, pressure, altitude, eCO2, eTVOC 
+                SELECT id_sensor, date, hour, temperature, humidity, pressure, altitude, eCO2, eTVOC 
                 FROM sensors
                 WHERE id_sensor IN ('" . implode('\',\'', $sensoresSelecionados) . "')
                 AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "';"
@@ -25,38 +25,38 @@ if (isset($_SESSION['username'])) {
 
                 if (count($result) > 0) {
                     // Nome do arquivo CSV
-                    $filename = "download/dados_sensores.csv";
+                    $fileName = "download/dados_sensores.csv";
                     
                     // Cria um arquivo CSV
-                    $csvFile = fopen($filename, 'w');
+                    $csvFile = fopen($fileName, 'w');
                     
-                    $header = ["ID do Sensor", "Hora","Temperatura (°C)", "Humidade (%)", "Pressao (hPa)", "Altitude (m)", "eCO2", "eTVOC"];
-                    fputcsv($csvFile, $header);
-                    
+                    $file = fopen($fileName, 'w');
+                    fputcsv($file, array('id_sensors', 'Data', 'Hora', 'Temperatura', 'Humidade','Pressão', 'Altitude', 'CO2','TVOC'),';');
                     foreach ($result as $row) {
-                        // Formate os dados conforme necessário
-                        $formattedData = [
-                            $row['id_sensor'],
-                            $row['hour'],
-                            $row['temperature'],
-                            $row['humidity'],
-                            $row['pressure'],
-                            $row['altitude'],
-                            $row['eCO2'],
-                            $row['eTVOC']
-                        ];
-                        fputcsv($csvFile, $formattedData);
+                        $formattedTemperature = ltrim(sprintf("%.3f", $row['temperature']), '0');
+                        $row['temperature'] = $formattedTemperature;
+                        $formattedHumidity = ltrim(sprintf("%.3f", $row['humidity']), '0');
+                        $row['humidity'] = $formattedHumidity;
+                        
+                        $formattedPressure = ltrim(sprintf("%.3f", $row['pressure']), '0');
+                        $row['pressure'] = $formattedPressure;
+
+                        $formattedCo2 = ltrim(sprintf("%.3f", $row['eCO2']), '0');
+                        $row['eCO2'] = $formattedCo2;
+
+                        $formattedTvoc = ltrim(sprintf("%.3f", $row['eTVOC']), '0');
+                        $row['eTVOC'] = $formattedTvoc;
+                        
+                        fputcsv($file, $row,';');
                     }
-                    
-                    // Fecha o arquivo CSV
-                    fclose($csvFile);
+                    fclose($file);
                     
                     // Define os cabeçalhos para download
                     header('Content-Type: text/csv');
-                    header('Content-Disposition: attachment; filename="' . $filename . '"');
+                    header('Content-Disposition: attachment; filename="' . $fileName . '"');
                     
                     // Lê e envia o arquivo CSV para o cliente
-                    readfile($filename);
+                    readfile($fileName);
                 } else {
                     echo "Nenhum dado encontrado para os sensores selecionados.";
                     echo $min_datetime->format('Y-m-d H:i:s');

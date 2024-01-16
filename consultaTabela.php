@@ -42,7 +42,7 @@ if (isset($_SESSION['username'])) {
     $datas= "s.date BETWEEN '".$dataMinima."' and '".$dataMaxima."' AND ";
 
     $sql = "SELECT distinct s.* FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC";
-    $sql2 = "SELECT distinct s.id_sensor, s.date, s.hour, s.temperature, s.humidity, s.pressure, s.eCO2, s.eTVOC FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC";
+    $sql2 = "SELECT distinct s.id_sensor, s.date, s.hour, s.temperature, s.humidity, s.pressure, s.altitude, s.eCO2, s.eTVOC FROM sensors s where ".$comp2.$datas."s.id_sensor in $sensores order by date ASC";
     ?>
     <p id="sql" class="d-none"><?php echo $sql; ?></p>
     <p id="sql2" class="d-none"><?php echo $sql2; ?></p>
