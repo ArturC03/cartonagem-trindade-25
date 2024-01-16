@@ -141,8 +141,8 @@ if (isset($_SESSION['username'])) {
             <input type="date" name="horaMaxima" id="horaMaxima" step="1" required>
             
             <div class="button-container">
-                <button type="submit" class="btn-success" id="botaoCSV" name="botaoCSV">Agendar CSV</button>
-                <button type="submit" class="btn-success" id="botaoJSON" name="botaoJSON">Agendar JSON</button>
+                <button type="submit" class="btn-success" id="botaoCSV" name="botaoCSV">Gerar CSV</button>
+                <button type="submit" class="btn-success" id="botaoJSON" name="botaoJSON">Gerar JSON</button>
             </div>
         </div>        
         </form>
