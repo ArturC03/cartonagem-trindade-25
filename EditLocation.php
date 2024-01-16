@@ -63,7 +63,7 @@ if (isset($_POST['completeYes'])) {
             ?>
         </svg>
     </div>
-    <button type="submit" id="submit" name="completeYes" value="Guardar"><a href="#"><span>Guardar</span></a></button>   
+    <button type="submit" id="submit" name="completeYes" value="Guardar">Guardar</button>   
 </form>
 
 <script src="js/EditLocation.js"></script>
