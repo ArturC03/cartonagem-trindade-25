@@ -17,6 +17,8 @@ $viewportWidth = 0.62;
 if (!isset($_SESSION['screenWidth'])) {
   echo "<script src='https://code.jquery.com/jquery-3.7.1.min.js' integrity='sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=' crossorigin='anonymous'></script>";
   echo "<script src='js/setScreenWidth.js'></script>";
+
+  echo "<script>document.location.reload();</script>";
 }
 
 $viewportWidthPixels = $_SESSION['screenWidth'] * $viewportWidth;
