@@ -6,5 +6,8 @@ $.ajax({
     data: { screenWidth: screenWidth },
     error: function(jqXHR, textStatus, errorThrown) {
         console.error(textStatus, errorThrown);
+    },
+    complete: function() {
+        window.location.reload();
     }
 });
