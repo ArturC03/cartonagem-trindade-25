@@ -39,7 +39,7 @@ if (isset($_SESSION['username'])) {
                         FROM grupos
                         LEFT JOIN location ON location.grupo = grupos.id_grupo
                         GROUP BY grupos.id_grupo
-                        ORDER BY grupos.id_grupo;
+                        ORDER BY grupos.grupo;
                         ");
                         foreach ($result as $row)  
                         {   
