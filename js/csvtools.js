@@ -39,4 +39,9 @@ $(document).ready(function() {
             $(".checkbox").prop("checked", false);
         }
     });
+
+    $('#periodo').change(function() {
+        var inputHora = $('#hora');
+        inputHora.prop('disabled', this.value != 'ONCE');
+    });
 });

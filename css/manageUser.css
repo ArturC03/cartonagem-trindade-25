@@ -50,29 +50,6 @@ a, a:link, a:visited, a:hover, a:active {
 .delete{
     background-color: red;
 }
- 
-@media screen and (max-width: 1195px) {
-    .table_header .input-group:hover {
-        width: 50%;
-    }
-
-    .table_header .input-group input::placeholder {
-        color: transparent;
-    }
- 
-    .table_header{
-        font-size: 2vh;
-    }
- 
-    .radio-inputs {
-        padding: 0em;
-        font-size: 1vh;
-    }
- 
-    .title{
-        font-size: 15px;
-    }
-}
 
 @media screen and (max-width: 754px) {
     .button-container {

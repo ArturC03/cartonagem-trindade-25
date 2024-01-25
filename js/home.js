@@ -310,7 +310,7 @@ function renderTemperatures() {
   zingchart.render({ 
     id : 'GradTemperature', 
     data : GradTemperature, 
-    height: size_y, 
+    height: size_x - 10, 
     width: 140
   });
 }

@@ -42,3 +42,21 @@ h2 {
     align-items: center;
     width: 30%;
 }
+
+@media screen and (max-width: 780px) {
+    input, select {
+        width: 80%;
+    }
+
+    .sensor-update {
+        width: 80%;
+    }
+
+    .button-container {
+        width: 80%;
+    }
+
+    .btn-success {
+        width: 40%;
+    }
+}
