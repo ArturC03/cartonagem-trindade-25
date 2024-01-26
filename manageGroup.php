@@ -49,8 +49,8 @@ if (isset($_SESSION['username'])) {
                             <td>'. $row["id_sensors"]. '</td>
                             <td>
                             <div class="button-container">
-                            <a type="button" class="edit" href="editGroup.php?id='. $row["id_grupo"].'" >Editar</a>
-                            <a type="button" class="edit delete" id="a_id" href="deleteGroup.php?id='. $row["id_grupo"].'" >Eliminar</a>
+                            <a type="button" class="button-table" href="editGroup.php?id='. $row["id_grupo"].'" >Editar</a>
+                            <a type="button" class="button-table delete" id="a_id" href="deleteGroup.php?id='. $row["id_grupo"].'" >Eliminar</a>
                             </div>
                             </td>  
                             </tr>  

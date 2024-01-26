@@ -12,14 +12,24 @@ if (isset($_SESSION['username'])) {
             $folderName = rand(100000, 999999);
         }
 
-        $result = my_query("INSERT INTO hora (id_hora, hora_geracao, sensores, tipo_geracao) VALUES (" . $folderName . " ,'" . $_POST['horaSelecionada'] . "', '" . implode(",", $sensoresSelecionados) . "', " . $_POST['submit'] == "CSV" ? '0' : '1' . ");");
+        $result = my_query("INSERT INTO hora (id_hora, periodo_geracao, data_geracao, sensores, tipo_geracao) VALUES (" . $folderName . " ,' " . $_POST['periodoSelecionado'] . "', '" . $_POST['horaSelecionada'] . "', '" . implode(',', $sensoresSelecionados) . "', " . ($_POST['submit'] == "CSV" ? '0' : '1') . ");");
 
-        mkdir('download/scheduled/' . $folderName, 0777, true);
+        if ($result == false) {
+            die('Erro ao criar o ficheiro');
+        }
 
-        exec('schtasks /create /sc ' . $_POST['periodoSelecionado'] . ' /tn "CSV Agendado" /tr "C:\xampp\php\php.exe 
-        scheduled.php?submit=' . $_POST['submit'] . '&sensores=' . implode(",", $sensoresSelecionados) . '&periodoSelecionado=' . $_POST['periodoSelecionado']
-        . (isset($_POST['horaSelecionada']) ? '&horaSelecionada=' . $_POST['horaSelecionada'] . '" /st ' . $_POST['horaSelecionada'] : '"') . ' /f');
-    }
+        $command = 'schtasks /create /sc ' . $_POST['periodoSelecionado'] . ' /tn "Exportação Agendada ' . $folderName . '" /tr "' . PHP_BINDIR .
+        '\php.exe ' . __DIR__ . '\scheduled.php ' . $folderName . (isset($_POST['horaSelecionada']) ? '" /sd ' . date_create($_POST['horaSelecionada'])->format('d/m/Y') . ' /st ' . date_create($_POST['horaSelecionada'])->format('H:i') : '"') . ' /f /RU ' . get_current_user();
+
+        mkdir(__DIR__ . '\download\scheduled\\' . $folderName, 0777);
+
+        if (!exec($command, $output)) {
+            echo ($command . "|" . $output[0]);
+            die('Erro ao criar o agendamento');
+        }
+
+        header('Location: csvtimes.php');
+    } else {
 ?>
 <div class="container">   
     <div class="sensor-container">
@@ -86,7 +96,6 @@ if (isset($_SESSION['username'])) {
                 <select name="periodoSelecionado" id="periodo" required>
                     <option value="">Selecione uma opção</option>
                     <option value="ONCE">Data Definida</option>
-                    <option value="MINUTE">Minuto a Minuto</option>
                     <option value="HOURLY">Hora a Hora</option>
                     <option value="DAILY">Diariamente</option>
                     <option value="WEEKLY">Semanalmente</option>
@@ -105,21 +114,40 @@ if (isset($_SESSION['username'])) {
 
                 <section class="table_body">
                     <?php
-                        $result = my_query("SELECT * FROM hora ORDER BY hora_geracao;");
+                        $result = my_query("SELECT * FROM hora ORDER BY data_geracao;");
 
                         echo '<table>';
                         echo '<thead>';
-                        echo '<tr><th>Data e Hora</th><th>Sensores</th></tr>';
+                        echo '<tr><th>Ações</th><th>Data e Hora</th><th>Tipo Agendamento</th><th>Sensores</th></tr>';
                         echo '</thead>';
                         
                         echo '<tbody>';
-                        foreach ($result as $row) {
-                            echo '<tr>';
-                            echo '<td>' . $row["id_hora"] . '</td>';
-                            echo '<td>' . $row["hora_geracao"] . '</td>';
-                            echo '</tr>';
+                        if (count($result) != 0) {    
+                            foreach ($result as $row) {
+                                echo '<tr>';
+                                echo '<td class="button-container-table"><a class="button-table delete" href="deleteScheduled.php?id=' . $row["id_hora"] . '">Eliminar</a><a class="button-table" href="download/scheduled/' . $row["id_hora"] . '/">Ver CSVs</a></td>';
+                                echo '<td>' . date_create($row["data_geracao"])->format('d/m/Y H:i:s') . '</td>';
+                                switch (trim($row["periodo_geracao"])) {
+                                    case "ONCE":
+                                        echo '<td>Uma vez</td>';
+                                        break;
+                                    case "HOURLY":
+                                        echo '<td>Hora a Hora</td>';
+                                        break;
+                                    case "DAILY":
+                                        echo '<td>Diariamente</td>';
+                                        break;
+                                    case "WEEKLY":
+                                        echo '<td>Semanalmente</td>';
+                                        break;
+                                    case "MONTHLY":
+                                        echo '<td>Mensalmente</td>';
+                                        break;
+                                }
+                                echo '<td>' . $row["sensores"] . '</td>';
+                                echo '</tr>';
+                            }
                         }
-
                         echo '</tbody>';
                         echo '</table>';
                     ?>
@@ -131,6 +159,7 @@ if (isset($_SESSION['username'])) {
     <script src="js/csvtools.js"></script>
 <?php
     include('footer.inc.php');
+    }
 }else{
     header('Location: login.php');
 }

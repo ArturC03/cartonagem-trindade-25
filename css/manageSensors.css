@@ -1,43 +1,6 @@
-@import url('../css/_table_big.css');
-
-a, a:link, a:visited, a:hover, a:active {
-    color: inherit;
-    text-decoration: inherit;
-    font-weight: inherit;
-}
-
-.edit{
-    background-color: rgb(255, 193, 61) ;
-    padding: 10px;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    margin-right: 10px;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}   
-    
-.changestate{
-    background-color: rgb(255, 193, 61) ;
-    padding: 10px;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    margin-right: 10px;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@import url('_table_big.css');
+@import url('_btn_table.css');
+.button-table.active, .button-table.inactive{
     width: 10vw;
     max-width: 100px;
-}
- 
-.active {
-    background-color: green;
-}
-
-.inactive{
-    background-color: red;
 }

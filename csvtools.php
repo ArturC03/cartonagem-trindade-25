@@ -27,9 +27,6 @@ if (isset($_SESSION['username'])) {
                     // Nome do arquivo CSV
                     $fileName = "download/dados_sensores.csv";
                     
-                    // Cria um arquivo CSV
-                    $csvFile = fopen($fileName, 'w');
-                    
                     $file = fopen($fileName, 'w');
                     fputcsv($file, array('id_sensors', 'Data', 'Hora', 'Temperatura', 'Humidade','Pressão', 'Altitude', 'CO2','TVOC'),';');
                     foreach ($result as $row) {

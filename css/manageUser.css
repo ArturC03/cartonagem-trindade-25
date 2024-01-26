@@ -1,66 +1,10 @@
 @import url('_table_big.css');
 @import url('_btn_learnmore.css');
+@import url('_btn_table.css');
 button.learn-more {
     width: 17rem;
     margin: auto; 
 }
 button.learn-more .button-text {
     margin: 0 0 0 1.85rem;
-}
-
-a, a:link, a:visited, a:hover, a:active {
-    color: inherit;
-    text-decoration: inherit;
-    font-weight: inherit;
-}
-
-.edit{
-    background-color: rgb(255, 193, 61) ;
-    padding: 10px;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    margin-right: 10px;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}   
-    
-.changestate{
-    background-color: rgb(255, 193, 61) ;
-    padding: 10px;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    margin-right: 10px;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 10vw;
-    max-width: 100px;
-}
- 
-.button-container {
-    display: flex;
-    align-items: center;
-}
-
-.delete{
-    background-color: red;
-}
-
-@media screen and (max-width: 754px) {
-    .button-container {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-size: 10px;
-    }
-
-    .edit, .delete {
-        margin: 0;
-        width: 100%;
-    }
 }
