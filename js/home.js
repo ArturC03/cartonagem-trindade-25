@@ -239,7 +239,7 @@ function renderTemperatures() {
     id : 'GradTemperature', 
     data : GradTemperature, 
     height: 140, 
-    width: size_y
+    width: window.innerWidth - 50
   });
   } else {
     var GradTemperature = {
@@ -310,7 +310,7 @@ function renderTemperatures() {
   zingchart.render({ 
     id : 'GradTemperature', 
     data : GradTemperature, 
-    height: size_x - 10, 
+    height: window.innerHeight - 100,
     width: 140
   });
 }
