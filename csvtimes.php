@@ -24,7 +24,7 @@ if (isset($_SESSION['username'])) {
         mkdir(__DIR__ . '\download\scheduled\\' . $folderName, 0777);
 
         $output = shell_exec($command);
-        if (!$output) {
+        if ($output == null) {
             echo ($command . "|" . $output);
             die('Erro ao criar o agendamento');
         }
