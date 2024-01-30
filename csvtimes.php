@@ -18,8 +18,8 @@ if (isset($_SESSION['username'])) {
             die('Erro ao criar o ficheiro');
         }
 
-        $command = 'schtasks /create /sc ' . $_POST['periodoSelecionado'] . ' /tn "Exportação Agendada ' . $folderName . '" /tr "' . PHP_BINDIR .
-        '\php.exe ' . __DIR__ . '\scheduled.php ' . $folderName . (isset($_POST['horaSelecionada']) ? '" /sd ' . date_create($_POST['horaSelecionada'])->format('d/m/Y') . ' /st ' . date_create($_POST['horaSelecionada'])->format('H:i') : '"') . ' /f /RU ' . get_current_user();
+        $command = 'schtasks /create /sc ' . $_POST['periodoSelecionado'] . ' /tn "Exportação Agendada ' . $folderName . '" /tr 
+        "C:\xampp\php\php.exe ' . __DIR__ . '\scheduled.php ' . $folderName . (isset($_POST['horaSelecionada']) ? '" /sd ' . date_create($_POST['horaSelecionada'])->format('d/m/Y') . ' /st ' . date_create($_POST['horaSelecionada'])->format('H:i') : '"') . ' /f /RU ' . get_current_user();
 
         mkdir(__DIR__ . '\download\scheduled\\' . $folderName, 0777);
 
