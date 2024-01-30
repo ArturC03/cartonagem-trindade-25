@@ -19,7 +19,7 @@ if (isset($_SESSION['username'])) {
         }
 
         $command = 'schtasks /create /sc ' . $_POST['periodoSelecionado'] . ' /tn "Exportação Agendada ' . $folderName . '" /tr 
-        "C:\xampp\php\php.exe ' . __DIR__ . '\scheduled.php ' . $folderName . (isset($_POST['horaSelecionada']) ? '" /sd ' . date_create($_POST['horaSelecionada'])->format('d/m/Y') . ' /st ' . date_create($_POST['horaSelecionada'])->format('H:i') : '"') . ' /f /RU ' . get_current_user() . '2>&1';
+        "C:\xampp\php\php.exe ' . __DIR__ . '\scheduled.php ' . $folderName . (isset($_POST['horaSelecionada']) ? '" /sd ' . date_create($_POST['horaSelecionada'])->format('d/m/Y') . ' /st ' . date_create($_POST['horaSelecionada'])->format('H:i') : '"') . ' /f /RU ' . get_current_user() . ' 2>&1';
 
         mkdir(__DIR__ . '\download\scheduled\\' . $folderName, 0777);
 
