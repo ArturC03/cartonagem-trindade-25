@@ -25,6 +25,7 @@ if (isset($_SESSION['username'])) {
 
         $output = shell_exec($command);
         if ($output == null) {
+            my_query("DELETE FROM hora WHERE id_hora = " . $folderName . ";");
             echo ($command . "|" . $output);
             die('Erro ao criar o agendamento');
         }
