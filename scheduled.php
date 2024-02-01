@@ -30,20 +30,14 @@ foreach ($result as $row) {
         "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "' " .
         "AND sensors.hour BETWEEN '" . $min_datetime->format('H:i:s') . "' AND '" . $max_datetime->format('H:i:s') . "';"
     );
-
-    echo "SELECT id_sensor, date, hour, temperature, humidity, pressure, altitude, eCO2, eTVOC " .
-    "FROM sensors " .
-    "WHERE id_sensor IN ('" . (mb_strpos($row['sensores'], ',') ? implode('\',\'', explode(',', $row['sensores'])) : $row['sensores']) . "') " .
-    "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "' " .
-    "AND sensors.hour BETWEEN '" . $min_datetime->format('H:i:s') . "' AND '" . $max_datetime->format('H:i:s') . "';";
-
-    $fileName = __DIR__ . "/download/scheduled/" . $row['id_hora'] . "/" . $row['num_ficheiros'] . ".csv";
-
-    $file = fopen($fileName, 'w');
-
-    fputcsv($file, array('id_sensors', 'Data', 'Hora', 'Temperatura', 'Humidade','Pressão', 'Altitude', 'CO2', 'TVOC'), ';');
-
+    
     if (count($result2) > 0) {
+        $fileName = __DIR__ . "/download/scheduled/" . $row['id_hora'] . "/" . $row['num_ficheiros'] . ".csv";
+
+        $file = fopen($fileName, 'w');
+
+        fputcsv($file, array('id_sensors', 'Data', 'Hora', 'Temperatura', 'Humidade','Pressão', 'Altitude', 'CO2', 'TVOC'), ';');
+
         foreach ($result2 as $row2) {
             $formattedTemperature = ltrim(sprintf("%.3f", $row2['temperature']), '0');
             $row2['temperature'] = $formattedTemperature;
@@ -61,10 +55,10 @@ foreach ($result as $row) {
             
             fputcsv($file, $row2, ';');
         }
+        fclose($file);
+        if (my_query("UPDATE hora SET num_ficheiros = " . ($row['num_ficheiros'] + 1) . " WHERE id_hora = " . $row['id_hora'] . ";") == 0) {
+            echo "Erro ao atualizar o número de ficheiros, por favor contacte o administrador da BD";
+        }
     }
-    fclose($file);
     
-    if (my_query("UPDATE hora SET num_ficheiros = " . ($row['num_ficheiros'] + 1) . " WHERE id_hora = " . $row['id_hora'] . ";") == 0) {
-        echo "Erro ao atualizar o número de ficheiros, por favor contacte o administrador da BD";
-    }
 }
