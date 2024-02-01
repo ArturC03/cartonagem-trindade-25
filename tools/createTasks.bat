@@ -10,10 +10,10 @@ REM Create HOURLY task
 schtasks /Create /SC HOURLY /TN "Agendamentos Horários" /TR "\"%PHP_PATH%\" \"C:\xampp\htdocs\cartonagem-trindade\scheduled.php\" HOURLY"
 
 REM Create DAILY task
-schtasks /Create /SC DAILY /TN "Agendamentos Diários" /TR "\"%PHP_PATH%\" \"C:\xampp\htdocs\cartonagem-trindade\scheduled.php\" DAILY"
+schtasks /Create /SC DAILY /TN "Agendamentos Diários" /TR "\"%PHP_PATH%\" \"C:\xampp\htdocs\cartonagem-trindade\scheduled.php\" DAILY" /ST 00:01
 
 REM Create WEEKLY task
-schtasks /Create /SC WEEKLY /TN "Agendamentos Semanais" /TR "\"%PHP_PATH%\" \"C:\xampp\htdocs\cartonagem-trindade\scheduled.php\" WEEKLY"
+schtasks /Create /SC WEEKLY /TN "Agendamentos Semanais" /TR "\"%PHP_PATH%\" \"C:\xampp\htdocs\cartonagem-trindade\scheduled.php\" WEEKLY" /ST 00:01
 
 REM Create MONTHLY task
-schtasks /Create /SC MONTHLY /TN "Agendamentos Mensais" /TR "\"%PHP_PATH%\" \"C:\xampp\htdocs\cartonagem-trindade\scheduled.php\" MONTHLY"
+schtasks /Create /SC MONTHLY /TN "Agendamentos Mensais" /TR "\"%PHP_PATH%\" \"C:\xampp\htdocs\cartonagem-trindade\scheduled.php\" MONTHLY" /ST 00:01

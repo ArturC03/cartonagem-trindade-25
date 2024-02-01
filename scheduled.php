@@ -12,14 +12,14 @@ if ($periodo_geracao == "MINUTE") {
     $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 hour')));
     $max_datetime = new DateTime(date('Y-m-d H:i:00'));
 } else if ($periodo_geracao == "DAILY") {
-    $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 day')));
-    $max_datetime = new DateTime(date('Y-m-d H:i:00'));
+    $min_datetime = new DateTime(date('Y-m-d 00:00:00', strtotime('-1 day')));
+    $max_datetime = new DateTime(date('Y-m-d 00:00:00'));
 } else if ($periodo_geracao == "WEEKLY") {
-    $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 week')));
-    $max_datetime = new DateTime(date('Y-m-d H:i:00'));
+    $min_datetime = new DateTime(date('Y-m-d 00:00:00', strtotime('-1 week')));
+    $max_datetime = new DateTime(date('Y-m-d 00:00:00'));
 } else if ($periodo_geracao == "MONTHLY") {
-    $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 month')));
-    $max_datetime = new DateTime(date('Y-m-d H:i:00'));
+    $min_datetime = new DateTime(date('Y-m-d 00:00:00', strtotime('-1 month')));
+    $max_datetime = new DateTime(date('Y-m-d 00:00:00'));
 }
 
 foreach ($result as $row) {
@@ -27,13 +27,16 @@ foreach ($result as $row) {
         "SELECT id_sensor, date, hour, temperature, humidity, pressure, altitude, eCO2, eTVOC " .
         "FROM sensors " .
         "WHERE id_sensor IN ('" . (mb_strpos($row['sensores'], ',') ? implode('\',\'', explode(',', $row['sensores'])) : $row['sensores']) . "') " .
-        "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d H:i:00') . "' AND '" . $max_datetime->format('Y-m-d H:i:00') . "';"
+        "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "' " .
+        "AND sensors.hour BETWEEN '" . $min_datetime->format('H:i:s') . "' AND '" . $max_datetime->format('H:i:s') . "';"
     );
+}
 
     echo "SELECT id_sensor, date, hour, temperature, humidity, pressure, altitude, eCO2, eTVOC " .
-        "FROM sensors " .
-        "WHERE id_sensor IN ('" . (mb_strpos($row['sensores'], ',') ? implode('\',\'', explode(',', $row['sensores'])) : $row['sensores']) . "') " .
-        "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d H:i:00') . "' AND '" . $max_datetime->format('Y-m-d H:i:00') . "';";
+    "FROM sensors " .
+    "WHERE id_sensor IN ('" . (mb_strpos($row['sensores'], ',') ? implode('\',\'', explode(',', $row['sensores'])) : $row['sensores']) . "') " .
+    "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "' " .
+    "AND sensors.hour BETWEEN '" . $min_datetime->format('H:i:s') . "' AND '" . $max_datetime->format('H:i:s') . "';";
 
     $fileName = __DIR__ . "/download/scheduled/" . $row['id_hora'] . "/" . $row['num_ficheiros'] . ".csv";
 
