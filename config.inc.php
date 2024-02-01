@@ -2,6 +2,8 @@
 @session_start();
 global $arrConfig;
 
+date_default_timezone_set("Europe/Lisbon");
+
 $arrConfig['servername'] = 'localhost';
 $arrConfig['username'] = 'root';
 $arrConfig['password'] = '';
