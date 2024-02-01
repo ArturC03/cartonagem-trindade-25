@@ -27,11 +27,11 @@ var_dump($result);
 
 foreach ($result as $row) {
     $result2 = my_query(
-        "SELECT id_sensor, date, hour, temperature, humidity, pressure, altitude, eCO2, eTVOC 
-        FROM sensors
-        WHERE id_sensor IN ('" . (mb_strpos($row['sensores'], ',') ? implode('\',\'', $row['sensores']) : $row['sensores']) . "')
-        AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "';"
-    );                
+        "SELECT id_sensor, date, hour, temperature, humidity, pressure, altitude, eCO2, eTVOC " .
+        "FROM sensors " .
+        "WHERE id_sensor IN ('" . (mb_strpos($row['sensores'], ',') ? implode('\',\'', explode(',', $row['sensores'])) : $row['sensores']) . "') " .
+        "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "';"
+    );
 
     $fileName = __DIR__ . "/download/scheduled/" . $row['id_hora'] . "/" . $row['num_ficheiros'] . ".csv";
 
