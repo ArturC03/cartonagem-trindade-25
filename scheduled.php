@@ -3,7 +3,8 @@ include('config.inc.php');
 
 $periodo_geracao = $argv[1];
 
-$result = my_query("SELECT * FROM hora WHERE periodo_geracao = " . $periodo_geracao . ";");
+$result = my_query("SELECT * FROM hora WHERE periodo_geracao = '" . $periodo_geracao . "';");
+echo "SELECT * FROM hora WHERE periodo_geracao = '" . $periodo_geracao . "';";
 
 if ($periodo_geracao == "MINUTE") {
     $min_datetime = date('Y-m-d H:i:s', strtotime('-1 minute'));
@@ -21,6 +22,8 @@ if ($periodo_geracao == "MINUTE") {
     $min_datetime = date('Y-m-d H:i:s', strtotime('-1 month'));
     $max_datetime = date('Y-m-d H:i:s');
 }
+
+var_dump($result);
 
 foreach ($result as $row) {
     $result2 = my_query(
@@ -55,6 +58,8 @@ foreach ($result as $row) {
             fputcsv($file, $row2, ';');
         }
     }
+
+    var_dump($file);
     fclose($file);
     
     if (my_query("UPDATE hora SET num_ficheiros = " . ($row['num_ficheiros'] + 1) . " WHERE id_hora = " . $row['id_hora'] . ";") == 0) {

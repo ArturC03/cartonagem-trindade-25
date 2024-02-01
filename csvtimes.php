@@ -12,7 +12,7 @@ if (isset($_SESSION['username'])) {
             $folderName = rand(100000, 999999);
         }
 
-        $result = my_query("INSERT INTO hora (id_hora, periodo_geracao, data_geracao, sensores, tipo_geracao) VALUES (" . $folderName . " ,' " . $_POST['periodoSelecionado'] . "', '" . $_POST['horaSelecionada'] . "', '" . implode(',', $sensoresSelecionados) . "', " . ($_POST['submit'] == "CSV" ? '0' : '1') . ");");
+        $result = my_query("INSERT INTO hora (id_hora, periodo_geracao, sensores, tipo_geracao) VALUES (" . $folderName . " , '" . $_POST['periodoSelecionado'] . "', '" . implode(',', $sensoresSelecionados) . "', " . ($_POST['submit'] == "CSV" ? '0' : '1') . ");");
 
         if ($result == false) {
             die('Erro ao criar o agendamento');
@@ -93,8 +93,6 @@ if (isset($_SESSION['username'])) {
                     <option value="WEEKLY">Semanalmente</option>
                     <option value="MONTHLY">Mensalmente</option>
                 </select>
-
-                <input type="datetime-local" name="horaSelecionada" id="hora" disabled>
                 
                 <div class="button-container">
                     <button type="submit" class="btn-success" name="submit" id="BotaoCSV" value="CSV">Agendar CSV</button>
@@ -118,7 +116,7 @@ if (isset($_SESSION['username'])) {
                             foreach ($result as $row) {
                                 echo '<tr>';
                                 echo '<td class="button-container-table"><a class="button-table delete" href="deleteScheduled.php?id=' . $row["id_hora"] . '">Eliminar</a><a class="button-table" href="download/scheduled/' . $row["id_hora"] . '/">Ver CSVs</a></td>';
-                                switch (trim($row["periodo_geracao"])) {
+                                switch ($row["periodo_geracao"]) {
                                     case "MINUTE":
                                         echo '<td>Minuto a Minuto</td>';
                                         break;
