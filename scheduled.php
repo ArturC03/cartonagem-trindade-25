@@ -30,7 +30,6 @@ foreach ($result as $row) {
         "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "' " .
         "AND sensors.hour BETWEEN '" . $min_datetime->format('H:i:s') . "' AND '" . $max_datetime->format('H:i:s') . "';"
     );
-}
 
     echo "SELECT id_sensor, date, hour, temperature, humidity, pressure, altitude, eCO2, eTVOC " .
     "FROM sensors " .
