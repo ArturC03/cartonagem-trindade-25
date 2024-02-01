@@ -6,8 +6,8 @@ $periodo_geracao = $argv[1];
 $result = my_query("SELECT * FROM hora WHERE periodo_geracao = '" . $periodo_geracao . "';");
 
 if ($periodo_geracao == "MINUTE") {
-    $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 minute')));
-    $max_datetime = new DateTime(date('Y-m-d H:i:00'));
+    $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-2 minute')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 minute')));
 } else if ($periodo_geracao == "HOURLY") {
     $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 hour')));
     $max_datetime = new DateTime(date('Y-m-d H:i:00'));
@@ -29,6 +29,11 @@ foreach ($result as $row) {
         "WHERE id_sensor IN ('" . (mb_strpos($row['sensores'], ',') ? implode('\',\'', explode(',', $row['sensores'])) : $row['sensores']) . "') " .
         "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d H:i:00') . "' AND '" . $max_datetime->format('Y-m-d H:i:00') . "';"
     );
+
+    echo "SELECT id_sensor, date, hour, temperature, humidity, pressure, altitude, eCO2, eTVOC " .
+        "FROM sensors " .
+        "WHERE id_sensor IN ('" . (mb_strpos($row['sensores'], ',') ? implode('\',\'', explode(',', $row['sensores'])) : $row['sensores']) . "') " .
+        "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d H:i:00') . "' AND '" . $max_datetime->format('Y-m-d H:i:00') . "';";
 
     $fileName = __DIR__ . "/download/scheduled/" . $row['id_hora'] . "/" . $row['num_ficheiros'] . ".csv";
 
