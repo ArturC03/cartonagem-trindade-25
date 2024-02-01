@@ -7,20 +7,20 @@ $result = my_query("SELECT * FROM hora WHERE periodo_geracao = '" . $periodo_ger
 echo "SELECT * FROM hora WHERE periodo_geracao = '" . $periodo_geracao . "';";
 
 if ($periodo_geracao == "MINUTE") {
-    $min_datetime = new DateTime(date('Y-m-d H:i:s', strtotime('-1 minute')));
-    $max_datetime = new DateTime(date('Y-m-d H:i:s'));
+    $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 minute')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:00'));
 } else if ($periodo_geracao == "HOURLY") {
-    $min_datetime = new DateTime(date('Y-m-d H:i:s', strtotime('-1 hour')));
-    $max_datetime = new DateTime(date('Y-m-d H:i:s'));
+    $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 hour')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:00'));
 } else if ($periodo_geracao == "DAILY") {
-    $min_datetime = new DateTime(date('Y-m-d H:i:s', strtotime('-1 day')));
-    $max_datetime = new DateTime(date('Y-m-d H:i:s'));
+    $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 day')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:00'));
 } else if ($periodo_geracao == "WEEKLY") {
-    $min_datetime = new DateTime(date('Y-m-d H:i:s', strtotime('-1 week')));
-    $max_datetime = new DateTime(date('Y-m-d H:i:s'));
+    $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 week')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:00'));
 } else if ($periodo_geracao == "MONTHLY") {
-    $min_datetime = new DateTime(date('Y-m-d H:i:s', strtotime('-1 month')));
-    $max_datetime = new DateTime(date('Y-m-d H:i:s'));
+    $min_datetime = new DateTime(date('Y-m-d H:i:00', strtotime('-1 month')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:00'));
 }
 
 var_dump($result);
@@ -30,7 +30,7 @@ foreach ($result as $row) {
         "SELECT id_sensor, date, hour, temperature, humidity, pressure, altitude, eCO2, eTVOC " .
         "FROM sensors " .
         "WHERE id_sensor IN ('" . (mb_strpos($row['sensores'], ',') ? implode('\',\'', explode(',', $row['sensores'])) : $row['sensores']) . "') " .
-        "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d') . "' AND '" . $max_datetime->format('Y-m-d') . "';"
+        "AND sensors.date BETWEEN '" . $min_datetime->format('Y-m-d H:i:00') . "' AND '" . $max_datetime->format('Y-m-d H:i:00') . "';"
     );
 
     $fileName = __DIR__ . "/download/scheduled/" . $row['id_hora'] . "/" . $row['num_ficheiros'] . ".csv";
