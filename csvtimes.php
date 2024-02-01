@@ -23,10 +23,10 @@ if (isset($_SESSION['username'])) {
 
         mkdir(__DIR__ . '\download\scheduled\\' . $folderName, 0777);
 
-        $output = shell_exec($command);
-        if ($output == null) {
+        if (!exec($command, $output)) {
             my_query("DELETE FROM hora WHERE id_hora = " . $folderName . ";");
-            echo ($command . "|" . $output);
+            echo $command . "|";
+            var_dump($output);
             die('Erro ao criar o agendamento');
         }
 
