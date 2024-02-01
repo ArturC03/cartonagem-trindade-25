@@ -15,20 +15,10 @@ if (isset($_SESSION['username'])) {
         $result = my_query("INSERT INTO hora (id_hora, periodo_geracao, data_geracao, sensores, tipo_geracao) VALUES (" . $folderName . " ,' " . $_POST['periodoSelecionado'] . "', '" . $_POST['horaSelecionada'] . "', '" . implode(',', $sensoresSelecionados) . "', " . ($_POST['submit'] == "CSV" ? '0' : '1') . ");");
 
         if ($result == false) {
-            die('Erro ao criar o ficheiro');
-        }
-
-        $command = 'schtasks /create /sc ' . $_POST['periodoSelecionado'] . ' /tn "Exportação Agendada ' . $folderName . '" /tr 
-        "C:\xampp\php\php.exe ' . __DIR__ . '\scheduled.php ' . $folderName . (isset($_POST['horaSelecionada']) ? '" /sd ' . date_create($_POST['horaSelecionada'])->format('d/m/Y') . ' /st ' . date_create($_POST['horaSelecionada'])->format('H:i') : '"') . ' /f /RU ' . get_current_user() . ' 2>&1';
-
-        mkdir(__DIR__ . '\download\scheduled\\' . $folderName, 0777);
-
-        if (!exec($command, $output)) {
-            my_query("DELETE FROM hora WHERE id_hora = " . $folderName . ";");
-            echo $command . "|";
-            var_dump($output);
             die('Erro ao criar o agendamento');
         }
+
+        mkdir(__DIR__ . '\download\scheduled\\' . $folderName, 0777);
 
         header('Location: csvtimes.php');
     } else {
@@ -97,7 +87,7 @@ if (isset($_SESSION['username'])) {
                 <p>Tipo de Agendamento</p>
                 <select name="periodoSelecionado" id="periodo" required>
                     <option value="">Selecione uma opção</option>
-                    <option value="ONCE">Data Definida</option>
+                    <option value="MINUTE">Minuto a Minuto</option>
                     <option value="HOURLY">Hora a Hora</option>
                     <option value="DAILY">Diariamente</option>
                     <option value="WEEKLY">Semanalmente</option>
@@ -116,11 +106,11 @@ if (isset($_SESSION['username'])) {
 
                 <section class="table_body">
                     <?php
-                        $result = my_query("SELECT * FROM hora ORDER BY data_geracao;");
+                        $result = my_query("SELECT * FROM hora ORDER BY periodo_geracao;");
 
                         echo '<table>';
                         echo '<thead>';
-                        echo '<tr><th>Ações</th><th>Data e Hora</th><th>Tipo Agendamento</th><th>Sensores</th></tr>';
+                        echo '<tr><th>Ações</th><th>Tipo Agendamento</th><th>Sensores</th></tr>';
                         echo '</thead>';
                         
                         echo '<tbody>';
@@ -128,10 +118,9 @@ if (isset($_SESSION['username'])) {
                             foreach ($result as $row) {
                                 echo '<tr>';
                                 echo '<td class="button-container-table"><a class="button-table delete" href="deleteScheduled.php?id=' . $row["id_hora"] . '">Eliminar</a><a class="button-table" href="download/scheduled/' . $row["id_hora"] . '/">Ver CSVs</a></td>';
-                                echo '<td>' . date_create($row["data_geracao"])->format('d/m/Y H:i:s') . '</td>';
                                 switch (trim($row["periodo_geracao"])) {
-                                    case "ONCE":
-                                        echo '<td>Uma vez</td>';
+                                    case "MINUTE":
+                                        echo '<td>Minuto a Minuto</td>';
                                         break;
                                     case "HOURLY":
                                         echo '<td>Hora a Hora</td>';
