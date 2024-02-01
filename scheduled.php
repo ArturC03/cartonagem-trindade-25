@@ -1,5 +1,5 @@
 <?php 
-include('config.inc.php');
+include 'config.inc.php';
 
 $periodo_geracao = $argv[1];
 
@@ -7,20 +7,20 @@ $result = my_query("SELECT * FROM hora WHERE periodo_geracao = '" . $periodo_ger
 echo "SELECT * FROM hora WHERE periodo_geracao = '" . $periodo_geracao . "';";
 
 if ($periodo_geracao == "MINUTE") {
-    $min_datetime = date('Y-m-d H:i:s', strtotime('-1 minute'));
-    $max_datetime = date('Y-m-d H:i:s');
+    $min_datetime = new DateTime(date('Y-m-d H:i:s', strtotime('-1 minute')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:s'));
 } else if ($periodo_geracao == "HOURLY") {
-    $min_datetime = date('Y-m-d H:i:s', strtotime('-1 hour'));
-    $max_datetime = date('Y-m-d H:i:s');
+    $min_datetime = new DateTime(date('Y-m-d H:i:s', strtotime('-1 hour')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:s'));
 } else if ($periodo_geracao == "DAILY") {
-    $min_datetime = date('Y-m-d H:i:s', strtotime('-1 day'));
-    $max_datetime = date('Y-m-d H:i:s');
+    $min_datetime = new DateTime(date('Y-m-d H:i:s', strtotime('-1 day')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:s'));
 } else if ($periodo_geracao == "WEEKLY") {
-    $min_datetime = date('Y-m-d H:i:s', strtotime('-1 week'));
-    $max_datetime = date('Y-m-d H:i:s');
+    $min_datetime = new DateTime(date('Y-m-d H:i:s', strtotime('-1 week')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:s'));
 } else if ($periodo_geracao == "MONTHLY") {
-    $min_datetime = date('Y-m-d H:i:s', strtotime('-1 month'));
-    $max_datetime = date('Y-m-d H:i:s');
+    $min_datetime = new DateTime(date('Y-m-d H:i:s', strtotime('-1 month')));
+    $max_datetime = new DateTime(date('Y-m-d H:i:s'));
 }
 
 var_dump($result);
