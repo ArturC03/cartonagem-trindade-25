@@ -1,4 +1,5 @@
 /download/*
 !/download/scheduled
 /download/scheduled/*
+!/download/scheduled/.htaccess
 /PRINTS/
